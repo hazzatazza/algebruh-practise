@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algebra Practice - Study Module</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #020617; color: white; scroll-behavior: smooth; min-height: 100vh; display: flex; flex-direction: column; }
+        .game-card:hover { transform: translateY(-5px); border-color: #3b82f6; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        main { flex: 1; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <main class="max-w-7xl mx-auto w-full">
+        <header class="mb-10">
+            <h1 class="text-5xl font-black mb-4 tracking-tighter uppercase text-slate-200">Algebra Practice</h1>
+            <div class="relative max-w-md">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                <input type="text" id="searchInput" placeholder="Search modules..." 
+                    class="w-full bg-slate-900 border border-slate-800 py-3 pl-12 pr-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+            </div>
+        </header>
+
+        <div id="gameGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            </div>
+    </main>
+
+    <footer class="mt-20 py-8 border-t border-slate-800/50 text-slate-500 text-sm">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <span class="bg-red-500/10 text-red-400 px-2 py-1 rounded text-xs font-bold uppercase tracking-widest">Panic Mode</span>
+                <p>Press <kbd class="bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700 text-slate-300">=</kbd> at any time to instantly redirect to Compass.</p>
+            </div>
+            <div class="flex gap-6">
+                <button onclick="toggleAbout()" class="hover:text-blue-400 transition-colors cursor-pointer">About</button>
+                <span>&copy; 2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <div id="aboutOverlay" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-slate-950/90 backdrop-blur-sm p-6">
+        <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl">
+            <h2 class="text-2xl font-bold mb-4">About This Portal</h2>
+            <p class="text-slate-400 mb-6">Created by <span class="text-blue-400 font-semibold">hazza 2026</span></p>
+            <button onclick="toggleAbout()" class="w-full bg-slate-800 hover:bg-slate-700 py-3 rounded-xl font-medium transition-colors">Close</button>
+        </div>
+    </div>
+
+    <div id="gameModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/95 p-4">
+        <div class="w-full max-w-6xl h-[90vh] bg-slate-900 rounded-3xl overflow-hidden flex flex-col shadow-2xl">
+            <div class="flex items-center justify-between p-4 bg-slate-800 border-b border-slate-700">
+                <span id="modalTitle" class="font-bold text-lg truncate pr-4 text-slate-300">Module View</span>
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleFullscreen()" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-expand mr-2"></i>Fullscreen
+                    </button>
+                    <button onclick="popOut()" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-external-link-alt mr-2"></i>Cloak Tab
+                    </button>
+                    <button onclick="closeGame()" class="text-slate-400 hover:text-white text-2xl ml-2">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-1 bg-black relative">
+                <div id="frameLoading" class="absolute inset-0 flex items-center justify-center text-slate-500">
+                    <i class="fas fa-circle-notch fa-spin text-3xl"></i>
+                </div>
+                <div id="iframeContainer" class="w-full h-full"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PROXY_BASE = "https://geraldine012-backend.hf.space/service/";
+
+        const games = [
+            // --- PROXY APPS ---
+            { id: 'proxy-home', title: 'Calculus Research (Proxy Home)', url: 'https://geraldine012-backend.hf.space/', thumb: 'https://images.unsplash.com/photo-1454165833767-027ffea9e77b?w=400' },
+            // --- GAMES ---
+            { id: 'alg', title: 'Algebra Movies and TV', url: 'https://raw.githack.com/hazzatazza/harrys-school-project/main/index.html', thumb: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400' },
+            { id: 'doge', title: 'Doge Unblocker', url: 'https://dogeub-v4-mu-nine.vercel.app', thumb: 'https://raw.githubusercontent.com/DogeNetwork/DogeAssets/main/doge.png' },
+            { id: 'fnf', title: 'Friday Night Funkin', url: 'https://raw.githack.com/genizy/ugs-files/main/clfridaynightfunkin.html', thumb: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400' },
+            { id: 'fd', title: 'Flappy Dunk', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/flappy%20dunk/index.html', thumb: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=400' },
+            { id: 'onr', title: 'Om Nom Run', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/om-nom-run/index.html', thumb: 'https://images.unsplash.com/photo-1551103782-8ab07afd45c1?w=400' },
+            { id: 'amz', title: 'Amaze', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/amaze/index.html', thumb: 'https://images.unsplash.com/photo-1557683316-973673baf926?w=400' },
+            { id: 'bs', title: 'Basketball Stars', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketballstars.html', thumb: 'https://images.unsplash.com/photo-1519861531473-9200362349c4?w=400' },
+            { id: 'gb', title: 'Going Balls', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/going-balls/index.html', thumb: 'https://images.unsplash.com/photo-1580234811497-9bd7fd0f56ef?w=400' },
+            { id: 'hw', title: 'Happy Wheels', url: 'https://raw.githack.com/hazzatazza/ugs-singlefile/main/UGS-Files/clhappywheels.html', thumb: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=400' },
+            { id: 'p2s', title: 'Paper.io 2 (Skinless)', url: 'https://raw.githack.com/chocobananakun/paperio2/main/index.html', thumb: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=400' },
+            { id: 'goi-s', title: 'Getting Over It (Scratch)', url: 'https://raw.githack.com/TriangularDev/Getting-Over-It/main/index.html', thumb: 'https://images.unsplash.com/photo-1522163182402-834f871fd851?w=400' },
+            { id: 'goi-f', title: 'Getting Over It Full', url: 'https://raw.githack.com/genizy/web-port/main/getting-over-it/index.html', thumb: 'https://images.unsplash.com/photo-1522163182402-834f871fd851?q=80&w=400' },
+            { id: 'sk', title: 'Smash Karts', url: 'https://raw.githack.com/TheGreatMaximus98/smash-karts/main/index.html', thumb: 'https://images.unsplash.com/photo-1590333746438-d81ff15516b3?w=400' },
+            { id: 'p2', title: 'Paper.io 2', url: 'https://raw.githack.com/ubg17/PaperIO2/gh-pages/index.html', thumb: 'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?w=400' },
+            { id: '2048', title: '2048', url: 'https://raw.githack.com/ovolve/2048-AI/master/index.html', thumb: 'https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=400' },
+            { id: 'bm', title: 'Bowmasters', url: 'https://raw.githack.com/THEUNBLOCKMAN/bowmasters/main/index.html', thumb: 'https://images.unsplash.com/photo-1580041065738-e72023758de1?w=400' },
+            { id: 'sr', title: 'Soccer Random', url: 'https://raw.githack.com/Unblocked-Games-786/Soccer-Random/gh-pages/index.html', thumb: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400' },
+            { id: 'fn', title: 'Fruit Ninja', url: 'https://raw.githack.com/genizy/UGS-Assets/main/fruit%20ninja/index.html', thumb: 'https://images.unsplash.com/photo-1550258114-68bb098a514d?w=400' },
+            { id: 'sd', title: 'Sling Drift', url: 'https://raw.githack.com/ovo-gamez-unblocked/sling-drift/main/index.html', thumb: 'https://images.unsplash.com/photo-1532581291347-9c39cf10a73c?w=400' },
+            { id: 'ss', title: 'Subway Surfers', url: 'https://raw.githack.com/hazzatazza/3kh0-assets/fixy/subway-surfers/index.html', thumb: 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=400' },
+            { id: '3d', title: '3Dash', url: 'https://raw.githack.com/hazzatazza/ugs-singlefile/main/UGS-Files/cl3dasheditor.html', thumb: 'https://images.unsplash.com/photo-1614728263952-84ea206f99b6?w=400' },
+            { id: 'ec', title: 'Eaglercraft (Minecraft)', url: 'https://raw.githack.com/XxFluffyAsherxX/Eaglercraft-1.12.2/main/Web/index.html', thumb: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400' },
+            { id: 'bl', title: 'BitLife', url: 'https://raw.githack.com/hazzatazza/bitlife/main/index.html', thumb: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvzPoDAVibpJoEiTm1oiu2WBPXbMwcDaXLlw&s' },
+            { id: 'tr', title: 'Tap Road', url: 'https://raw.githack.com/faralong/all/main/taproad/index.html', thumb: 'https://images.unsplash.com/photo-1469033011854-39415efe22bd?w=400' },
+            { id: 'ld', title: 'Level Devil', url: 'https://raw.githack.com/hazzatazza/level-devil/master/index.html', thumb: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQHbBLx9jLLpJS0RkLK5SdMHS7xtHH9jxOLw&s' },
+            { id: 'fb', title: 'Flappy Bird', url: 'https://s3-eu-west-1.amazonaws.com/apps.playcanvas.com/a15aec72/index.html', thumb: 'https://archive.org/download/com.dotgears.flappybird/icon.jpg' },
+            { id: 'cc', title: 'Cookie Clicker', url: 'https://cookieclickeralgebra.pages.dev', thumb: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiEvJAum3u_ifqBOYoS0wgYwZYiA9nsBhI9Q&s' },
+            { id: 'gdl', title: 'Geometry Dash Lite', url: 'https://raw.githack.com/threekho/gdl/main/index.html', thumb: 'https://cdn.aptoide.com/imgs/e/6/c/e6cff1f59365aeec06a96b943f9eb3c1_fgraphic.png' },
+            { id: 'trush', title: 'Tunnel Rush', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/tunnelrush.html', thumb: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ13q6aHn1f3Dd4U3w_mjs8NOot8U2bV0M8ZA&s' },
+            { id: 'tf', title: 'Tiny Fishing', url: 'https://raw.githack.com/hazzatazza/3kh0-assets/fixy/tiny-fishing/index.html', thumb: 'https://www.coolmathgames.com/sites/default/files/TinyFishing_OG-logo.jpg' },
+            { id: 'sr3d', title: 'Snow Rider 3D', url: 'https://raw.githack.com/Snow-Rider3D/main/index.html', thumb: 'https://images.unsplash.com/photo-1517176118179-65244ad0e59a?w=400' },
+            { id: 'tts', title: 'Tap Tap Shots', url: 'https://taptapshots.pages.dev/', thumb: 'https://images.unsplash.com/photo-1519861531473-9200362349c4?w=400' },
+            { id: 'sh', title: 'Stickman Hook', url: 'https://raw.githack.com/hazzatazza/google-class/main/stickman-hook/index.html', thumb: 'https://images.unsplash.com/photo-1550745165-9bc0b252728f?w=400' },
+            { id: 'db', title: 'Drift Boss', url: 'https://raw.githack.com/ubg98/DriftBoss/gh-pages/index.html', thumb: 'https://images.unsplash.com/photo-1532581291347-9c39cf10a73c?w=400' },
+            { id: 'dad', title: 'Dadish', url: 'https://raw.githack.com/Graysinl/dadish/main/index.html', thumb: 'https://images.unsplash.com/photo-1590233065611-3965942f7902?w=400' },
+            { id: 'mx3m', title: 'Moto X3M', url: 'https://raw.githack.com/gameshaxor/MotoX3M/master/index.html', thumb: 'https://images.unsplash.com/photo-1558981403-c5f91cbba527?w=400' },
+            { id: 'wordle', title: 'Wordle', url: 'https://raw.githack.com/hazzatazza/3kh0-assets/fixy/wordle/index.html#infinite', thumb: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400' },
+            { id: 'br', title: 'Basket Random', url: 'https://raw.githack.com/gjhacked/basket-random/main/index.html', thumb: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=400' },
+            { id: 'pio', title: 'Powerline.io', url: 'https://powerline.coolmathgames.com/', thumb: 'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?w=400' },
+            { id: 'rgi', title: 'Rocketgoal.io', url: 'https://raw.githack.com/will-k16/rocketgoal/main/rocketgoal.io/index.html', thumb: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400' },
+            { id: 'sl', title: 'Short Life', url: 'https://shortlife1.pages.dev/', thumb: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=400' },
+            { id: 'sr-ride', title: 'Short Ride', url: 'https://raw.githack.com/hazzatazza/short-ridegood/main/index.html', thumb: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=400' },
+            { id: 'pt', title: 'Poly Track', url: 'https://polytrack-3.pages.dev/', thumb: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=400' },
+            { id: 'pt52', title: 'Poly Track .5.2', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/polytrack.html', thumb: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=400' },
+            { id: 'cr', title: 'Crossy Road', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/crossy-road/index.html', thumb: 'https://images.unsplash.com/photo-1553481187-be93c21490a9?w=400' },
+            { id: 'wb', title: 'Wheelie Bike', url: 'https://wheeliebike-9l9.pages.dev/', thumb: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=400' },
+            { id: 'bmast', title: 'Bouncemasters', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/bouncemasters/index.html', thumb: 'https://images.unsplash.com/photo-1517030330234-94c4fa948ebc?w=400' },
+            { id: 'jj', title: 'Jetpack Joyride', url: 'https://raw.githack.com/genizy/ugs-files/main/cljetpackjoyride.html', thumb: 'https://images.unsplash.com/photo-1614728263952-84ea206f99b6?w=400' },
+            { id: 'er', title: 'Escape Road', url: 'https://raw.githack.com/genizy/ugs-files/main/clescaperoad.html', thumb: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400' },
+            { id: 'totm', title: 'Tomb of the Mask', url: 'https://raw.githack.com/water-logger/totm/main/index.html', thumb: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400' },
+            { id: 'run1', title: 'Run', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/run.html', thumb: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=400' },
+            { id: 'r3', title: 'Run 3', url: 'https://run3algebra.pages.dev/', thumb: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=400' },
+            { id: 'slp', title: 'Slope', url: 'https://sl0pe.pages.dev/', thumb: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400' },
+            { id: 'bb', title: 'Block Blast', url: 'https://raw.githack.com/reunbozdo/BlockBlast/main/index.html', thumb: 'https://images.unsplash.com/photo-1550745165-9bc0b252728f?w=400' },
+            { id: 'box-r', title: 'Boxing Random', url: 'https://raw.githack.com/Unblocked-Games-786/Boxing-Random/gh-pages/index.html', thumb: 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=400' },
+            { id: 'crush', title: 'Candy Crush', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/candycrush.html', thumb: 'https://images.unsplash.com/photo-1581798459219-318e76aecc7b?w=400' },
+            { id: 'au', title: 'Among Us', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/amongus.html', thumb: 'https://images.unsplash.com/photo-1614728263952-84ea206f99b6?w=400' },
+            { id: 'ab', title: 'Angry Birds', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/angrybirds.html', thumb: 'https://images.unsplash.com/photo-1559715541-5daf8a0296d0?w=400' },
+            { id: 'ctr', title: 'Cut the Rope', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/cuttherope.html', thumb: 'https://images.unsplash.com/photo-1551103782-8ab07afd45c1?w=400' },
+            { id: 'dino', title: 'Google Dino', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/googledino.html', thumb: 'https://images.unsplash.com/photo-1525824236856-8d0431def3ab?w=400' },
+            { id: 'hj', title: 'Helix Jump', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/helixjump.html', thumb: 'https://images.unsplash.com/photo-1558403194-611308249627?w=400' },
+            { id: 'rb', title: 'Retro Bowl', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/retrobowl.html', thumb: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400' },
+            { id: 'sab', title: 'Stickman Archers', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stickarchersbattle.html', thumb: 'https://images.unsplash.com/photo-1580041065738-e72023758de1?w=400' },
+            { id: 'dc', title: 'Draw Climber', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/drawclimber.html', thumb: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400' },
+            { id: 'fnaf', title: 'FNAF', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf.html', thumb: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=400' },
+            { id: 'dl', title: 'Duck Life', url: 'https://raw.githack.com/MDtowerz/duck-life-1/main/unity/index.html', thumb: 'https://images.unsplash.com/photo-1555854816-802f188090e4?w=400' },
+            { id: 'dl2', title: 'Duck Life 2', url: 'https://raw.githack.com/BonziWorld1/DuckLife2/main/index.html', thumb: 'https://images.unsplash.com/photo-1555854816-802f188090e4?w=400' }
+        ];
+
+        const grid = document.getElementById('gameGrid');
+        const searchInput = document.getElementById('searchInput');
+        const modal = document.getElementById('gameModal');
+        const aboutOverlay = document.getElementById('aboutOverlay');
+        let currentUrl = "";
+
+        // Panic and Modal Controls
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "=") {
+                window.location.href = "https://cccc-vic.compass.education";
+            }
+            if (event.key === "Escape") {
+                closeGame();
+                aboutOverlay.classList.add('hidden');
+            }
+        });
+
+        function renderGames(filter = "") {
+            grid.innerHTML = "";
+            const filtered = games.filter(g => g.title.toLowerCase().includes(filter.toLowerCase()));
+            filtered.forEach(game => {
+                const card = document.createElement('div');
+                card.className = "game-card bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300";
+                card.onclick = () => openGame(game);
+                card.innerHTML = `
+                    <img src="${game.thumb}" class="w-full h-40 object-cover opacity-80" alt="${game.title}">
+                    <div class="p-4"><h3 class="font-bold tracking-tight">${game.title}</h3></div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openGame(game) {
+            currentUrl = game.url;
+            document.getElementById('modalTitle').innerText = game.title;
+            document.getElementById('iframeContainer').innerHTML = `<iframe id="gameFrame" src="${game.url}" class="w-full h-full border-none" allowfullscreen></iframe>`;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            const frame = document.getElementById('gameFrame');
+            frame.onload = () => document.getElementById('frameLoading').classList.add('hidden');
+        }
+
+        function closeGame() {
+            modal.classList.add('hidden');
+            document.getElementById('iframeContainer').innerHTML = "";
+            document.getElementById('frameLoading').classList.remove('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function toggleAbout() {
+            aboutOverlay.classList.toggle('hidden');
+        }
+
+        function toggleFullscreen() {
+            const frame = document.getElementById('gameFrame');
+            if (!frame) return;
+            if (frame.requestFullscreen) frame.requestFullscreen();
+            else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+        }
+
+        function popOut() {
+            const win = window.open();
+            if (!win) return alert("Pop-up blocked! Please allow pop-ups for cloaking.");
+            win.document.body.style.margin = '0';
+            win.document.body.style.height = '100vh';
+            const ifr = win.document.createElement('iframe');
+            ifr.style.border = 'none'; ifr.style.width = '100%'; ifr.style.height = '100%';
+            ifr.src = currentUrl;
+            win.document.body.appendChild(ifr);
+        }
+
+        searchInput.oninput = (e) => renderGames(e.target.value);
+        renderGames();
+    </script>
+</body>
+</html>
