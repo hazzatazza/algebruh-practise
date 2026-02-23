@@ -6,6 +6,7 @@
     <title>Algebra Practice - Study Module</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
     <style>
         body { background-color: #020617; color: white; scroll-behavior: smooth; min-height: 100vh; display: flex; flex-direction: column; }
         .game-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.5); }
@@ -14,7 +15,6 @@
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
         main { flex: 1; }
-        /* Prevent white flash in iframe */
         iframe { background-color: black; }
     </style>
 </head>
@@ -78,10 +78,19 @@
     </div>
 
     <script>
+        // Ruffle Configuration
+        window.RufflePlayer = window.RufflePlayer || {};
+        window.RufflePlayer.config = {
+            "autoplay": "on",
+            "unmuteOverlay": "hidden",
+            "letterbox": "on",
+            "warnOnUnsupportedContent": false
+        };
+
         const games = [
             // --- TOOLS ---
             { id: 'soundboard', title: 'Meme Soundboard', url: 'https://raw.githack.com/genizy/soundboard/main/index.html', thumb: 'https://images.unsplash.com/photo-1594122230689-45899d9e6f69?w=400' },
-            { id: 'ruffle', title: 'Ruffle Flash Player', url: 'https://rawcdn.githack.com/hazzatazza/ruffle/e5b585ed5c716e21b5026deebd2ada032b92ee20/index.html', thumb: 'https://images.unsplash.com/photo-1614728263952-84ea206f99b6?w=400' },
+            { id: 'ruffle', title: 'Ruffle Flash Player', url: 'https://flashbangplayer.pages.dev/', thumb: 'https://images.unsplash.com/photo-1614728263952-84ea206f99b6?w=400' },
             
             // --- PROXY ---
             { id: 'proxy-home', title: 'Calculus Research (Proxy Home)', url: 'https://geraldine012-backend.hf.space/', thumb: 'https://images.unsplash.com/photo-1454165833767-027ffea9e77b?w=400' },
@@ -162,7 +171,7 @@
         const aboutOverlay = document.getElementById('aboutOverlay');
         let currentUrl = "";
 
-        // Panic Control
+        // Panic Control & Shortcuts
         document.addEventListener('keydown', function(event) {
             if (event.key === "=") {
                 window.location.href = "https://cccc-vic.compass.education";
@@ -194,7 +203,7 @@
         function openGame(game) {
             currentUrl = game.url;
             document.getElementById('modalTitle').innerText = game.title;
-            // Removed loading logic for instant display
+            // Immediate iframe injection for speed
             document.getElementById('iframeContainer').innerHTML = `<iframe id="gameFrame" src="${game.url}" class="w-full h-full border-none" allowfullscreen></iframe>`;
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
