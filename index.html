@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { background-color: #020617; color: white; scroll-behavior: smooth; min-height: 100vh; display: flex; flex-direction: column; }
-        .game-card:hover { transform: translateY(-5px); border-color: #3b82f6; }
+        .game-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.5); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
@@ -79,15 +79,17 @@
     </div>
 
     <script>
-        const PROXY_BASE = "https://geraldine012-backend.hf.space/service/";
-
         const games = [
-            // --- PROXY APPS ---
+            // --- TOOLS ---
+            { id: 'soundboard', title: 'Meme Soundboard', url: 'https://raw.githack.com/genizy/soundboard/main/index.html', thumb: 'https://images.unsplash.com/photo-1594122230689-45899d9e6f69?w=400' },
+            { id: 'ruffle', title: 'Ruffle Flash Player', url: 'https://rawcdn.githack.com/hazzatazza/ruffle/e5b585ed5c716e21b5026deebd2ada032b92ee20/index.html', thumb: 'https://images.unsplash.com/photo-1614728263952-84ea206f99b6?w=400' },
+            
+            // --- PROXY ---
             { id: 'proxy-home', title: 'Calculus Research (Proxy Home)', url: 'https://geraldine012-backend.hf.space/', thumb: 'https://images.unsplash.com/photo-1454165833767-027ffea9e77b?w=400' },
+            { id: 'doge', title: 'Doge Unblocker', url: 'https://dogeub-v4-mu-nine.vercel.app', thumb: 'https://raw.githubusercontent.com/DogeNetwork/DogeAssets/main/doge.png' },
+
             // --- GAMES ---
             { id: 'alg', title: 'Algebra Movies and TV', url: 'https://raw.githack.com/hazzatazza/harrys-school-project/main/index.html', thumb: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400' },
-            { id: 'doge', title: 'Doge Unblocker', url: 'https://dogeub-v4-mu-nine.vercel.app', thumb: 'https://raw.githubusercontent.com/DogeNetwork/DogeAssets/main/doge.png' },
-      { id: 'soundboard', title: 'Soundboard', url: 'https://raw.githack.com/genizy/soundboard/main/index.html', thumb: 'https://raw.githubusercontent.com/DogeNetwork/DogeAssets/main/doge.png' },
             { id: 'fnf', title: 'Friday Night Funkin', url: 'https://raw.githack.com/genizy/ugs-files/main/clfridaynightfunkin.html', thumb: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400' },
             { id: 'fd', title: 'Flappy Dunk', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/flappy%20dunk/index.html', thumb: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=400' },
             { id: 'onr', title: 'Om Nom Run', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/om-nom-run/index.html', thumb: 'https://images.unsplash.com/photo-1551103782-8ab07afd45c1?w=400' },
@@ -180,7 +182,10 @@
                 card.className = "game-card bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300";
                 card.onclick = () => openGame(game);
                 card.innerHTML = `
-                    <img src="${game.thumb}" class="w-full h-40 object-cover opacity-80" alt="${game.title}">
+                    <div class="relative">
+                        <img src="${game.thumb}" class="w-full h-40 object-cover opacity-80" alt="${game.title}">
+                        ${game.id === 'ruffle' ? '<span class="absolute top-2 right-2 bg-blue-600 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">New</span>' : ''}
+                    </div>
                     <div class="p-4"><h3 class="font-bold tracking-tight">${game.title}</h3></div>
                 `;
                 grid.appendChild(card);
