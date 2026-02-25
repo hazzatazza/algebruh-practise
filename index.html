@@ -45,7 +45,7 @@
                     <i class="fab fa-google text-xs"></i> The OG Google Site
                 </a>
                 <button onclick="toggleAbout()" class="hover:text-blue-400 transition-colors cursor-pointer">About</button>
-                <span>&copy; 2026</span>
+                <span>© 2026</span>
             </div>
         </div>
     </footer>
@@ -81,7 +81,6 @@
     </div>
 
     <script>
-        // Ruffle Configuration
         window.RufflePlayer = window.RufflePlayer || {};
         window.RufflePlayer.config = {
             "autoplay": "on",
@@ -91,16 +90,11 @@
         };
 
         const games = [
-            // --- TOOLS ---
             { id: 'soundboard', title: 'Meme Soundboard', url: 'https://raw.githack.com/genizy/soundboard/main/index.html', thumb: 'https://framerusercontent.com/images/Lik7Ulf0536wUJLav1Q5Z8RcHU.png?width=981&height=574' },
             { id: 'ruffle', title: 'Ruffle Flash Player', url: 'https://flashbangplayer.pages.dev/', thumb: 'https://community.muos.dev/uploads/default/original/2X/b/b077ac83b34ac23e6c1514a3624bc468eaa445cc.png' },
             { id: 'alg', title: 'Algebra Movies and TV', url: 'https://raw.githack.com/hazzatazza/harrys-school-project/main/index.html', thumb: 'https://images.samsung.com/is/image/samsung/assets/sg/p6_gro2/p6_initial_mktpd/tvs/smart-tv/watch-movies-and-tv/smart-tv-watch-movies-and-tv-f01-mo001.jpg?$720_N_JPG$' },
-            
-            // --- PROXY ---
             { id: 'proxy-home', title: 'Calculus Research (Proxy Home)', url: 'https://geraldine012-backend.hf.space/', thumb: 'https://image.momoproxy.com/20251112_1762914365600.png' },
             { id: 'doge', title: 'Doge Unblocker', url: 'https://dogeub-v4-mu-nine.vercel.app', thumb: 'https://stat.ameba.jp/user_images/20251231/16/momoproxy-123/b6/c0/p/o1110060015735973498.png' },
-
-            // --- GAMES ---
             { id: 'bf3d', title: 'Bottle Flip 3D', url: 'https://raw.githack.com/ovo-gamez-unblocked/bottle-flip-3d/main/index.html', thumb: 'https://lh3.googleusercontent.com/8U5QyBj9NVVIp4s8VpS6bqm7aeVJDbfTGDUCbNY1ef_pg7GbwZLpoeOF4HMuuvqmsHBM7Rtn-Kz_-LjooTsUmK0iOb2F4w299KClfw=h200' },
             { id: 'bj3d', title: 'Bottle Jump 3D', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/bottle-jump-3d/index.html', thumb: 'https://m.media-amazon.com/images/I/71ypDIW3HFL.jpg' },
             { id: 'sw', title: 'Space Waves', url: 'https://raw.githack.com/bubbls/UGS-Assets/main/space%20waves/index.html', thumb: 'https://imgs.crazygames.com/space-waves_16x9/20241203031650/space-waves_16x9-cover?metadata=none&quality=100&width=1200&height=630&fit=crop' },
@@ -108,36 +102,34 @@
             { id: 'fnf', title: 'Friday Night Funkin', url: 'https://raw.githack.com/genizy/ugs-files/main/clfridaynightfunkin.html', thumb: 'https://images5.alphacoders.com/115/thumb-1920-1158734.png' },
             { id: 'fd', title: 'Flappy Dunk', url: 'https://raw.githack.com/ahrdevelopers/flappy-dunk/main/index.html', thumb: 'https://static.keygames.com/6/112606/90893/672x378/flappy-dunk.webp' },
             { id: 'onr', title: 'Om Nom Run', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/om-nom-run/index.html', thumb: 'https://img-eshop.cdn.nintendo.net/i/9a0a662505b6848da5d0a54b837a957fd08a2015291e74c9a3d3bf85c8155322.jpg' },
-            
-            // ... (Rest of your original games list below)
-            { id: 'amz', title: 'Amaze', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/amaze/index.html', thumb: 'https://images.unsplash.com/photo-1557683316-973673baf926?w=400' },
-            { id: 'bs', title: 'Basketball Stars', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketballstars.html', thumb: 'https://images.unsplash.com/photo-1519861531473-9200362349c4?w=400' },
-            { id: 'gb', title: 'Going Balls', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/going-balls/index.html', thumb: 'https://images.unsplash.com/photo-1580234811497-9bd7fd0f56ef?w=400' },
-            { id: 'hw', title: 'Happy Wheels', url: 'https://raw.githack.com/hazzatazza/ugs-singlefile/main/UGS-Files/clhappywheels.html', thumb: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=400' },
-            { id: 'p2s', title: 'Paper.io 2 (Skinless)', url: 'https://raw.githack.com/chocobananakun/paperio2/main/index.html', thumb: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=400' },
-            { id: 'goi-s', title: 'Getting Over It (Scratch)', url: 'https://raw.githack.com/TriangularDev/Getting-Over-It/main/index.html', thumb: 'https://images.unsplash.com/photo-1522163182402-834f871fd851?w=400' },
-            { id: 'goi-f', title: 'Getting Over It Full', url: 'https://raw.githack.com/genizy/web-port/main/getting-over-it/index.html', thumb: 'https://images.unsplash.com/photo-1522163182402-834f871fd851?q=80&w=400' },
-            { id: 'sk', title: 'Smash Karts', url: 'https://raw.githack.com/TheGreatMaximus98/smash-karts/main/index.html', thumb: 'https://images.unsplash.com/photo-1590333746438-d81ff15516b3?w=400' },
-            { id: 'p2', title: 'Paper.io 2', url: 'https://raw.githack.com/ubg17/PaperIO2/gh-pages/index.html', thumb: 'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?w=400' },
-            { id: '2048', title: '2048', url: 'https://raw.githack.com/ovolve/2048-AI/master/index.html', thumb: 'https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=400' },
-            { id: 'bm', title: 'Bowmasters', url: 'https://raw.githack.com/THEUNBLOCKMAN/bowmasters/main/index.html', thumb: 'https://images.unsplash.com/photo-1580041065738-e72023758de1?w=400' },
-            { id: 'sr', title: 'Soccer Random', url: 'https://raw.githack.com/Unblocked-Games-786/Soccer-Random/gh-pages/index.html', thumb: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400' },
-            { id: 'fn', title: 'Fruit Ninja', url: 'https://raw.githack.com/genizy/UGS-Assets/main/fruit%20ninja/index.html', thumb: 'https://images.unsplash.com/photo-1550258114-68bb098a514d?w=400' },
-            { id: 'sd', title: 'Sling Drift', url: 'https://raw.githack.com/ovo-gamez-unblocked/sling-drift/main/index.html', thumb: 'https://images.unsplash.com/photo-1532581291347-9c39cf10a73c?w=400' },
-            { id: 'ss', title: 'Subway Surfers', url: 'https://raw.githack.com/hazzatazza/3kh0-assets/fixy/subway-surfers/index.html', thumb: 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=400' },
-            { id: '3d', title: '3Dash', url: 'https://raw.githack.com/hazzatazza/ugs-singlefile/main/UGS-Files/cl3dasheditor.html', thumb: 'https://images.unsplash.com/photo-1614728263952-84ea206f99b6?w=400' },
-            { id: 'ec', title: 'Eaglercraft (Minecraft)', url: 'https://raw.githack.com/XxFluffyAsherxX/Eaglercraft-1.12.2/main/Web/index.html', thumb: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400' },
+            { id: 'amz', title: 'Amaze', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/amaze/index.html', thumb: 'https://i.ytimg.com/vi/DaDA1JflzH0/maxresdefault.jpg' },
+            { id: 'bs', title: 'Basketball Stars', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketballstars.html', thumb: 'https://imgs.crazygames.com/games/basketball-stars-2019/cover-1583231506155.png?metadata=none&quality=100&width=1200&height=630&fit=crop' },
+            { id: 'gb', title: 'Going Balls', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/going-balls/index.html', thumb: 'https://static.keygames.com/2/115852/101805/1200x630/going-balls.webp' },
+            { id: 'hw', title: 'Happy Wheels', url: 'https://raw.githack.com/hazzatazza/ugs-singlefile/main/UGS-Files/clhappywheels.html', thumb: 'https://imgs.crazygames.com/games/happy-wheels/cover-1688034516340.png?metadata=none&quality=100&width=1200&height=630&fit=crop' },
+            { id: 'p2s', title: 'Paper.io 2 (Skinless)', url: 'https://raw.githack.com/chocobananakun/paperio2/main/index.html', thumb: 'https://cdn-1.webcatalog.io/catalog/paper-io/paper-io-icon-filled-256.png?v=1714775392254' },
+            { id: 'goi-s', title: 'Getting Over It (Scratch)', url: 'https://raw.githack.com/TriangularDev/Getting-Over-It/main/index.html', thumb: 'https://imgs.crazygames.com/games/getting-over-it/cover-1655200712094.png?metadata=none&quality=100&width=1200&height=630&fit=crop' },
+            { id: 'goi-f', title: 'Getting Over It Full', url: 'https://raw.githack.com/genizy/web-port/main/getting-over-it/index.html', thumb: 'https://upload.wikimedia.org/wikipedia/en/2/2e/Getting_Over_It_with_Bennett_Foddy.jpg' },
+            { id: 'sk', title: 'Smash Karts', url: 'https://raw.githack.com/TheGreatMaximus98/smash-karts/main/index.html', thumb: 'https://imgs.crazygames.com/smash-karts_16x9/20260210123937/smash-karts_16x9-cover?metadata=none&quality=100&width=1200&height=630&fit=crop' },
+            { id: 'p2', title: 'Paper.io 2', url: 'https://raw.githack.com/ubg17/PaperIO2/gh-pages/index.html', thumb: 'https://static.keygames.com/1/94341/83843/1200x630/paperio-2.webp' },
+            { id: '2048', title: '2048', url: 'https://raw.githack.com/ovolve/2048-AI/master/index.html', thumb: 'https://www.coolmathgames.com/sites/default/files/styles/mobile_game_image/public/2048_OG-logo.jpg.webp?itok=BKildIhs' },
+            { id: 'bm', title: 'Bowmasters', url: 'https://raw.githack.com/THEUNBLOCKMAN/bowmasters/main/index.html', thumb: 'https://m.media-amazon.com/images/I/81H-w-fHMWL.png' },
+            { id: 'sr', title: 'Soccer Random', url: 'https://raw.githack.com/Unblocked-Games-786/Soccer-Random/gh-pages/index.html', thumb: 'https://basket-random.uk/wp-content/uploads/2025/12/play-soccer-random-online-for-free.webp' },
+            { id: 'fn', title: 'Fruit Ninja', url: 'https://raw.githack.com/genizy/UGS-Assets/main/fruit%20ninja/index.html', thumb: 'https://www.coolmathgames.com/sites/default/files/FruitNinja_OG-Logo.jpg' },
+            { id: 'sd', title: 'Sling Drift', url: 'https://raw.githack.com/ovo-gamez-unblocked/sling-drift/main/index.html', thumb: 'https://cdn.aptoide.com/imgs/d/4/9/d499a6da1e8d334395f825bc707a0bf3_fgraphic.png' },
+            { id: 'ss', title: 'Subway Surfers', url: 'https://raw.githack.com/hazzatazza/3kh0-assets/fixy/subway-surfers/index.html', thumb: 'https://static.wikia.nocookie.net/subwaysurf/images/3/35/Promote_Subway.png/revision/latest/scale-to-width-down/820?cb=20130114122353' },
+            { id: '3d', title: '3Dash', url: 'https://raw.githack.com/hazzatazza/ugs-singlefile/main/UGS-Files/cl3dasheditor.html', thumb: 'https://img.itch.zone/aW1nLzkzOTUwMTAucG5n/original/tD7PwF.png' },
+            { id: 'ec', title: 'Eaglercraft (Minecraft)', url: 'https://raw.githack.com/XxFluffyAsherxX/Eaglercraft-1.12.2/main/Web/index.html', thumb: 'https://zapgames.io/data/image/game/eaglercraft.jpg' },
             { id: 'bl', title: 'BitLife', url: 'https://raw.githack.com/hazzatazza/bitlife/main/index.html', thumb: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvzPoDAVibpJoEiTm1oiu2WBPXbMwcDaXLlw&s' },
-            { id: 'tr', title: 'Tap Road', url: 'https://raw.githack.com/faralong/all/main/taproad/index.html', thumb: 'https://images.unsplash.com/photo-1469033011854-39415efe22bd?w=400' },
+            { id: 'tr', title: 'Tap Road', url: 'https://raw.githack.com/faralong/all/main/taproad/index.html', thumb: 'https://taproad.io/data/image/tap-road-game-banner-taproad1.png' },
             { id: 'ld', title: 'Level Devil', url: 'https://raw.githack.com/hazzatazza/level-devil/master/index.html', thumb: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQHbBLx9jLLpJS0RkLK5SdMHS7xtHH9jxOLw&s' },
             { id: 'fb', title: 'Flappy Bird', url: 'https://s3-eu-west-1.amazonaws.com/apps.playcanvas.com/a15aec72/index.html', thumb: 'https://archive.org/download/com.dotgears.flappybird/icon.jpg' },
             { id: 'cc', title: 'Cookie Clicker', url: 'https://cookieclickeralgebra.pages.dev', thumb: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiEvJAum3u_ifqBOYoS0wgYwZYiA9nsBhI9Q&s' },
             { id: 'gdl', title: 'Geometry Dash Lite', url: 'https://raw.githack.com/threekho/gdl/main/index.html', thumb: 'https://cdn.aptoide.com/imgs/e/6/c/e6cff1f59365aeec06a96b943f9eb3c1_fgraphic.png' },
             { id: 'trush', title: 'Tunnel Rush', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/tunnelrush.html', thumb: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ13q6aHn1f3Dd4U3w_mjs8NOot8U2bV0M8ZA&s' },
             { id: 'tf', title: 'Tiny Fishing', url: 'https://raw.githack.com/genizy/UGS-Assets/main/tiny%20fishing/index.html', thumb: 'https://www.coolmathgames.com/sites/default/files/TinyFishing_OG-logo.jpg' },
-            { id: 'sr3d', title: 'Snow Rider 3D', url: 'https://raw.githack.com/Snow-Rider3D/main/index.html', thumb: 'https://images.unsplash.com/photo-1517176118179-65244ad0e59a?w=400' },
-            { id: 'tts', title: 'Tap Tap Shots', url: 'https://taptapshots.pages.dev/', thumb: 'https://images.unsplash.com/photo-1519861531473-9200362349c4?w=400' },
-            { id: 'sh', title: 'Stickman Hook', url: 'https://raw.githack.com/hazzatazza/google-class/main/stickman-hook/index.html', thumb: 'https://images.unsplash.com/photo-1550745165-9bc0b252728f?w=400' },
+            { id: 'sr3d', title: 'Snow Rider 3D', url: 'https://raw.githack.com/Snow-Rider3D/main/index.html', thumb: 'https://play-lh.googleusercontent.com/5qSxhoGrmuli1qu2qmF4Z8h2ecUitGs0iPXhPd2YD_3iptg8z9boQ8qI1fgTA8WusQ=w526-h296-rw' },
+            { id: 'tts', title: 'Tap Tap Shots', url: 'https://taptapshots.pages.dev/', thumb: 'https://imgs.crazygames.com/games/tap-tap-shots/cover-1655202548222.png?metadata=none&quality=100&width=1200&height=630&fit=crop' },
+            { id: 'sh', title: 'Stickman Hook', url: 'https://raw.githack.com/hazzatazza/google-class/main/stickman-hook/index.html', thumb: 'https://stickhook.io/data/image/game/stick-hook-game1.png' },
             { id: 'db', title: 'Drift Boss', url: 'https://raw.githack.com/ubg98/DriftBoss/gh-pages/index.html', thumb: 'https://images.unsplash.com/photo-1532581291347-9c39cf10a73c?w=400' },
             { id: 'dad', title: 'Dadish', url: 'https://raw.githack.com/Graysinl/dadish/main/index.html', thumb: 'https://images.unsplash.com/photo-1590233065611-3965942f7902?w=400' },
             { id: 'mx3m', title: 'Moto X3M', url: 'https://raw.githack.com/gameshaxor/MotoX3M/master/index.html', thumb: 'https://images.unsplash.com/photo-1558981403-c5f91cbba527?w=400' },
@@ -166,7 +158,7 @@
             { id: 'ctr', title: 'Cut the Rope', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/cuttherope.html', thumb: 'https://images.unsplash.com/photo-1551103782-8ab07afd45c1?w=400' },
             { id: 'dino', title: 'Google Dino', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/googledino.html', thumb: 'https://images.unsplash.com/photo-1525824236856-8d0431def3ab?w=400' },
             { id: 'hj', title: 'Helix Jump', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/helixjump.html', thumb: 'https://images.unsplash.com/photo-1558403194-611308249627?w=400' },
-            { id: 'rb', title: 'Retro Bowl', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/retrobowl.html', thumb: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400' },
+            { id: 'rb', title: 'Retro Bowl', url: 'https://ballsretro.pages.dev/', thumb: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400' },
             { id: 'sab', title: 'Stickman Archers', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stickarchersbattle.html', thumb: 'https://images.unsplash.com/photo-1580041065738-e72023758de1?w=400' },
             { id: 'dc', title: 'Draw Climber', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/drawclimber.html', thumb: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400' },
             { id: 'fnaf', title: 'FNAF', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf.html', thumb: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=400' },
@@ -180,7 +172,6 @@
         const aboutOverlay = document.getElementById('aboutOverlay');
         let currentUrl = "";
 
-        // Panic Control & Shortcuts
         document.addEventListener('keydown', function(event) {
             if (event.key === "=") {
                 window.location.href = "https://cccc-vic.compass.education";
