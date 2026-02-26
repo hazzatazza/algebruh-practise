@@ -98,6 +98,15 @@
     </div>
 
     <script>
+        // RE-ADDED: Ruffle Configuration for Flash Games
+        window.RufflePlayer = window.RufflePlayer || {};
+        window.RufflePlayer.config = {
+            "autoplay": "on",
+            "unmuteOverlay": "hidden",
+            "letterbox": "on",
+            "warnOnUnsupportedContent": false
+        };
+
         const games = [
             { id: 'soundboard', title: 'Meme Soundboard', url: 'https://raw.githack.com/genizy/soundboard/main/index.html', thumb: 'memesoundboard.png' },
             { id: 'ruffle', title: 'Ruffle Flash Player', url: 'https://flashbangplayer.pages.dev/', thumb: 'ruffle.png' },
@@ -183,19 +192,25 @@
         const aboutOverlay = document.getElementById('aboutOverlay');
         let currentUrl = "";
 
-        // Functionality same as previous versions
         window.addEventListener('load', () => {
             const savedBg = localStorage.getItem('userBackground');
-            if (savedBg) document.body.style.backgroundImage = `url('${savedBg}')`;
+            if (savedBg) {
+                document.body.style.backgroundImage = `url('${savedBg}')`;
+            }
         });
 
         document.addEventListener('keydown', function(event) {
-            if (event.key === "=") window.location.href = "https://cccc-vic.compass.education";
-            if (event.key === "Escape") { closeGame(); aboutOverlay.classList.add('hidden'); }
+            if (event.key === "=") {
+                window.location.href = "https://cccc-vic.compass.education";
+            }
+            if (event.key === "Escape") {
+                closeGame();
+                aboutOverlay.classList.add('hidden');
+            }
         });
 
         function changeBackground() {
-            const url = prompt("Enter an image URL (leave blank to reset):");
+            const url = prompt("Enter an image URL for the background (leave blank to reset):");
             if (url === null) return;
             if (url.trim() === "") {
                 document.body.style.backgroundImage = "none";
@@ -237,18 +252,30 @@
             document.body.style.overflow = 'auto';
         }
 
-        function toggleAbout() { aboutOverlay.classList.toggle('hidden'); }
+        function toggleAbout() {
+            aboutOverlay.classList.toggle('hidden');
+        }
+
         function toggleFullscreen() {
             const frame = document.getElementById('gameFrame');
-            if (frame?.requestFullscreen) frame.requestFullscreen();
+            if (!frame) return;
+            if (frame.requestFullscreen) frame.requestFullscreen();
+            else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
         }
 
         function popOut() {
             const win = window.open();
-            if (!win) return alert("Pop-up blocked!");
+            if (!win) return alert("Pop-up blocked! Please allow pop-ups for cloaking.");
+            
+            // RE-ADDED: Full History Cloaking Logic
             win.document.body.style.margin = '0';
+            win.document.body.style.height = '100vh';
+            win.document.title = "Algebra Practice"; // Stealth title
+            
             const ifr = win.document.createElement('iframe');
-            ifr.style.border = 'none'; ifr.style.width = '100%'; ifr.style.height = '100%';
+            ifr.style.border = 'none'; 
+            ifr.style.width = '100%'; 
+            ifr.style.height = '100%';
             ifr.src = currentUrl;
             win.document.body.appendChild(ifr);
         }
