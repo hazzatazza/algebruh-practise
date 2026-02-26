@@ -181,6 +181,7 @@
             { id: 'fnaf', title: 'FNAF', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf.html', thumb: 'fnaf.png' },
             { id: 'dl', title: 'Duck Life', url: 'https://raw.githack.com/MDtowerz/duck-life-1/main/unity/index.html', thumb: 'ducklife1.png' },
             { id: 'dl2', title: 'Duck Life 2', url: 'https://raw.githack.com/BonziWorld1/DuckLife2/main/index.html', thumb: 'ducklife2.png' }
+            { id: 'yohoho', title: 'YoHoHo.io', url: 'https://yohoho--io.pages.dev/', thumb: 'yohoho.png' },
         ];
 
         const grid = document.getElementById('gameGrid');
@@ -229,7 +230,6 @@
                 card.innerHTML = `
                     <div class="relative">
                         <img src="${game.thumb}" class="w-full h-40 object-cover opacity-80" alt="${game.title}" onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252728f?w=400'">
-                        ${game.id === 'ruffle' ? '<span class="absolute top-2 right-2 bg-blue-600 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">New</span>' : ''}
                     </div>
                     <div class="p-4"><h3 class="font-bold tracking-tight">${game.title}</h3></div>
                 `;
