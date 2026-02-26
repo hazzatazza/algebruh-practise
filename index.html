@@ -8,7 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
     <style>
-        body { background-color: #020617; color: white; scroll-behavior: smooth; min-height: 100vh; display: flex; flex-direction: column; }
+        body { 
+            background-color: #020617; 
+            color: white; 
+            scroll-behavior: smooth; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            transition: background 0.3s ease;
+        }
         .game-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.5); }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
@@ -16,6 +27,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
         main { flex: 1; }
         iframe { background-color: black; }
+        header h1 { text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -23,10 +35,15 @@
     <main class="max-w-7xl mx-auto w-full">
         <header class="mb-10">
             <h1 class="text-5xl font-black mb-4 tracking-tighter uppercase text-slate-200">Algebra Practice</h1>
-            <div class="relative max-w-md">
-                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
-                <input type="text" id="searchInput" placeholder="Search modules..." 
-                    class="w-full bg-slate-900 border border-slate-800 py-3 pl-12 pr-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+            <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                <div class="relative max-w-md w-full">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input type="text" id="searchInput" placeholder="Search modules..." 
+                        class="w-full bg-slate-900/90 backdrop-blur-md border border-slate-800 py-3 pl-12 pr-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                </div>
+                <button onclick="changeBackground()" class="bg-slate-800/80 hover:bg-slate-700 backdrop-blur-md border border-slate-700 px-4 py-3 rounded-xl transition-all flex items-center gap-2">
+                    <i class="fas fa-image"></i> Change Background
+                </button>
             </div>
         </header>
 
@@ -34,7 +51,7 @@
         </div>
     </main>
 
-    <footer class="mt-20 py-8 border-t border-slate-800/50 text-slate-500 text-sm">
+    <footer class="mt-20 py-8 border-t border-slate-800/50 text-slate-500 text-sm bg-slate-950/50 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-2">
                 <span class="bg-red-500/10 text-red-400 px-2 py-1 rounded text-xs font-bold uppercase tracking-widest">Panic Mode</span>
@@ -59,7 +76,7 @@
     </div>
 
     <div id="gameModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/95 p-4">
-        <div class="w-full max-w-6xl h-[90vh] bg-slate-900 rounded-3xl overflow-hidden flex flex-col shadow-2xl">
+        <div class="w-full max-w-6xl h-[90vh] bg-slate-900 rounded-3xl overflow-hidden flex flex-col shadow-2xl border border-slate-700">
             <div class="flex items-center justify-between p-4 bg-slate-800 border-b border-slate-700">
                 <span id="modalTitle" class="font-bold text-lg truncate pr-4 text-slate-300">Module View</span>
                 <div class="flex items-center gap-3">
@@ -172,6 +189,14 @@
         const aboutOverlay = document.getElementById('aboutOverlay');
         let currentUrl = "";
 
+        // LOAD BACKGROUND ON STARTUP
+        window.addEventListener('load', () => {
+            const savedBg = localStorage.getItem('userBackground');
+            if (savedBg) {
+                document.body.style.backgroundImage = `url('${savedBg}')`;
+            }
+        });
+
         document.addEventListener('keydown', function(event) {
             if (event.key === "=") {
                 window.location.href = "https://cccc-vic.compass.education";
@@ -182,12 +207,24 @@
             }
         });
 
+        function changeBackground() {
+            const url = prompt("Enter an image URL for the background (leave blank to reset):");
+            if (url === null) return;
+            if (url.trim() === "") {
+                document.body.style.backgroundImage = "none";
+                localStorage.removeItem('userBackground');
+            } else {
+                document.body.style.backgroundImage = `url('${url}')`;
+                localStorage.setItem('userBackground', url);
+            }
+        }
+
         function renderGames(filter = "") {
             grid.innerHTML = "";
             const filtered = games.filter(g => g.title.toLowerCase().includes(filter.toLowerCase()));
             filtered.forEach(game => {
                 const card = document.createElement('div');
-                card.className = "game-card bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300";
+                card.className = "game-card bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300";
                 card.onclick = () => openGame(game);
                 card.innerHTML = `
                     <div class="relative">
