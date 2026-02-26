@@ -98,16 +98,7 @@
     </div>
 
     <script>
-        window.RufflePlayer = window.RufflePlayer || {};
-        window.RufflePlayer.config = {
-            "autoplay": "on",
-            "unmuteOverlay": "hidden",
-            "letterbox": "on",
-            "warnOnUnsupportedContent": false
-        };
-
         const games = [
-            { id: 'yohoho', title: 'YoHoHo.io', url: 'https://yohoho--io.pages.dev/', thumb: 'yohoho.png' },
             { id: 'soundboard', title: 'Meme Soundboard', url: 'https://raw.githack.com/genizy/soundboard/main/index.html', thumb: 'memesoundboard.png' },
             { id: 'ruffle', title: 'Ruffle Flash Player', url: 'https://flashbangplayer.pages.dev/', thumb: 'ruffle.png' },
             { id: 'alg', title: 'Algebra Movies and TV', url: 'https://raw.githack.com/hazzatazza/harrys-school-project/main/index.html', thumb: 'moviesandtv.png' },
@@ -181,7 +172,9 @@
             { id: 'dc', title: 'Draw Climber', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/drawclimber.html', thumb: 'drawclimber.png' },
             { id: 'fnaf', title: 'FNAF', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf.html', thumb: 'fnaf.png' },
             { id: 'dl', title: 'Duck Life', url: 'https://raw.githack.com/MDtowerz/duck-life-1/main/unity/index.html', thumb: 'ducklife1.png' },
-            { id: 'dl2', title: 'Duck Life 2', url: 'https://raw.githack.com/BonziWorld1/DuckLife2/main/index.html', thumb: 'ducklife2.png' }
+            { id: 'dl2', title: 'Duck Life 2', url: 'https://raw.githack.com/BonziWorld1/DuckLife2/main/index.html', thumb: 'ducklife2.png' },
+            { id: 'yohoho', title: 'YoHoHo.io', url: 'https://yohoho--io.pages.dev/', thumb: 'yohoho.png' },
+            { id: 'slice', title: 'Slice It All', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/slice-it-all/index.html', thumb: 'sliceitall.png' }
         ];
 
         const grid = document.getElementById('gameGrid');
@@ -190,26 +183,19 @@
         const aboutOverlay = document.getElementById('aboutOverlay');
         let currentUrl = "";
 
-        // LOAD BACKGROUND ON STARTUP
+        // Functionality same as previous versions
         window.addEventListener('load', () => {
             const savedBg = localStorage.getItem('userBackground');
-            if (savedBg) {
-                document.body.style.backgroundImage = `url('${savedBg}')`;
-            }
+            if (savedBg) document.body.style.backgroundImage = `url('${savedBg}')`;
         });
 
         document.addEventListener('keydown', function(event) {
-            if (event.key === "=") {
-                window.location.href = "https://cccc-vic.compass.education";
-            }
-            if (event.key === "Escape") {
-                closeGame();
-                aboutOverlay.classList.add('hidden');
-            }
+            if (event.key === "=") window.location.href = "https://cccc-vic.compass.education";
+            if (event.key === "Escape") { closeGame(); aboutOverlay.classList.add('hidden'); }
         });
 
         function changeBackground() {
-            const url = prompt("Enter an image URL for the background (leave blank to reset):");
+            const url = prompt("Enter an image URL (leave blank to reset):");
             if (url === null) return;
             if (url.trim() === "") {
                 document.body.style.backgroundImage = "none";
@@ -251,22 +237,16 @@
             document.body.style.overflow = 'auto';
         }
 
-        function toggleAbout() {
-            aboutOverlay.classList.toggle('hidden');
-        }
-
+        function toggleAbout() { aboutOverlay.classList.toggle('hidden'); }
         function toggleFullscreen() {
             const frame = document.getElementById('gameFrame');
-            if (!frame) return;
-            if (frame.requestFullscreen) frame.requestFullscreen();
-            else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+            if (frame?.requestFullscreen) frame.requestFullscreen();
         }
 
         function popOut() {
             const win = window.open();
-            if (!win) return alert("Pop-up blocked! Please allow pop-ups for cloaking.");
+            if (!win) return alert("Pop-up blocked!");
             win.document.body.style.margin = '0';
-            win.document.body.style.height = '100vh';
             const ifr = win.document.createElement('iframe');
             ifr.style.border = 'none'; ifr.style.width = '100%'; ifr.style.height = '100%';
             ifr.src = currentUrl;
