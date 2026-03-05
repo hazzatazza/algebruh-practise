@@ -46,9 +46,6 @@
                     <button onclick="changeBackground()" title="Change Background" class="bg-slate-800/80 hover:bg-slate-700 backdrop-blur-md border border-slate-700 px-4 py-3 rounded-xl transition-all flex items-center gap-2">
                         <i class="fas fa-image"></i>
                     </button>
-                    <button id="cacheAllBtn" onclick="cacheAllAssets()" class="bg-blue-600/80 hover:bg-blue-500 backdrop-blur-md border border-blue-500 px-4 py-3 rounded-xl transition-all flex items-center gap-2 font-bold">
-                        <i class="fas fa-download"></i> Cache All (Games + Images)
-                    </button>
                 </div>
             </div>
         </header>
@@ -245,33 +242,6 @@
             }
         }
 
-        async function cacheAllAssets() {
-            const btn = document.getElementById('cacheAllBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-
-            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-                try {
-                    const urlsToCache = [];
-                    games.forEach(g => {
-                        urlsToCache.push(g.url);
-                        urlsToCache.push(g.thumb);
-                    });
-
-                    await Promise.all(urlsToCache.map(url => fetch(url, { mode: 'no-cors' })));
-                    
-                    btn.innerHTML = '<i class="fas fa-check"></i> Site Offline-Ready';
-                    btn.classList.replace('bg-blue-600/80', 'bg-green-600/80');
-                } catch (err) {
-                    btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Retry Download';
-                    btn.disabled = false;
-                }
-            } else {
-                alert("Please refresh once before downloading.");
-                btn.disabled = false;
-            }
-        }
-
         function renderGames(filter = "") {
             grid.innerHTML = "";
             const filtered = games.filter(g => g.title.toLowerCase().includes(filter.toLowerCase()));
@@ -321,12 +291,6 @@
         }
 
         searchInput.oninput = (e) => renderGames(e.target.value);
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js');
-            });
-        }
     </script>
 </body>
 </html>
