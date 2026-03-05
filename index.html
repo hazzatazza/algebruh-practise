@@ -42,9 +42,14 @@
                     <input type="text" id="searchInput" placeholder="Search modules..." 
                         class="w-full bg-slate-900/90 backdrop-blur-md border border-slate-800 py-3 pl-12 pr-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
                 </div>
-                <button onclick="changeBackground()" class="bg-slate-800/80 hover:bg-slate-700 backdrop-blur-md border border-slate-700 px-4 py-3 rounded-xl transition-all flex items-center gap-2">
-                    <i class="fas fa-image"></i> Change Background
-                </button>
+                <div class="flex gap-2">
+                    <button onclick="changeBackground()" class="bg-slate-800/80 hover:bg-slate-700 backdrop-blur-md border border-slate-700 px-4 py-3 rounded-xl transition-all flex items-center gap-2">
+                        <i class="fas fa-image"></i>
+                    </button>
+                    <button id="cacheAllBtn" onclick="cacheAllGames()" class="bg-blue-600/80 hover:bg-blue-500 backdrop-blur-md border border-blue-500 px-4 py-3 rounded-xl transition-all flex items-center gap-2 font-bold">
+                        <i class="fas fa-download"></i> Cache All for Offline
+                    </button>
+                </div>
             </div>
         </header>
 
@@ -245,6 +250,32 @@
             }
         }
 
+        // --- NEW CACHE ALL FUNCTION ---
+        async function cacheAllGames() {
+            const btn = document.getElementById('cacheAllBtn');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
+
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                try {
+                    // Send a request to the Service Worker for every game URL
+                    const promises = games.map(game => fetch(game.url, { mode: 'no-cors' }));
+                    await Promise.all(promises);
+                    
+                    btn.innerHTML = '<i class="fas fa-check"></i> Done! Saved Offline';
+                    btn.classList.replace('bg-blue-600/80', 'bg-green-600/80');
+                } catch (err) {
+                    btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error caching';
+                    console.error(err);
+                }
+            } else {
+                alert("Service Worker not active yet. Please refresh and try again.");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
         function renderGames(filter = "") {
             grid.innerHTML = "";
             const filtered = games.filter(g => g.title.toLowerCase().includes(filter.toLowerCase()));
@@ -289,12 +320,10 @@
 
         function popOut() {
             const win = window.open();
-            if (!win) return alert("Pop-up blocked! Please allow pop-ups for cloaking.");
-            
+            if (!win) return alert("Pop-up blocked!");
             win.document.body.style.margin = '0';
             win.document.body.style.height = '100vh';
             win.document.title = "Algebra Practice"; 
-            
             const ifr = win.document.createElement('iframe');
             ifr.style.border = 'none'; 
             ifr.style.width = '100%'; 
@@ -305,6 +334,14 @@
 
         searchInput.oninput = (e) => renderGames(e.target.value);
         renderGames();
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Offline system ready.'))
+                    .catch(err => console.log('Offline system failed:', err));
+            });
+        }
     </script>
 </body>
 </html>
