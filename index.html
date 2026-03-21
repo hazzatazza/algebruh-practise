@@ -79,11 +79,31 @@
         </div>
     </div>
 
+    <div id="maddoxNoticeOverlay" class="fixed inset-0 z-[70] hidden flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-6">
+        <div class="bg-slate-900 border border-blue-500/30 p-8 rounded-3xl max-w-lg w-full shadow-2xl">
+            <h2 class="text-2xl font-bold mb-4 flex items-center gap-2 text-blue-400">
+                <i class="fas fa-info-circle"></i> Login Instructions
+            </h2>
+            <p class="text-slate-300 mb-6 leading-relaxed">
+                Login with Google doesn't work unless you're logged in here already so use this link to create an account then you can just login here to play dont always play on the link cause it could get blocked
+            </p>
+            <div class="flex gap-3">
+                <a href="https://cloouud.gdharry123.workers.dev/" target="_blank" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold text-center transition-all">
+                    Open Actual Link
+                </a>
+                <button onclick="toggleMaddoxNotice()" class="flex-1 bg-slate-800 hover:bg-slate-700 py-3 rounded-xl font-medium transition-colors">Close</button>
+            </div>
+        </div>
+    </div>
+
     <div id="gameModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/95 p-4">
         <div class="w-full max-w-6xl h-[90vh] bg-slate-900 rounded-3xl overflow-hidden flex flex-col shadow-2xl border border-slate-700">
             <div class="flex items-center justify-between p-4 bg-slate-800 border-b border-slate-700">
                 <span id="modalTitle" class="font-bold text-lg truncate pr-4 text-slate-300">Module View</span>
                 <div class="flex items-center gap-3">
+                    <button id="maddoxInfoBtn" onclick="toggleMaddoxNotice()" class="hidden bg-slate-700 hover:bg-blue-600 w-10 h-10 rounded-lg flex items-center justify-center transition-all">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
                     <button onclick="toggleFullscreen()" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                         <i class="fas fa-expand mr-2"></i>Fullscreen
                     </button>
@@ -226,6 +246,8 @@
         const searchInput = document.getElementById('searchInput');
         const modal = document.getElementById('gameModal');
         const aboutOverlay = document.getElementById('aboutOverlay');
+        const maddoxNoticeOverlay = document.getElementById('maddoxNoticeOverlay');
+        const maddoxInfoBtn = document.getElementById('maddoxInfoBtn');
         let currentUrl = "";
 
         window.addEventListener('load', () => {
@@ -236,7 +258,11 @@
 
         document.addEventListener('keydown', (e) => {
             if (e.key === "=") window.location.href = "https://cccc-vic.compass.education";
-            if (e.key === "Escape") { closeGame(); aboutOverlay.classList.add('hidden'); }
+            if (e.key === "Escape") { 
+                closeGame(); 
+                aboutOverlay.classList.add('hidden'); 
+                maddoxNoticeOverlay.classList.add('hidden');
+            }
         });
 
         function changeBackground() {
@@ -272,6 +298,14 @@
             currentUrl = game.url;
             document.getElementById('modalTitle').innerText = game.title;
             document.getElementById('iframeContainer').innerHTML = `<iframe id="gameFrame" src="${game.url}" class="w-full h-full border-none" allowfullscreen></iframe>`;
+            
+            // Show info icon ONLY for Maddox
+            if (game.id === 'maddox') {
+                maddoxInfoBtn.classList.remove('hidden');
+            } else {
+                maddoxInfoBtn.classList.add('hidden');
+            }
+
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
@@ -280,9 +314,12 @@
             modal.classList.add('hidden');
             document.getElementById('iframeContainer').innerHTML = "";
             document.body.style.overflow = 'auto';
+            maddoxNoticeOverlay.classList.add('hidden');
         }
 
         function toggleAbout() { aboutOverlay.classList.toggle('hidden'); }
+        
+        function toggleMaddoxNotice() { maddoxNoticeOverlay.classList.toggle('hidden'); }
 
         function toggleFullscreen() {
             const frame = document.getElementById('gameFrame');
