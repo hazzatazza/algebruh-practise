@@ -9,7 +9,7 @@
   { "id": "scratch", "title": "Scratch Editor And Packager", "url": "https://raw.githack.com/hazzatazza/scratch-editor/main/index.html", "thumb": "scratch.png" },
   { "id": "bf3d", "title": "Bottle Flip 3D", "url": "https://raw.githack.com/ovo-gamez-unblocked/bottle-flip-3d/main/index.html", "thumb": "bottleflip.png" },
   { "id": "bj3d", "title": "Bottle Jump 3D", "url": "https://raw.githack.com/hazzatazza/youtube-playables/main/bottle-jump-3d/index.html", "thumb": "bottlejump.png" },
-  { "id": "sw", title: "Space Waves", "url": "https://raw.githack.com/bubbls/UGS-Assets/main/space%20waves/index.html", "thumb": "spacewaves.png" },
+  { "id": "sw", "title": "Space Waves", "url": "https://raw.githack.com/bubbls/UGS-Assets/main/space%20waves/index.html", "thumb": "spacewaves.png" },
   { "id": "ssg", "title": "Super Stickman Golf", "url": "https://raw.githack.com/hsinidev/stickman-golf-unblocked/master/index.html", "thumb": "stickmangolf.png" },
   { "id": "fnf", "title": "Friday Night Funkin", "url": "https://raw.githack.com/genizy/ugs-files/main/clfridaynightfunkin.html", "thumb": "fnf.png" },
   { "id": "fd", "title": "Flappy Dunk", "url": "https://raw.githack.com/ahrdevelopers/flappy-dunk/main/index.html", "thumb": "flappydunk.png" },
