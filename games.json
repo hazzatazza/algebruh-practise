@@ -151,5 +151,6 @@
   { "id": "badtime", "title": "Bad Time Simulator", "url": "https://raw.githack.com/hsinidev/badtimesimulator/master/index.html", "thumb": "badtimesimulator.png" },
   { "id": "stackball", "title": "Stack Fire Ball", "url": "https://raw.githack.com/ahrdevelopers/stack-fire-ball/main/index.html", "thumb": "stackball.png" },
   { "id": "sandtris", "title": "Sandtris", "url": "https://raw.githack.com/Kochhan/SANDTRIS/main/index.html", "thumb": "sandtris.png" },
-  { "id": "dleo", "title": "Dont Let Ehren Out", "url": "https://raw.githack.com/hazzatazza/algebra-originals/main/dontletenrenout.html", "thumb": "dontletehrenout.png" }
+  { "id": "dleo", "title": "Dont Let Ehren Out", "url": "https://raw.githack.com/hazzatazza/algebra-originals/main/dontletenrenout.html", "thumb": "dontletehrenout.png" },
+  { "id": "blumball", "title": "Blumgi Ball", "url": "https://raw.githack.com/ahrdevelopers/blumgi-ball/main/index.html#ubg235", "thumb": "blumgiball.png" }
 ]
