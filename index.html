@@ -3,389 +3,407 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algebra Practice - Study Module</title>
-    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/0/01/El_Sato_Tux_The_penguin_in_sonic_style.png">
+    <title>Algebra Practice</title>
+    <link id="favicon" rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/0/01/El_Sato_Tux_The_penguin_in_sonic_style.png">
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+    
     <style>
+        :root { --primary: #a855f7; --accent: #22c55e; --bg: #020617; --text: #ffffff; --card: rgba(30, 41, 59, 0.5); }
         body { 
-            background-color: #020617; 
-            color: white; 
-            scroll-behavior: smooth; 
-            min-height: 100vh; 
-            display: flex; 
-            flex-direction: column;
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            transition: background 0.3s ease;
+            background-color: var(--bg); color: var(--text); font-family: 'Chewy', cursive;
+            transition: all 0.3s ease; overflow-x: hidden; min-height: 100vh;
+            background-size: cover; background-position: center; background-attachment: fixed;
         }
-        .game-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.5); }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
-        main { flex: 1; }
-        iframe { background-color: black; }
-        header h1 { text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
+        
+        /* Main Logo Styling */
+        .main-logo-container {
+            display: flex;
+            justify-content: center;
+            padding-top: 40px;
+            margin-bottom: -10px; /* Pulls island closer to logo */
+        }
+        .main-logo {
+            width: 350px; /* Bigger size */
+            height: auto;
+            filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.4));
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .main-logo:hover { transform: scale(1.05); }
+
+        .island-header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 99px;
+            padding: 10px 28px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 20px auto 40px;
+            width: fit-content;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .nav-icon { font-size: 1.5rem; cursor: pointer; transition: color 0.2s; opacity: 0.7; }
+        .nav-icon:hover { color: var(--accent); opacity: 1; }
+        
+        .penguin-nav-btn {
+            height: 40px;
+            width: 40px;
+            object-fit: contain;
+            cursor: pointer;
+            transition: filter 0.3s;
+        }
+        .penguin-nav-btn:hover { filter: brightness(1.2); }
+
+        .game-card, .sidebar-card {
+            position: relative; aspect-ratio: 1/1; overflow: hidden; border-radius: 1.2rem;
+            border: 2px solid transparent; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--card); cursor: pointer;
+        }
+        .game-card:hover, .sidebar-card:hover { border-color: var(--accent); transform: scale(1.03); }
+        .game-card img, .sidebar-card img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .card-title {
+            position: absolute; bottom: -100%; left: 0; width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 20px 5px 10px; text-align: center; transition: bottom 0.3s ease;
+            font-size: 0.8rem;
+        }
+        .game-card:hover .card-title, .sidebar-card:hover .card-title { bottom: 0; }
+
+        #settingsPanel { z-index: 100; transition: transform 0.4s ease; }
+        .game-container { display: grid; grid-template-columns: 1fr 300px; gap: 20px; height: calc(100vh - 100px); padding: 20px; }
+        
+        /* Themed Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; border: 2px solid var(--bg); }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4">
 
-<main class="max-w-7xl mx-auto w-full">
-    <header class="mb-10">
-        <div class="flex items-center gap-4 mb-4">
-            <img src="logo.png" alt="Algebra Practise" class="h-16 w-auto">
-            <img src="penguinhead.png" alt="Penguin Mascot" class="h-16 w-auto">
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="main-logo-container">
+        <img src="logo.png" alt="Logo" class="main-logo" onclick="location.reload()">
+    </div>
+
+    <header class="island-header">
+        <img src="penguinhead.png" onclick="location.reload()" class="penguin-nav-btn" title="Home">
+        
+        <div class="h-6 w-[1px] bg-white/20"></div>
+        <i class="fas fa-gamepad nav-icon" onclick="renderGames('games')" title="Games"></i>
+        <i class="fas fa-film nav-icon" onclick="openMovies()" title="Movies"></i>
+        <i class="fas fa-th-large nav-icon" onclick="renderGames('apps')" title="Apps"></i>
+        <i class="fas fa-circle-info nav-icon" onclick="toggleInfo()" title="Info"></i>
+        <div class="relative">
+            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-sm opacity-50"></i>
+            <input type="text" id="searchInput" placeholder="Search..." 
+                   class="bg-white/5 border border-white/10 py-1 pl-9 pr-4 rounded-full focus:outline-none focus:ring-1 focus:ring-accent text-sm w-32 md:w-48">
         </div>
-        <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-            <div class="relative max-w-md w-full">
-                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
-                <input type="text" id="searchInput" placeholder="Search modules..." 
-                       class="w-full bg-slate-900/90 backdrop-blur-md border border-slate-800 py-3 pl-12 pr-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
-            </div>
-            <div class="flex gap-2">
-                <button onclick="changeBackground()" title="Change Background" class="bg-slate-800/80 hover:bg-slate-700 backdrop-blur-md border border-slate-700 px-4 py-3 rounded-xl transition-all flex items-center gap-2">
-                    <i class="fas fa-image"></i>
-                </button>
-            </div>
-        </div>
+        <i class="fas fa-sliders nav-icon" onclick="toggleSettings()"></i>
     </header>
 
-        <div id="gameGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        </div>
+    <main class="max-w-7xl mx-auto">
+        <div id="gameGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5"></div>
     </main>
 
-    <footer class="mt-20 py-8 border-t border-slate-800/50 text-slate-500 text-sm bg-slate-950/50 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-2">
-                <span class="bg-red-500/10 text-red-400 px-2 py-1 rounded text-xs font-bold uppercase tracking-widest">Panic Mode</span>
-                <p>Press <kbd class="bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700 text-slate-300">=</kbd> at any time to instantly redirect to Compass.</p>
-            </div>
-            <div class="flex gap-6 items-center">
-                <a href="https://sites.google.com/view/unblocked-six-seven" target="_blank" class="hover:text-blue-400 transition-colors flex items-center gap-1">
-                    <i class="fab fa-google text-xs"></i> The OG Google Site
-                </a>
-                <button onclick="toggleAbout()" class="hover:text-blue-400 transition-colors cursor-pointer">About</button>
-                <a href="https://algebralinks.pages.dev/" target="_blank" class="hover:text-blue-400 transition-colors">More Backups</a>
-                <span>© 2026</span>
-            </div>
-        </div>
-    </footer>
-
-    <div id="aboutOverlay" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-slate-950/90 backdrop-blur-sm p-6">
-        <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl">
-            <h2 class="text-2xl font-bold mb-4">About This Portal</h2>
-            <p class="text-slate-400 mb-6">Created by <span class="text-blue-400 font-semibold">Hazza 2026</span></p>
-            <button onclick="toggleAbout()" class="w-full bg-slate-800 hover:bg-slate-700 py-3 rounded-xl font-medium transition-colors">Close</button>
+    <div id="infoTab" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[200] hidden flex items-center justify-center" onclick="toggleInfo()">
+        <div class="bg-slate-900 border border-white/10 p-8 rounded-3xl max-w-md text-center shadow-2xl" onclick="event.stopPropagation()">
+            <h2 class="text-3xl mb-4 text-primary">About Algebra Practice</h2>
+            <p class="text-lg leading-relaxed">Algebra Practise was created by hazza in 2025 and updated in 2026. i dont own any of the games here apart from the ones i made.</p>
+            <button onclick="toggleInfo()" class="mt-8 bg-white/10 px-6 py-2 rounded-full hover:bg-white/20">Close</button>
         </div>
     </div>
 
-    <div id="maddoxNoticeOverlay" class="fixed inset-0 z-[70] hidden flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-6">
-        <div class="bg-slate-900 border border-blue-500/30 p-8 rounded-3xl max-w-lg w-full shadow-2xl">
-            <h2 class="text-2xl font-bold mb-4 flex items-center gap-2 text-blue-400">
-                <i class="fas fa-info-circle"></i> Login Instructions
-            </h2>
-            <p class="text-slate-300 mb-6 leading-relaxed">
-                Login with Google doesn't work unless you're logged in here already so use this link to create an account then you can just login here to play dont always play on the link cause it could get blocked
-            </p>
-            <div class="flex gap-3">
-                <a href="https://cloouud.gdharry123.workers.dev/" target="_blank" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold text-center transition-all">
-                    Open Actual Link
-                </a>
-                <button onclick="toggleMaddoxNotice()" class="flex-1 bg-slate-800 hover:bg-slate-700 py-3 rounded-xl font-medium transition-colors">Close</button>
+    <div id="settingsPanel" class="fixed top-0 right-0 h-full w-80 bg-slate-900 border-l border-white/10 p-8 transform translate-x-full shadow-2xl overflow-y-auto">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl">Settings</h2>
+            <button onclick="toggleSettings()"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <div class="space-y-6">
+            <div>
+                <label class="block text-xs opacity-50 mb-2 uppercase">Theme Color</label>
+                <input type="color" id="primaryPicker" value="#a855f7" oninput="updatePrimary(this.value)" class="w-full h-10 rounded-lg cursor-pointer">
+            </div>
+            <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl">
+                <span>Particles</span>
+                <button id="partToggle" onclick="toggleParticles()" class="text-accent">ON</button>
+            </div>
+            <button onclick="setBg()" class="w-full bg-white/10 py-3 rounded-xl text-sm">Set Background Image</button>
+            <button onclick="resetBg()" class="w-full bg-red-500/10 text-red-400 py-2 rounded-xl text-xs">Reset Background</button>
+            <div class="space-y-3 pt-4 border-t border-white/10">
+                <input type="text" id="cloakTitle" placeholder="Tab Title" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
+                <input type="text" id="cloakFavicon" placeholder="Favicon URL" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
+                <button onclick="applyCloak()" class="w-full bg-accent text-black py-3 rounded-xl text-sm font-bold">Apply Cloak</button>
             </div>
         </div>
     </div>
 
-    <div id="gameModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/95 p-4">
-        <div class="w-full max-w-6xl h-[90vh] bg-slate-900 rounded-3xl overflow-hidden flex flex-col shadow-2xl border border-slate-700">
-            <div class="flex items-center justify-between p-4 bg-slate-800 border-b border-slate-700">
-                <span id="modalTitle" class="font-bold text-lg truncate pr-4 text-slate-300">Module View</span>
-                <div class="flex items-center gap-3">
-                    <button id="maddoxInfoBtn" onclick="toggleMaddoxNotice()" class="hidden bg-slate-700 hover:bg-blue-600 w-10 h-10 rounded-lg flex items-center justify-center transition-all">
-                        <i class="fas fa-info-circle"></i>
-                    </button>
-                    <button onclick="toggleFullscreen()" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                        <i class="fas fa-expand mr-2"></i>Fullscreen
-                    </button>
-                    <button onclick="popOut()" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                        <i class="fas fa-external-link-alt mr-2"></i>Cloak Tab
-                    </button>
-                    <button onclick="closeGame()" class="text-slate-400 hover:text-white text-2xl ml-2">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="flex-1 bg-black">
+    <div id="gameModal" class="fixed inset-0 z-[110] hidden bg-black/95 flex flex-col">
+        <div class="game-container">
+            <div class="bg-black rounded-2xl overflow-hidden border border-white/5">
                 <div id="iframeContainer" class="w-full h-full"></div>
             </div>
+            <div class="sidebar hidden lg:flex flex-col gap-4 overflow-y-auto pr-2">
+                <h3 class="text-xl text-accent">More Like This</h3>
+                <div id="suggestedGames" class="grid grid-cols-2 gap-3"></div>
+            </div>
+        </div>
+        <div class="h-20 px-8 flex items-center justify-between bg-white/5 backdrop-blur-md">
+            <div class="flex items-center gap-4">
+                <img id="modalIcon" src="" class="h-10 w-10 rounded-lg object-cover">
+                <h3 id="modalTitle" class="text-xl">Game Title</h3>
+            </div>
+            <div class="flex items-center gap-8">
+                <button onclick="popOut()" class="hover:text-accent"><i class="fas fa-mask text-xl"></i></button>
+                <button onclick="toggleFullscreen()" class="hover:text-accent"><i class="fas fa-expand text-xl"></i></button>
+                <button onclick="closeGame()" class="text-red-500 text-2xl"><i class="fas fa-times"></i></button>
+            </div>
         </div>
     </div>
 
-    <script>
-        // Ruffle Configuration
-        window.RufflePlayer = window.RufflePlayer || {};
-        window.RufflePlayer.config = {
-            "autoplay": "on",
-            "unmuteOverlay": "hidden",
-            "letterbox": "on",
-            "warnOnUnsupportedContent": false
-        };
+<script>
+    const games = [
+        { id: "soundboard", title: "Meme Soundboard", url: "https://raw.githack.com/genizy/soundboard/main/index.html", thumb: "memesoundboard.png", type: "app" },
+        { id: "ruffle", title: "Ruffle Flash Player", url: "https://flashbangplayer.pages.dev/", thumb: "ruffle.png", type: "app" },
+        { id: "htmlrun", title: "HTML Runner", url: "https://raw.githack.com/hazzatazza/the-stash/main/htmlrunner.html", thumb: "htmlrunner.png", type: "app" },
+        { id: "alg", title: "Algebra-Flix", url: "https://raw.githack.com/hazzatazza/algebra-flix-safe/main/index.html", thumb: "algebraflix.png", type: "app" },
+        { id: "maddox", title: "MaddoxCloud Gaming", url: "https://cloouud.gdharry123.workers.dev/", thumb: "maddoxcloud.png", type: "app" },
+        { id: "scratch", title: "Scratch Editor", url: "https://raw.githack.com/hazzatazza/scratch-editor/main/index.html", thumb: "scratch.png", type: "app" },
+        { id: "bf3d", title: "Bottle Flip 3D", url: "https://raw.githack.com/ovo-gamez-unblocked/bottle-flip-3d/main/index.html", thumb: "bottleflip.png" },
+        { id: "bj3d", title: "Bottle Jump 3D", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/bottle-jump-3d/index.html", thumb: "bottlejump.png" },
+        { id: "sw", title: "Space Waves", url: "https://raw.githack.com/bubbls/UGS-Assets/main/space%20waves/index.html", thumb: "spacewaves.png" },
+        { id: "ssg", title: "Super Stickman Golf", url: "https://raw.githack.com/hsinidev/stickman-golf-unblocked/master/index.html", thumb: "stickmangolf.png" },
+        { id: "fnf", title: "Friday Night Funkin", url: "https://raw.githack.com/genizy/ugs-files/main/clfridaynightfunkin.html", thumb: "fnf.png" },
+        { id: "fd", title: "Flappy Dunk", url: "https://raw.githack.com/ahrdevelopers/flappy-dunk/main/index.html", thumb: "flappydunk.png" },
+        { id: "onr", title: "Om Nom Run", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/om-nom-run/index.html", thumb: "omnomrun.png" },
+        { id: "amz", title: "Amaze", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/amaze/index.html", thumb: "amaze.png" },
+        { id: "bs", title: "Basketball Stars", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketballstars.html", thumb: "basketballstars.png" },
+        { id: "gb", title: "Going Balls", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/going-balls/index.html", thumb: "goingballs.png" },
+        { id: "hw", title: "Happy Wheels", url: "https://raw.githack.com/hazzatazza/ugs-singlefile/main/UGS-Files/clhappywheels.html", thumb: "happywheels.png" },
+        { id: "p2s", title: "Paper.io 2 (Skinless)", url: "https://raw.githack.com/chocobananakun/paperio2/main/index.html", thumb: "paperioskinless.png" },
+        { id: "goi-s", title: "Getting Over It (Scratch)", url: "https://raw.githack.com/gameinclassroom/getting-over-it/main/index.html", thumb: "gettingoveritscratch.png" },
+        { id: "goi-f", title: "Getting Over It Full", url: "https://raw.githack.com/genizy/web-port/main/getting-over-it/index.html", thumb: "gettingoveritfull.png" },
+        { id: "p2", title: "Paper.io 2", url: "https://raw.githack.com/ubg17/PaperIO2/gh-pages/index.html", thumb: "paperio2.png" },
+        { id: "2048", title: "2048", url: "https://raw.githack.com/ovolve/2048-AI/master/index.html", thumb: "2048.png" },
+        { id: "bm", title: "Bowmasters", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/bowmasters/index.html", thumb: "bowmasters.png" },
+        { id: "sr", title: "Soccer Random", url: "https://raw.githack.com/Unblocked-Games-786/Soccer-Random/gh-pages/index.html", thumb: "soccerrandom.png" },
+        { id: "fn", title: "Fruit Ninja", url: "https://raw.githack.com/genizy/UGS-Assets/main/fruit%20ninja/index.html", thumb: "fruitninja.png" },
+        { id: "sd", title: "Sling Drift", url: "https://raw.githack.com/ovo-gamez-unblocked/sling-drift/main/index.html", thumb: "slingdrift.png" },
+        { id: "ss", title: "Subway Surfers", url: "https://raw.githack.com/hazzatazza/3kh0-assets/fixy/subway-surfers/index.html", thumb: "subwaysurfers.png" },
+        { id: "3d", title: "3Dash", url: "https://raw.githack.com/hazzatazza/ugs-singlefile/main/UGS-Files/cl3dasheditor.html", thumb: "3dash.png" },
+        { id: "ec", title: "Eaglercraft", url: "https://raw.githack.com/alexander-datskov/1.12-eaglercraftx/main/index.html", thumb: "eaglercraft.png" },
+        { id: "bl", title: "BitLife", url: "https://raw.githack.com/hazzatazza/bitlife/main/index.html", thumb: "bitlife.png" },
+        { id: "tr", title: "Tap Road", url: "https://raw.githack.com/faralong/all/main/taproad/index.html", thumb: "taproad.png" },
+        { id: "ld", title: "Level Devil", url: "https://raw.githack.com/hazzatazza/level-devil/master/index.html", thumb: "leveldevil.png" },
+        { id: "fb", title: "Flappy Bird", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/flappybird/s3-eu-west-1.amazonaws.com/apps.playcanvas.com/a15aec72/index.html", thumb: "flappybird.png" },
+        { id: "cc", title: "Cookie Clicker", url: "https://cookieclickeralgebra.pages.dev", thumb: "cookieclicker.png" },
+        { id: "gdl", title: "Geometry Dash Lite", url: "https://raw.githack.com/threekho/gdl/main/index.html", thumb: "gdlite.png" },
+        { id: "trush", title: "Tunnel Rush", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/tunnelrush.html", thumb: "tunnelrush.png" },
+        { id: "tf", title: "Tiny Fishing", url: "https://raw.githack.com/MajesticWafer/tiny-fishing/main/index.html", thumb: "tinyfishing.png" },
+        { id: "sr3d", title: "Snow Rider 3D", url: "https://raw.githack.com/ahrdevelopers/snow-rider-3d/main/index.html", thumb: "snowrider3d.png" },
+        { id: "tts", title: "Tap Tap Shots", url: "https://taptapshots.pages.dev/", thumb: "taptapshots.png" },
+        { id: "sh", title: "Stickman Hook", url: "https://raw.githack.com/hazzatazza/google-class/main/stickman-hook/index.html", thumb: "stickmanhook.png" },
+        { id: "db", title: "Drift Boss", url: "https://raw.githack.com/ubg98/DriftBoss/gh-pages/index.html", thumb: "driftboss.png" },
+        { id: "dad", title: "Dadish", url: "https://raw.githack.com/Graysinl/dadish/main/index.html", thumb: "dadish.png" },
+        { id: "mx3m", title: "Moto X3M", url: "https://raw.githack.com/gameshaxor/MotoX3M/master/index.html", thumb: "motox3m.png" },
+        { id: "wordle", title: "Wordle", url: "https://raw.githack.com/hazzatazza/3kh0-assets/fixy/wordle/index.html#infinite", thumb: "wordle.png" },
+        { id: "br", title: "Basket Random", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketrandom.html", thumb: "basketrandom.png" },
+        { id: "pio", title: "Powerline.io", url: "https://powerline.coolmathgames.com/", thumb: "powerlineio.png" },
+        { id: "rgi", title: "Rocketgoal.io", url: "https://raw.githack.com/will-k16/rocketgoal/main/rocketgoal.io/index.html", thumb: "rocketgoal.png" },
+        { id: "sl", title: "Short Life", url: "https://shortlife1.pages.dev/", thumb: "shortlife.png" },
+        { id: "sr-ride", title: "Short Ride", url: "https://raw.githack.com/hazzatazza/short-ridegood/main/index.html", thumb: "shortride.png" },
+        { id: "pt", title: "Poly Track", url: "https://polytrack-3.pages.dev/", thumb: "polytrackold.png" },
+        { id: "pt52", title: "Poly Track .5.2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/polytrack.html", thumb: "polytracknew.png" },
+        { id: "cr", title: "Crossy Road", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/crossy-road/index.html", thumb: "crossyroad.png" },
+        { id: "wb", title: "Wheelie Bike", url: "https://wheeliebike-9l9.pages.dev/", thumb: "wheeliebike.png" },
+        { id: "bmast", title: "Bouncemasters", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/bouncemasters/index.html", thumb: "bouncemasters.png" },
+        { id: "jj", title: "Jetpack Joyride", url: "https://raw.githack.com/genizy/ugs-files/main/cljetpackjoyride.html", thumb: "jetpackjoyride.png" },
+        { id: "er", title: "Escape Road", url: "https://raw.githack.com/genizy/ugs-files/main/clescaperoad.html", thumb: "escaperoad.png" },
+        { id: "totm", title: "Tomb of the Mask", url: "https://raw.githack.com/water-logger/totm/main/index.html", thumb: "tombofthemask.png" },
+        { id: "run1", title: "Run", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/run.html", thumb: "run1.png" },
+        { id: "run2", title: "Run 2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/run2.html", thumb: "run2.png" },
+        { id: "r3", title: "Run 3", url: "https://run3algebra.pages.dev/", thumb: "run3.png" },
+        { id: "slp", title: "Slope", url: "https://sl0pe.pages.dev/", thumb: "slope.png" },
+        { id: "bb", title: "Block Blast", url: "https://raw.githack.com/reunbozdo/BlockBlast/main/index.html", thumb: "blockblast.png" },
+        { id: "box-r", title: "Boxing Random", url: "https://raw.githack.com/ubg98/BoxingRandom/gh-pages/index.html", thumb: "boxingrandom.png" },
+        { id: "crush", title: "Candy Crush", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/candycrush.html", thumb: "candycrush.png" },
+        { id: "au", title: "Among Us", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/amongus.html", thumb: "amongus.png" },
+        { id: "ab", title: "Angry Birds", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/angrybirds.html", thumb: "angrybirds.png" },
+        { id: "ctr", title: "Cut the Rope", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/cuttherope.html", thumb: "cuttherope.png" },
+        { id: "dino", title: "Google Dino", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/googledino.html", thumb: "dinogame.png" },
+        { id: "hj", title: "Helix Jump", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/helixjump.html", thumb: "helixjump.png" },
+        { id: "rb", title: "Retro Bowl", url: "https://ballsretro.pages.dev/", thumb: "retrobowl.png" },
+        { id: "sab", title: "Stickman Archers", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stickarchersbattle.html", thumb: "stickarchersbattle.png" },
+        { id: "dc", title: "Draw Climber", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/drawclimber.html", thumb: "drawclimber.png" },
+        { id: "fnaf", title: "FNAF", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf.html", thumb: "fnaf.png" },
+        { id: "dl", title: "Duck Life", url: "https://raw.githack.com/MDtowerz/duck-life-1/main/unity/index.html", thumb: "ducklife1.png" },
+        { id: "dl2", title: "Duck Life 2", url: "https://raw.githack.com/BonziWorld1/DuckLife2/main/index.html", thumb: "ducklife2.png" },
+        { id: "yohoho", title: "YoHoHo.io", url: "https://yohoho--io.pages.dev/", thumb: "yohoho.png" },
+        { id: "slice", title: "Slice It All", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/slice-it-all/index.html", thumb: "sliceitall.png" },
+        { id: "mc-classic", title: "Minecraft Classic", url: "https://raw.githack.com/SajagIN/Minecraft-classic/main/index.html", thumb: "minecraftclassic.png" },
+        { id: "dh", title: "Drift Hunters", url: "https://raw.githack.com/1000unblockedgames/DriftHunters/main/index.html", thumb: "drifthunters.png" },
+        { id: "dj", title: "Doodle Jump", url: "https://raw.githack.com/bubbls/UGS-Assets/main/doodle%20jump/index.html", thumb: "doodlejump.png" },
+        { id: "lmc", title: "Little Master Cricket", url: "https://raw.githack.com/ovo-gamez-unblocked/little-master-cricket/main/index.html", thumb: "littlemastercricket.png" },
+        { id: "snk-is", title: "Snake.is", url: "https://raw.githack.com/hazzatazza/snake.is/main/index.html", thumb: "snakeis.png" },
+        { id: "snk-mlg", title: "Snake.is MLG", url: "https://raw.githack.com/gameinclassroom/snake-is-mlg-edition/main/index.html", thumb: "snakeismlg.png" },
+        { id: "inf-cra", title: "Infinite Craft", url: "https://infin-craft.pages.dev/", thumb: "infinitecraft.png" },
+        { id: "suika", title: "Suika Game", url: "https://raw.githack.com/hazzatazza/suikar/main/index.html", thumb: "suikagame.png" },
+        { id: "googcric", title: "Google Doodle Cricket", url: "https://raw.githack.com/mohanrajr1987/cricket/master/index.html", thumb: "googlecricket.png" },
+        { id: "aquaio", title: "Aquapark.io", url: "https://raw.githack.com/bubbls/youtube-playables/main/aquapark-io/index.html", thumb: "aquaparkio.png" },
+        { id: "racemast", title: "Race Master 3D", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/race-master-3d/index.html", thumb: "racemaster3d.png" },
+        { id: "ovo", title: "OvO", url: "https://raw.githack.com/hazzatazza/OvO/main/index.html", thumb: "ovo.png" },
+        { id: "basbat", title: "Basket Battle", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/basket-battle/index.html", thumb: "basketbattle.png" },
+        { id: "spiroll", title: "Spiral Roll", url: "https://raw.githack.com/my-files-schoolum/spi/main/index.html", thumb: "spiralroll.png" },
+        { id: "timshoot", title: "Time Shooter", url: "https://raw.githack.com/hazzatazza/time-shooter/main/index.html", thumb: "timeshooter.png" },
+        { id: "bloxorz", title: "Bloxorz", url: "https://raw.githack.com/ubg89/Bloxorz/gh-pages/index.html", thumb: "bloxorz.png" },
+        { id: "brain-test", title: "Brain Test", url: "https://raw.githack.com/gameinclassroom/brain-test-tricky-puzzles/main/index.html", thumb: "braintest.png" },
+        { id: "drive-mad", title: "Drive Mad", url: "https://raw.githack.com/html-online-game/drive-mad/main/index.html", thumb: "drivemad.png" },
+        { id: "8-ball", title: "8 Ball Pool", url: "https://raw.githack.com/ahrdevelopers/8ball-pool/main/index.html", thumb: "8ballpool.png" },
+        { id: "aswc", title: "A Small World Cup", url: "https://raw.githack.com/ahrdevelopers/a-small-world-cup/main/index.html", thumb: "asmallworldcup.png" },
+        { id: "colsw", title: "Color Switch", url: "https://raw.githack.com/ahrdevelopers/color-switch/main/index.html", thumb: "colorswitch.png" },
+        { id: "hapgla", title: "Happy Glass", url: "https://raw.githack.com/class-google-com/google-1/main/index.html", thumb: "happyglass.png" },
+        { id: "tapot", title: "Throw A Potato", url: "https://raw.githack.com/hazzatazza/throw-a-potato/main/index.html", thumb: "throwapotato.png" },
+        { id: "tapot2", title: "Throw A Potato Again", url: "https://raw.githack.com/hazzatazza/throw-a-potato-again/main/index.html", thumb: "throwapotatoagain.png" },
+        { id: "tapot3", title: "Throw A Potato In Space", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/throwspace3/html-classic.itch.zone/html/7355361/index.html", thumb: "throwapotatoinspace.png" },
+        { id: "sonic1", title: "Sonic The Hedgehog", url: "https://raw.githack.com/hazzatazza/sonic1/main/index.html", thumb: "sonicthehedgehog.png" },
+        { id: "celeste", title: "Celeste", url: "https://raw.githack.com/hazzatazza/celeste/main/index.html", thumb: "celeste.png" },
+        { id: "joeblox", title: "Joeblox", url: "https://raw.githack.com/hazzatazza/roblox-games/main/*actualjoeblox.html", thumb: "joeblox.png" },
+        { id: "dune", title: "Dune", url: "https://raw.githack.com/playgroundfree/playgroundfree.github.io/main/dune/index.html", thumb: "dune.png" },
+        { id: "fmidsh", title: "Famidash", url: "https://raw.githack.com/hazzatazza/stuff-it-emu/main/famidash.html", thumb: "famidash.png" },
+        { id: "gdsubzero", title: "Geometry Dash Subzero", url: "https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-subzero/index.html", thumb: "gdsubzero.png" },
+        { id: "gdmeltdown", title: "Geometry Dash Meltdown", url: "https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-meltdown/index.html", thumb: "gdmeltdown.png" },
+        { id: "gdworld", title: "Geometry Dash World", url: "https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-world/index.html", thumb: "gdworld.png" },
+        { id: "gdbreeze", title: "Geometry Dash Breeze", url: "https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-breeze/index.html", thumb: "gdbreeze.png" },
+        { id: "knihit", title: "Knife Hit", url: "https://raw.githack.com/marty-games/mga-construct/main/knife-hit/index.html", thumb: "knifehit.png" },
+        { id: "slowroad", title: "Slowroads.io", url: "https://script.google.com/macros/s/AKfycbzqDA2SnuVZ3DRelxxbUxSV9Z1RJz_gQfDRx06WUpgppWgrdDEErtZ1Lev9O6j2w9ioBQ/exec", thumb: "slowroads.png" },
+        { id: "stack", title: "Stack", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stack.html", thumb: "stack.png" },
+        { id: "simian", title: "Simian City", url: "https://raw.githack.com/hazzatazza/simian-city/main/simiancity.html", thumb: "simpcity.png" },
+        { id: "whg", title: "Worlds Hardest Game", url: "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/worldshardestgame.html", thumb: "worldshardestgame.png" },
+        { id: "pacman", title: "Pac-Man", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/pacman.html", thumb: "pacman.png" },
+        { id: "agar", title: "Agar.io Lite", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/agariolite.html", thumb: "agariolite.png" },
+        { id: "vrandom", title: "Volley Random", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/volleyrandom.html", thumb: "volleyrandom.png" },
+        { id: "er2", title: "Escape Road 2", url: "https://raw.githack.com/ubg42/EscapeRoad2/main/index.html", thumb: "escaperoad2.png" },
+        { id: "mx3mpp", title: "Moto X3M Pool Party", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/motox3mpoolparty.html", thumb: "motox3mpoolparty.png" },
+        { id: "fnaf2", title: "FNAF 2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf2.html", thumb: "fnaf2.png" },
+        { id: "ovo2", title: "OvO 2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/ovo2.html", thumb: "ovo2.png" },
+        { id: "stateio", title: "State.io", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stateio.html", thumb: "stateio.png" },
+        { id: "mcb", title: "Mini Car Ball", url: "https://raw.githack.com/CoolDude2349/everything/dd78353b89cf9559b4b3463d1b44fb60e420d9fa/minicarball/index.html", thumb: "minicarball.png" },
+        { id: "appel", title: "Appel", url: "https://raw.githack.com/CoolDude2349/everything/dd78353b89cf9559b4b3463d1b44fb60e420d9fa/appel/index.html", thumb: "appel.png" },
+        { id: "tilejump", title: "Tile Jumper", url: "https://raw.githack.com/CoolDude2349/everything/dd78353b89cf9559b4b3463d1b44fb60e420d9fa/tilejumperr/index.html", thumb: "tilejumper.png" },
+        { id: "golfbattle", title: "Golf Battle", url: "https://raw.githack.com/hazzatazza/golf-battle/main/samething.html", thumb: "golfbattle.png" },
+        { id: "roofsnip", title: "Rooftop Snipers", url: "https://raw.githack.com/hazzatazza/RooftopSnipers/gh-pages/index.html", thumb: "rooftopsnipers.png" },
+        { id: "granny", title: "Granny", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/granny.html", thumb: "granny.png" },
+        { id: "goose", title: "Untitled Goose Game", url: "https://raw.githack.com/web-ports/untitled-goose-game/main/index.html", thumb: "goosegame.png" },
+        { id: "brotato", title: "Brotato", url: "https://raw.githack.com/Stinkalistic/UGS/main/MISC/brotato/index.html", thumb: "brotato.png" },
+        { id: "ragdoll", title: "Ragdoll Archers", url: "https://raw.githack.com/ubg42/RagdollArchers/main/index.html", thumb: "ragdollarchers.png" },
+        { id: "fnaf3", title: "FNAF 3", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf3.html", thumb: "fnaf3.png" },
+        { id: "schooesc", title: "School Escape", url: "https://raw.githack.com/hazzatazza/simian-city/main/schoolescape.html", thumb: "schoolescape.png" },
+        { id: "agewar", title: "Age Of War", url: "https://raw.githack.com/ahrdevelopers/age-of-war/main/index.html", thumb: "ageofwar.png" },
+        { id: "monkeobby", title: "Monkey Obby", url: "https://raw.githack.com/hazzatazza/algebra-originals/main/monkeyobby.html", thumb: "monkeyobby.png" },
+        { id: "supliqsoc", title: "Super Liquid Soccer", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/superliquidsoccer.html", thumb: "superliquidsoccer.png" },
+        { id: "guessanswer", title: "Guess Their Answer", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/guesstheiranswer.html", thumb: "guessanswer.png" },
+        { id: "pokeemer", title: "Pokemon Emerald", url: "https://raw.githack.com/hazzatazza/stuff-it-emu/main/pokemonemerald.html", thumb: "pokemonemerald.png" },
+        { id: "clashov", title: "Clash Of Vikings", url: "https://raw.githack.com/testingherokuapp/Clash-of-Vikings/main/index.html", thumb: "clashofvikings.png" },
+        { id: "fnaf4", title: "FNAF 4", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf4.html", thumb: "fnaf4.png" },
+        { id: "icetow", title: "Ice Tower", url: "https://raw.githack.com/hazzatazza/algebra-originals/main/Ice%20tower%20(1).html", thumb: "icetower.png" },
+        { id: "supmario1", title: "Super Mario Bros.", url: "https://raw.githack.com/hazzatazza/stuff-it-emu/main/supermariobros.html", thumb: "supermariobros.png" },
+        { id: "supermariokart", title: "Super Mario Kart", url: "https://raw.githack.com/hazzatazza/stuff-it-emu/main/supermariokart.html", thumb: "supermariokart.png" },
+        { id: "thoandball", title: "Thorns And Balloons", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/thronballoon2/maddox.alltutors.org/db/html/thorns_and_ballons/index.html", thumb: "thornsandballoons.png" },
+        { id: "braindodge", title: "Brainrot Dodger 67", url: "https://raw.githack.com/hazzatazza/algebra-originals/main/brainrotdodger67.html", thumb: "brainrotdodger67.png" },
+        { id: "badtime", title: "Bad Time Simulator", url: "https://raw.githack.com/hsinidev/badtimesimulator/master/index.html", thumb: "badtimesimulator.png" },
+        { id: "stackball", title: "Stack Fire Ball", url: "https://raw.githack.com/ahrdevelopers/stack-fire-ball/main/index.html", thumb: "stackball.png" },
+        { id: "sandtris", title: "Sandtris", url: "https://raw.githack.com/Kochhan/SANDTRIS/main/index.html", thumb: "sandtris.png" },
+        { id: "dleo", title: "Dont Let Ehren Out", url: "https://raw.githack.com/hazzatazza/algebra-originals/main/dontletenrenout.html", thumb: "dontletehrenout.png" },
+        { id: "blumball", title: "Blumgi Ball", url: "https://raw.githack.com/gameinclassroom/blumgi-ball/main/index.html", thumb: "blumgiball.png" },
+        { id: "snowballio", title: "Snowball.io", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/snowballio.html", thumb: "snowballio.png" },
+        { id: "hcrlite", title: "Hill Climb Racing Lite", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/hillclimbracinglite.html", thumb: "hillclimbracing.png" },
+        { id: "eggycar", title: "Eggy Car", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/eggycar.html", thumb: "eggycar.png" },
+        { id: "backchal", title: "Backflip Challenge", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/backflipchallenge/maddox.quackprep.com/db2/2026/unity/backflip-challenge/index.html", thumb: "backflipchallenge.png" },
+        { id: "bubshoot", title: "Bubble Shooter", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/bubbleshooter.html", thumb: "bubbleshooter.png" },
+        { id: "1on1soc", title: "1 On 1 Soccer", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/1on1soccer.html", thumb: "1on1soccer.png" },
+        { id: "aow2", title: "Age Of War 2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/ageofwar2.html", thumb: "ageofwar2.png" },
+        { id: "swingdash", title: "Swing Dash", url: "https://raw.githack.com/hazzatazza/algebra-originals/main/swingdash.html", thumb: "swingdash.png" }
+    ];
 
-        const games = [
-            { id: 'soundboard', title: 'Meme Soundboard', url: 'https://raw.githack.com/genizy/soundboard/main/index.html', thumb: 'memesoundboard.png' },
-            { id: 'ruffle', title: 'Ruffle Flash Player', url: 'https://flashbangplayer.pages.dev/', thumb: 'ruffle.png' },
-            { id: 'htmlrun', title: 'HTML Runner', url: 'https://raw.githack.com/hazzatazza/the-stash/main/htmlrunner.html', thumb: 'htmlrunner.png' },
-            { id: 'alg', title: 'Algebra-Flix', url: 'https://raw.githack.com/hazzatazza/algebra-flix-safe/main/index.html', thumb: 'moviesandtv.png' },
-            { id: 'proxy-home', title: 'Calculus Research (Proxy Home)', url: 'https://geraldine012-backend.hf.space/', thumb: 'ultraviolet.png' },
-            { id: 'scramj', title: 'Scramjet (Not A Proxy)', url: 'https://geraldine012-scramjet-beta.hf.space', thumb: 'scramjet.png' },
-            { id: 'maddox', title: 'MaddoxCloud Gaming', url: 'https://cloouud.gdharry123.workers.dev/', thumb: 'maddoxcloud.png' },
-            { id: 'scratch', title: 'Scratch Editor And Packager', url: 'https://raw.githack.com/hazzatazza/scratch-editor/main/index.html', thumb: 'scratch.png' },
-            { id: 'bf3d', title: 'Bottle Flip 3D', url: 'https://raw.githack.com/ovo-gamez-unblocked/bottle-flip-3d/main/index.html', thumb: 'bottleflip.png' },
-            { id: 'bj3d', title: 'Bottle Jump 3D', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/bottle-jump-3d/index.html', thumb: 'bottlejump.png' },
-            { id: 'sw', title: 'Space Waves', url: 'https://raw.githack.com/bubbls/UGS-Assets/main/space%20waves/index.html', thumb: 'spacewaves.png' },
-            { id: 'ssg', title: 'Super Stickman Golf', url: 'https://raw.githack.com/hsinidev/stickman-golf-unblocked/master/index.html', thumb: 'stickmangolf.png' },
-            { id: 'fnf', title: 'Friday Night Funkin', url: 'https://raw.githack.com/genizy/ugs-files/main/clfridaynightfunkin.html', thumb: 'fnf.png' },
-            { id: 'fd', title: 'Flappy Dunk', url: 'https://raw.githack.com/ahrdevelopers/flappy-dunk/main/index.html', thumb: 'flappydunk.png' },
-            { id: 'onr', title: 'Om Nom Run', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/om-nom-run/index.html', thumb: 'omnomrun.png' },
-            { id: 'amz', title: 'Amaze', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/amaze/index.html', thumb: 'amaze.png' },
-            { id: 'bs', title: 'Basketball Stars', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketballstars.html', thumb: 'basketballstars.png' },
-            { id: 'gb', title: 'Going Balls', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/going-balls/index.html', thumb: 'goingballs.png' },
-            { id: 'hw', title: 'Happy Wheels', url: 'https://raw.githack.com/hazzatazza/ugs-singlefile/main/UGS-Files/clhappywheels.html', thumb: 'happywheels.png' },
-            { id: 'p2s', title: 'Paper.io 2 (Skinless)', url: 'https://raw.githack.com/chocobananakun/paperio2/main/index.html', thumb: 'paperioskinless.png' },
-            { id: 'goi-s', title: 'Getting Over It (Scratch)', url: 'https://raw.githack.com/gameinclassroom/getting-over-it/main/index.html', thumb: 'gettingoveritscratch.png' },
-            { id: 'goi-f', title: 'Getting Over It Full', url: 'https://raw.githack.com/genizy/web-port/main/getting-over-it/index.html', thumb: 'gettingoveritfull.png' },
-            { id: 'p2', title: 'Paper.io 2', url: 'https://raw.githack.com/ubg17/PaperIO2/gh-pages/index.html', thumb: 'paperio2.png' },
-            { id: '2048', title: '2048', url: 'https://raw.githack.com/ovolve/2048-AI/master/index.html', thumb: '2048.png' },
-            { id: 'bm', title: 'Bowmasters', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/bowmasters/index.html', thumb: 'bowmasters.png' },
-            { id: 'sr', title: 'Soccer Random', url: 'https://raw.githack.com/Unblocked-Games-786/Soccer-Random/gh-pages/index.html', thumb: 'soccerrandom.png' },
-            { id: 'fn', title: 'Fruit Ninja', url: 'https://raw.githack.com/genizy/UGS-Assets/main/fruit%20ninja/index.html', thumb: 'fruitninja.png' },
-            { id: 'sd', title: 'Sling Drift', url: 'https://raw.githack.com/ovo-gamez-unblocked/sling-drift/main/index.html', thumb: 'slingdrift.png' },
-            { id: 'ss', title: 'Subway Surfers', url: 'https://raw.githack.com/hazzatazza/3kh0-assets/fixy/subway-surfers/index.html', thumb: 'subwaysurfers.png' },
-            { id: '3d', title: '3Dash', url: 'https://raw.githack.com/hazzatazza/ugs-singlefile/main/UGS-Files/cl3dasheditor.html', thumb: '3dash.png' },
-            { id: 'ec', title: 'Eaglercraft (Minecraft)', url: 'https://raw.githack.com/alexander-datskov/1.12-eaglercraftx/main/index.html', thumb: 'eaglercraft.png' },
-            { id: 'bl', title: 'BitLife', url: 'https://raw.githack.com/hazzatazza/bitlife/main/index.html', thumb: 'bitlife.png' },
-            { id: 'tr', title: 'Tap Road', url: 'https://raw.githack.com/faralong/all/main/taproad/index.html', thumb: 'taproad.png' },
-            { id: 'ld', title: 'Level Devil', url: 'https://raw.githack.com/hazzatazza/level-devil/master/index.html', thumb: 'leveldevil.png' },
-            { id: 'fb', title: 'Flappy Bird', url: 'https://s3-eu-west-1.amazonaws.com/apps.playcanvas.com/a15aec72/index.html', thumb: 'flappybird.png' },
-            { id: 'cc', title: 'Cookie Clicker', url: 'https://cookieclickeralgebra.pages.dev', thumb: 'cookieclicker.png' },
-            { id: 'gdl', title: 'Geometry Dash Lite', url: 'https://raw.githack.com/threekho/gdl/main/index.html', thumb: 'gdlite.png' },
-            { id: 'trush', title: 'Tunnel Rush', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/tunnelrush.html', thumb: 'tunnelrush.png' },
-            { id: 'tf', title: 'Tiny Fishing', url: 'https://raw.githack.com/MajesticWafer/tiny-fishing/main/index.html', thumb: 'tinyfishing.png' },
-            { id: 'sr3d', title: 'Snow Rider 3D', url: 'https://raw.githack.com/ahrdevelopers/snow-rider-3d/main/index.html', thumb: 'snowrider3d.png' },
-            { id: 'tts', title: 'Tap Tap Shots', url: 'https://taptapshots.pages.dev/', thumb: 'taptapshots.png' },
-            { id: 'sh', title: 'Stickman Hook', url: 'https://raw.githack.com/hazzatazza/google-class/main/stickman-hook/index.html', thumb: 'stickmanhook.png' },
-            { id: 'db', title: 'Drift Boss', url: 'https://raw.githack.com/ubg98/DriftBoss/gh-pages/index.html', thumb: 'driftboss.png' },
-            { id: 'dad', title: 'Dadish', url: 'https://raw.githack.com/Graysinl/dadish/main/index.html', thumb: 'dadish.png' },
-            { id: 'mx3m', title: 'Moto X3M', url: 'https://raw.githack.com/gameshaxor/MotoX3M/master/index.html', thumb: 'motox3m.png' },
-            { id: 'wordle', title: 'Wordle', url: 'https://raw.githack.com/hazzatazza/3kh0-assets/fixy/wordle/index.html#infinite', thumb: 'wordle.png' },
-            { id: 'br', title: 'Basket Random', url: 'https://raw.githack.com/gjhacked/basket-random/main/index.html', thumb: 'basketrandom.png' },
-            { id: 'pio', title: 'Powerline.io', url: 'https://powerline.coolmathgames.com/', thumb: 'powerlineio.png' },
-            { id: 'rgi', title: 'Rocketgoal.io', url: 'https://raw.githack.com/will-k16/rocketgoal/main/rocketgoal.io/index.html', thumb: 'rocketgoal.png' },
-            { id: 'sl', title: 'Short Life', url: 'https://shortlife1.pages.dev/', thumb: 'shortlife.png' },
-            { id: 'sr-ride', title: 'Short Ride', url: 'https://raw.githack.com/hazzatazza/short-ridegood/main/index.html', thumb: 'shortride.png' },
-            { id: 'pt', title: 'Poly Track', url: 'https://polytrack-3.pages.dev/', thumb: 'polytrackold.png' },
-            { id: 'pt52', title: 'Poly Track .5.2', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/polytrack.html', thumb: 'polytracknew.png' },
-            { id: 'cr', title: 'Crossy Road', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/crossy-road/index.html', thumb: 'crossyroad.png' },
-            { id: 'wb', title: 'Wheelie Bike', url: 'https://wheeliebike-9l9.pages.dev/', thumb: 'wheeliebike.png' },
-            { id: 'bmast', title: 'Bouncemasters', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/bouncemasters/index.html', thumb: 'bouncemasters.png' },
-            { id: 'jj', title: 'Jetpack Joyride', url: 'https://raw.githack.com/genizy/ugs-files/main/cljetpackjoyride.html', thumb: 'jetpackjoyride.png' },
-            { id: 'er', title: 'Escape Road', url: 'https://raw.githack.com/genizy/ugs-files/main/clescaperoad.html', thumb: 'escaperoad.png' },
-            { id: 'totm', title: 'Tomb of the Mask', url: 'https://raw.githack.com/water-logger/totm/main/index.html', thumb: 'tombofthemask.png' },
-            { id: 'run1', title: 'Run', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/run.html', thumb: 'run1.png' },
-            { id: 'run2', title: 'Run 2', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/run2.html', thumb: 'run2.png' },
-            { id: 'r3', title: 'Run 3', url: 'https://run3algebra.pages.dev/', thumb: 'run3.png' },
-            { id: 'slp', title: 'Slope', url: 'https://sl0pe.pages.dev/', thumb: 'slope.png' },
-            { id: 'bb', title: 'Block Blast', url: 'https://raw.githack.com/reunbozdo/BlockBlast/main/index.html', thumb: 'blockblast.png' },
-            { id: 'box-r', title: 'Boxing Random', url: 'https://raw.githack.com/ubg98/BoxingRandom/gh-pages/index.html', thumb: 'boxingrandom.png' },
-            { id: 'crush', title: 'Candy Crush', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/candycrush.html', thumb: 'candycrush.png' },
-            { id: 'au', title: 'Among Us', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/amongus.html', thumb: 'amongus.png' },
-            { id: 'ab', title: 'Angry Birds', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/angrybirds.html', thumb: 'angrybirds.png' },
-            { id: 'ctr', title: 'Cut the Rope', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/cuttherope.html', thumb: 'cuttherope.png' },
-            { id: 'dino', title: 'Google Dino', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/googledino.html', thumb: 'dinogame.png' },
-            { id: 'hj', title: 'Helix Jump', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/helixjump.html', thumb: 'helixjump.png' },
-            { id: 'rb', title: 'Retro Bowl', url: 'https://ballsretro.pages.dev/', thumb: 'retrobowl.png' },
-            { id: 'sab', title: 'Stickman Archers', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stickarchersbattle.html', thumb: 'stickarchersbattle.png' },
-            { id: 'dc', title: 'Draw Climber', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/drawclimber.html', thumb: 'drawclimber.png' },
-            { id: 'fnaf', title: 'FNAF', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf.html', thumb: 'fnaf.png' },
-            { id: 'dl', title: 'Duck Life', url: 'https://raw.githack.com/MDtowerz/duck-life-1/main/unity/index.html', thumb: 'ducklife1.png' },
-            { id: 'dl2', title: 'Duck Life 2', url: 'https://raw.githack.com/BonziWorld1/DuckLife2/main/index.html', thumb: 'ducklife2.png' },
-            { id: 'yohoho', title: 'YoHoHo.io', url: 'https://yohoho--io.pages.dev/', thumb: 'yohoho.png' },
-            { id: 'slice', title: 'Slice It All', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/slice-it-all/index.html', thumb: 'sliceitall.png' },
-            { id: 'mc-classic', title: 'Minecraft Classic', url: 'https://raw.githack.com/SajagIN/Minecraft-classic/main/index.html', thumb: 'minecraftclassic.png' },
-            { id: 'dh', title: 'Drift Hunters', url: 'https://raw.githack.com/1000unblockedgames/DriftHunters/main/index.html', thumb: 'drifthunters.png' },
-            { id: 'dj', title: 'Doodle Jump', url: 'https://raw.githack.com/bubbls/UGS-Assets/main/doodle%20jump/index.html', thumb: 'doodlejump.png' },
-            { id: 'lmc', title: 'Little Master Cricket', url: 'https://raw.githack.com/ovo-gamez-unblocked/little-master-cricket/main/index.html', thumb: 'littlemastercricket.png' },
-            { id: 'snk-is', title: 'Snake.is', url: 'https://raw.githack.com/hazzatazza/snake.is/main/index.html', thumb: 'snakeis.png' },
-            { id: 'snk-mlg', title: 'Snake.is MLG', url: 'https://raw.githack.com/gameinclassroom/snake-is-mlg-edition/main/index.html', thumb: 'snakeismlg.png' },
-            { id: 'inf-cra', title: 'Infinite Craft', url: 'https://infin-craft.pages.dev/', thumb: 'infinitecraft.png' },
-            { id: 'suika', title: 'Suika Game', url: 'https://raw.githack.com/hazzatazza/suikar/main/index.html', thumb: 'suikagame.png' },
-            { id: 'googcric', title: 'Google Doodle Cricket', url: 'https://raw.githack.com/mohanrajr1987/cricket/master/index.html', thumb: 'googlecricket.png' },
-            { id: 'aquaio', title: 'Aquapark.io', url: 'https://raw.githack.com/bubbls/youtube-playables/main/aquapark-io/index.html', thumb: 'aquaparkio.png' },
-            { id: 'racemast', title: 'Race Master 3D', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/race-master-3d/index.html', thumb: 'racemaster3d.png' },
-            { id: 'ovo', title: 'OvO', url: 'https://raw.githack.com/hazzatazza/OvO/main/index.html', thumb: 'ovo.png' },
-            { id: 'basbat', title: 'Basket Battle', url: 'https://raw.githack.com/hazzatazza/youtube-playables/main/basket-battle/index.html', thumb: 'basketbattle.png' },
-            { id: 'spiroll', title: 'Spiral Roll', url: 'https://raw.githack.com/my-files-schoolum/spi/main/index.html', thumb: 'spiralroll.png' },
-            { id: 'timshoot', title: 'Time Shooter', url: 'https://raw.githack.com/hazzatazza/time-shooter/main/index.html', thumb: 'timeshooter.png' },
-            { id: 'bloxorz', title: 'Bloxorz', url: 'https://raw.githack.com/ubg89/Bloxorz/gh-pages/index.html', thumb: 'bloxorz.png' },
-            { id: 'brain-test', title: 'Brain Test', url: 'https://raw.githack.com/gameinclassroom/brain-test-tricky-puzzles/main/index.html', thumb: 'braintest.png' },
-            { id: 'drive-mad', title: 'Drive Mad', url: 'https://raw.githack.com/html-online-game/drive-mad/main/index.html', thumb: 'drivemad.png' },
-            { id: '8-ball', title: '8 Ball Pool', url: 'https://raw.githack.com/ahrdevelopers/8ball-pool/main/index.html', thumb: '8ballpool.png' },
-            { id: 'aswc', title: 'A Small World Cup', url: 'https://raw.githack.com/ahrdevelopers/a-small-world-cup/main/index.html', thumb: 'asmallworldcup.png' },
-            { id: 'colsw', title: 'Color Switch', url: 'https://raw.githack.com/ahrdevelopers/color-switch/main/index.html', thumb: 'colorswitch.png' },
-            { id: 'hapgla', title: 'Happy Glass', url: 'https://raw.githack.com/class-google-com/google-1/main/index.html', thumb: 'happyglass.png' },
-            { id: 'tapot', title: 'Throw A Potato', url: 'https://raw.githack.com/hazzatazza/throw-a-potato/main/index.html', thumb: 'throwapotato.png' },
-            { id: 'tapot2', title: 'Throw A Potato Again', url: 'https://raw.githack.com/hazzatazza/throw-a-potato-again/main/index.html', thumb: 'throwapotatoagain.png' },
-            { id: 'tapot3', title: 'Throw A Potato In Space', url: 'https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/throwspace3/html-classic.itch.zone/html/7355361/index.html', thumb: 'throwapotatoinspace.png' },
-            { id: 'sonic1', title: 'Sonic The Hedgehog', url: 'https://raw.githack.com/hazzatazza/sonic1/main/index.html', thumb: 'sonicthehedgehog.png' },
-            { id: 'celeste', title: 'Celeste', url: 'https://raw.githack.com/hazzatazza/celeste/main/index.html', thumb: 'celeste.png' },
-            { id: 'joeblox', title: 'Joeblox', url: 'https://raw.githack.com/hazzatazza/roblox-games/main/*actualjoeblox.html', thumb: 'joeblox.png' },
-            { id: 'dune', title: 'Dune', url: 'https://raw.githack.com/playgroundfree/playgroundfree.github.io/main/dune/index.html', thumb: 'dune.png' },
-            { id: 'fmidsh', title: 'Famidash', url: 'https://raw.githack.com/hazzatazza/stuff-it-emu/main/famidash.html', thumb: 'famidash.png' },
-            { id: 'gdsubzero', title: 'Geometry Dash Subzero', url: 'https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-subzero/index.html', thumb: 'gdsubzero.png' },
-            { id: 'gdmeltdown', title: 'Geometry Dash Meltdown', url: 'https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-meltdown/index.html', thumb: 'gdmeltdown.png' },
-            { id: 'gdworld', title: 'Geometry Dash World', url: 'https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-world/index.html', thumb: 'gdworld.png' },
-            { id: 'gdbreeze', title: 'Geometry Dash Breeze', url: 'https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-breeze/index.html', thumb: 'gdbreeze.png' },
-            { id: 'knihit', title: 'Knife Hit', url: 'https://raw.githack.com/marty-games/mga-construct/main/knife-hit/index.html', thumb: 'knifehit.png' },
-            { id: 'slowroad', title: 'Slowroads.io', url: 'https://script.google.com/macros/s/AKfycbzqDA2SnuVZ3DRelxxbUxSV9Z1RJz_gQfDRx06WUpgppWgrdDEErtZ1Lev9O6j2w9ioBQ/exec', thumb: 'slowroads.png' },
-            { id: 'stack', title: 'Stack', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stack.html', thumb: 'stack.png' },
-            { id: 'simian', title: 'Simian City', url: 'https://raw.githack.com/hazzatazza/simian-city/main/simiancity.html', thumb: 'simpcity.png' },
-            { id: 'whg', title: 'Worlds Hardest Game', url: 'https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/worldshardestgame.html', thumb: 'worldshardestgame.png' },
-            { id: 'pacman', title: 'Pac-Man', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/pacman.html', thumb: 'pacman.png' },
-            { id: 'agar', title: 'Agar.io Lite', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/agariolite.html', thumb: 'agariolite.png' },
-            { id: 'vrandom', title: 'Volley Random', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/volleyrandom.html', thumb: 'volleyrandom.png' },
-            { id: 'er2', title: 'Escape Road 2', url: 'https://raw.githack.com/ubg42/EscapeRoad2/main/index.html', thumb: 'escaperoad2.png' },
-            { id: 'mx3mpp', title: 'Moto X3M Pool Party', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/motox3mpoolparty.html', thumb: 'motox3mpoolparty.png' },
-            { id: 'fnaf2', title: 'FNAF 2', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf2.html', thumb: 'fnaf2.png' },
-            { id: 'ovo2', title: 'OvO 2', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/ovo2.html', thumb: 'ovo2.png' },
-            { id: 'stateio', title: 'State.io', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stateio.html', thumb: 'stateio.png' },
-            { id: 'mcb', title: 'Mini Car Ball', url: 'https://raw.githack.com/CoolDude2349/everything/dd78353b89cf9559b4b3463d1b44fb60e420d9fa/minicarball/index.html', thumb: 'minicarball.png' },
-            { id: 'appel', title: 'Appel', url: 'https://raw.githack.com/CoolDude2349/everything/dd78353b89cf9559b4b3463d1b44fb60e420d9fa/appel/index.html', thumb: 'appel.png' },
-            { id: 'tilejump', title: 'Tile Jumper', url: 'https://raw.githack.com/CoolDude2349/everything/dd78353b89cf9559b4b3463d1b44fb60e420d9fa/tilejumperr/index.html', thumb: 'tilejumper.png' },
-            { id: 'golfbattle', title: 'Golf Battle', url: 'https://raw.githack.com/hazzatazza/golf-battle/main/samething.html', thumb: 'golfbattle.png' },
-            { id: 'roofsnip', title: 'Rooftop Snipers', url: 'https://raw.githack.com/hazzatazza/RooftopSnipers/gh-pages/index.html', thumb: 'rooftopsnipers.png' },
-            { id: 'granny', title: 'Granny', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/granny.html', thumb: 'granny.png' },
-            { id: 'goose', title: 'Untitled Goose Game', url: 'https://raw.githack.com/web-ports/untitled-goose-game/main/index.html', thumb: 'goosegame.png' },
-            { id: 'brotato', title: 'Brotato', url: 'https://raw.githack.com/Stinkalistic/UGS/main/MISC/brotato/index.html', thumb: 'brotato.png' },
-            { id: 'ragdoll', title: 'Ragdoll Archers', url: 'https://raw.githack.com/ubg42/RagdollArchers/main/index.html', thumb: 'ragdollarchers.png' },
-            { id: 'fnaf3', title: 'FNAF 3', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf3.html', thumb: 'fnaf3.png' },
-            { id: 'schooesc', title: 'School Escape', url: 'https://raw.githack.com/hazzatazza/simian-city/main/schoolescape.html', thumb: 'schoolescape.png' },
-            { id: 'agewar', title: 'Age Of War', url: 'https://raw.githack.com/ahrdevelopers/age-of-war/main/index.html', thumb: 'ageofwar.png' },
-            { id: 'monkeobby', title: 'Monkey Obby', url: 'https://raw.githack.com/hazzatazza/algebra-originals/main/monkeyobby.html', thumb: 'monkeyobby.png' },
-            { id: 'supliqsoc', title: 'Super Liquid Soccer', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/superliquidsoccer.html', thumb: 'superliquidsoccer.png' },
-            { id: 'guessanswer', title: 'Guess Their Answer', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/guesstheiranswer.html', thumb: 'guessanswer.png' },
-            { id: 'pokeemer', title: 'Pokemon Emerald', url: 'https://raw.githack.com/hazzatazza/stuff-it-emu/main/pokemonemerald.html', thumb: 'pokemonemerald.png' },
-            { id: 'clashov', title: 'Clash Of Vikings', url: 'https://raw.githack.com/testingherokuapp/Clash-of-Vikings/main/index.html', thumb: 'clashofvikings.png' },
-            { id: 'fnaf4', title: 'FNAF 4', url: 'https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf4.html', thumb: 'fnaf4.png' },
-            { id: 'icetow', title: 'Ice Tower', url: 'https://raw.githack.com/hazzatazza/algebra-originals/main/Ice%20tower%20(1).html', thumb: 'icetower.png' },
-            { id: 'supmario1', title: 'Super Mario Bros.', url: 'https://raw.githack.com/hazzatazza/stuff-it-emu/main/supermariobros.html', thumb: 'supermariobros.png' },
-            { id: 'supermariokart', title: 'Super Mario Kart', url: 'https://raw.githack.com/hazzatazza/stuff-it-emu/main/supermariokart.html', thumb: 'supermariokart.png' },
-            { id: 'thoandball', title: 'Thorns And Balloons', url: 'https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/thronballoon2/maddox.alltutors.org/db/html/thorns_and_ballons/index.html', thumb: 'thornsandballoons.png' },
-            { id: 'braindodge', title: 'Brainrot Dodger 67', url: 'https://raw.githack.com/hazzatazza/algebra-originals/main/brainrotdodger67.html', thumb: 'brainrotdodger67.png' },
-            { id: 'badtime', title: 'Bad Time Simulator', url: 'https://raw.githack.com/hsinidev/badtimesimulator/master/index.html', thumb: 'badtimesimulator.png' },
-            { id: 'stackball', title: 'Stack Fire Ball', url: 'https://raw.githack.com/ahrdevelopers/stack-fire-ball/main/index.html', thumb: 'stackball.png' },
-            { id: 'sandtris', title: 'Sandtris', url: 'https://raw.githack.com/Kochhan/SANDTRIS/main/index.html', thumb: 'sandtris.png' },
-            { id: 'dleo', title: 'Dont Let Ehren Out', url: 'https://raw.githack.com/hazzatazza/algebra-originals/main/dontletenrenout.html', thumb: 'dontletehrenout.png' }
-        ];
+    let currentMode = "games";
+    let particlesEnabled = true;
 
+    function renderGames(mode = "games", filter = "") {
+        currentMode = mode;
         const grid = document.getElementById('gameGrid');
-        const searchInput = document.getElementById('searchInput');
-        const modal = document.getElementById('gameModal');
-        const aboutOverlay = document.getElementById('aboutOverlay');
-        const maddoxNoticeOverlay = document.getElementById('maddoxNoticeOverlay');
-        const maddoxInfoBtn = document.getElementById('maddoxInfoBtn');
-        let currentUrl = "";
+        grid.innerHTML = "";
+        let list = games.filter(g => (mode === "apps" ? g.type === "app" : g.type !== "app"));
+        if(filter) list = list.filter(g => g.title.toLowerCase().includes(filter.toLowerCase()));
 
-        window.addEventListener('load', () => {
-            const savedBg = localStorage.getItem('userBackground');
-            if (savedBg) document.body.style.backgroundImage = `url('${savedBg}')`;
-            renderGames();
+        list.forEach(g => {
+            const div = document.createElement('div');
+            div.className = "game-card";
+            div.onclick = () => openGame(g);
+            div.innerHTML = `<img src="${g.thumb}" onerror="this.src='https://via.placeholder.com/150'"><div class="card-title">${g.title}</div>`;
+            grid.appendChild(div);
         });
+    }
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === "=") window.location.href = "https://cccc-vic.compass.education";
-            if (e.key === "Escape") { 
-                closeGame(); 
-                aboutOverlay.classList.add('hidden'); 
-                maddoxNoticeOverlay.classList.add('hidden');
-            }
-        });
-
-        function changeBackground() {
-            const url = prompt("Enter an image URL for the background (leave blank to reset):");
-            if (url === null) return;
-            if (url.trim() === "") {
-                document.body.style.backgroundImage = "none";
-                localStorage.removeItem('userBackground');
-            } else {
-                document.body.style.backgroundImage = `url('${url}')`;
-                localStorage.setItem('userBackground', url);
-            }
-        }
-
-        function renderGames(filter = "") {
-            grid.innerHTML = "";
-            const filtered = games.filter(g => g.title.toLowerCase().includes(filter.toLowerCase()));
-            filtered.forEach(game => {
-                const card = document.createElement('div');
-                card.className = "game-card bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300";
-                card.onclick = () => openGame(game);
-                card.innerHTML = `
-                    <div class="relative">
-                        <img src="${game.thumb}" class="w-full h-40 object-cover opacity-80" alt="${game.title}" onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252728f?w=400'">
-                    </div>
-                    <div class="p-4"><h3 class="font-bold tracking-tight">${game.title}</h3></div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function openGame(game) {
-            currentUrl = game.url;
-            document.getElementById('modalTitle').innerText = game.title;
-            document.getElementById('iframeContainer').innerHTML = `<iframe id="gameFrame" src="${game.url}" class="w-full h-full border-none" allowfullscreen></iframe>`;
-            
-            // Show info icon ONLY for Maddox
-            if (game.id === 'maddox') {
-                maddoxInfoBtn.classList.remove('hidden');
-            } else {
-                maddoxInfoBtn.classList.add('hidden');
-            }
-
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeGame() {
-            modal.classList.add('hidden');
-            document.getElementById('iframeContainer').innerHTML = "";
-            document.body.style.overflow = 'auto';
-            maddoxNoticeOverlay.classList.add('hidden');
-        }
-
-        function toggleAbout() { aboutOverlay.classList.toggle('hidden'); }
+    function openGame(game) {
+        currentUrl = game.url;
+        document.getElementById('modalTitle').innerText = game.title;
+        document.getElementById('modalIcon').src = game.thumb;
+        document.getElementById('iframeContainer').innerHTML = `<iframe src="${game.url}" class="w-full h-full border-none" allowfullscreen></iframe>`;
         
-        function toggleMaddoxNotice() { maddoxNoticeOverlay.classList.toggle('hidden'); }
+        const suggested = document.getElementById('suggestedGames');
+        suggested.innerHTML = "";
+        [...games].sort(() => 0.5 - Math.random()).slice(0, 6).forEach(s => {
+            const d = document.createElement('div');
+            d.className = "sidebar-card";
+            d.onclick = () => openGame(s);
+            d.innerHTML = `<img src="${s.thumb}"><div class="card-title text-[0.6rem]">${s.title}</div>`;
+            suggested.appendChild(d);
+        });
+        document.getElementById('gameModal').classList.remove('hidden');
+    }
 
-        function toggleFullscreen() {
-            const frame = document.getElementById('gameFrame');
-            if (frame && frame.requestFullscreen) frame.requestFullscreen();
-        }
+    function toggleInfo() { document.getElementById('infoTab').classList.toggle('hidden'); }
+    function openMovies() { const m = games.find(g => g.id === "alg"); if(m) openGame(m); }
+    function closeGame() { document.getElementById('gameModal').classList.add('hidden'); document.getElementById('iframeContainer').innerHTML = ""; }
+    function toggleSettings() { document.getElementById('settingsPanel').classList.toggle('translate-x-full'); }
+    function toggleParticles() { particlesEnabled = !particlesEnabled; document.getElementById('partToggle').innerText = particlesEnabled ? "ON" : "OFF"; }
+    function updatePrimary(val) { document.documentElement.style.setProperty('--primary', val); document.documentElement.style.setProperty('--accent', val); localStorage.setItem('user_p_color', val); }
+    function setBg() { const url = prompt("Background URL:"); if(url) { document.body.style.backgroundImage = `url('${url}')`; localStorage.setItem('user_bg', url); } }
+    function resetBg() { document.body.style.backgroundImage = ""; localStorage.removeItem('user_bg'); }
+    function applyCloak() { const t = document.getElementById('cloakTitle').value; const f = document.getElementById('cloakFavicon').value; if(t) document.title = t; if(f) document.getElementById('favicon').href = f; }
+    function popOut() { const win = window.open(); const ifr = win.document.createElement('iframe'); win.document.body.style.margin = '0'; ifr.style.width = '100%'; ifr.style.height = '100vh'; ifr.style.border = 'none'; ifr.src = currentUrl; win.document.body.appendChild(ifr); }
+    function toggleFullscreen() { const el = document.querySelector('iframe'); if (el.requestFullscreen) el.requestFullscreen(); }
 
-        function popOut() {
-            const win = window.open();
-            if (!win) return alert("Pop-up blocked!");
-            win.document.body.style.margin = '0';
-            const ifr = win.document.createElement('iframe');
-            ifr.style.border = 'none'; ifr.style.width = '100%'; ifr.style.height = '100vh';
-            ifr.src = currentUrl;
-            win.document.body.appendChild(ifr);
-        }
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let pts = [];
+    function initPts() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; pts = Array(40).fill().map(() => ({ x:Math.random()*canvas.width, y:Math.random()*canvas.height, s:Math.random()*2, v:Math.random()*0.5+0.2 })); }
+    function draw() {
+        if(!particlesEnabled) { ctx.clearRect(0,0,canvas.width,canvas.height); return requestAnimationFrame(draw); }
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary');
+        pts.forEach(p => { p.y -= p.v; if(p.y<0) p.y=canvas.height; ctx.beginPath(); ctx.arc(p.x,p.y,p.s,0,7); ctx.fill(); });
+        requestAnimationFrame(draw);
+    }
 
-        searchInput.oninput = (e) => renderGames(e.target.value);
-    </script>
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "28f47be192914c6b85d6bddf1baf8964"}'></script>
+    window.onload = () => {
+        const savedColor = localStorage.getItem('user_p_color');
+        if(savedColor) { updatePrimary(savedColor); document.getElementById('primaryPicker').value = savedColor; }
+        const sBg = localStorage.getItem('user_bg');
+        if(sBg) document.body.style.backgroundImage = `url('${sBg}')`;
+        renderGames('games');
+        initPts(); draw();
+    };
+
+    document.getElementById('searchInput').oninput = (e) => renderGames(currentMode, e.target.value);
+    document.addEventListener('keydown', (e) => { if(e.key === "=") window.location.href = "https://cccc-vic.compass.education"; });
+</script>
 </body>
 </html>
