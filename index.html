@@ -35,20 +35,23 @@
         .penguin-nav-btn { height: 40px; width: 40px; object-fit: contain; cursor: pointer; transition: filter 0.3s; }
         .penguin-nav-btn:hover { filter: brightness(1.2); }
 
-        .game-card, .sidebar-card {
+        .game-card, .sidebar-card, .backup-card {
             position: relative; aspect-ratio: 1/1; overflow: hidden; border-radius: 1.2rem;
             border: 2px solid transparent; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: var(--card); cursor: pointer;
         }
-        .game-card:hover, .sidebar-card:hover { border-color: var(--accent); transform: scale(1.03); }
+        .game-card:hover, .sidebar-card:hover, .backup-card:hover { border-color: var(--accent); transform: scale(1.03); }
         .game-card img, .sidebar-card img { width: 100%; height: 100%; object-fit: cover; }
         
+        .backup-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; text-align: center; padding: 15px; }
+        .backup-card i { font-size: 3rem; color: var(--primary); }
+
         .card-title {
             position: absolute; bottom: -100%; left: 0; width: 100%;
             background: linear-gradient(transparent, rgba(0,0,0,0.9));
             padding: 20px 5px 10px; text-align: center; transition: bottom 0.3s ease; font-size: 0.8rem;
         }
-        .game-card:hover .card-title, .sidebar-card:hover .card-title { bottom: 0; }
+        .game-card:hover .card-title, .sidebar-card:hover .card-title, .backup-card:hover .card-title { bottom: 0; }
 
         #settingsPanel { z-index: 100; transition: transform 0.4s ease; }
         .game-container { display: grid; grid-template-columns: 1fr 300px; gap: 20px; height: calc(100vh - 100px); padding: 20px; }
@@ -70,9 +73,9 @@
         <img src="penguinhead.png" onclick="location.reload()" class="penguin-nav-btn" title="Home">
         <div class="h-6 w-[1px] bg-white/20"></div>
         <i class="fas fa-gamepad nav-icon" onclick="renderGames('games')" title="Games"></i>
-        <i class="fas fa-film nav-icon" onclick="openMovies()" title="Movies"></i>
         <i class="fas fa-th-large nav-icon" onclick="renderGames('apps')" title="Apps"></i>
         <i class="fas fa-dice nav-icon" onclick="openRandomGame()" title="Random Game"></i>
+        <i class="fas fa-link nav-icon" onclick="renderGames('backups')" title="Backups"></i>
         <i class="fas fa-circle-info nav-icon" onclick="toggleInfo()" title="Info"></i>
         <div class="relative">
             <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-sm opacity-50"></i>
@@ -91,7 +94,6 @@
             <h2 class="text-3xl mb-4 text-primary">About Algebra Practice</h2>
             <p class="text-lg leading-relaxed mb-4">Algebra Practise was created by hazza in 2025 and updated in 2026. i dont own any of the games here apart from the ones i made.</p>
             <p class="text-lg mb-2">Request games <a href="https://docs.google.com/forms/d/e/1FAIpQLScww3MHYoLogsOX5WcBctTbzVTUkXwoEeiOxenN0i8gxiOtpg/viewform?usp=header" target="_blank" class="text-blue-500 underline">here</a></p>
-            <p class="text-lg"><a href="https://algebralinks.pages.dev/" target="_blank" class="text-blue-500 underline">More backups</a></p>
             <button onclick="toggleInfo()" class="mt-8 bg-white/10 px-6 py-2 rounded-full hover:bg-white/20">Close</button>
         </div>
     </div>
@@ -395,7 +397,24 @@
     { id: "ragdollhit", title: "Ragdoll Hit", url: "https://raw.githack.com/Collasperz/ragdoll-hit/main/index.html", thumb: "ragdollhit.png" },
     { id: "stickfighter", title: "Stick Fighter", url: "https://raw.githack.com/gameinclassroom/stick-fighter/main/index.html", thumb: "stickfighter.png" },
     { id: "deathrun3d", title: "Death Run 3D", url: "https://raw.githack.com/ahrdevelopers/death-run-3d/main/index.html", thumb: "deathrun3d.png" }
-];
+    ];
+
+    const backups = [
+        { title: 'Algebra Practice OG Google Site (Outdated)', url: 'https://sites.google.com/view/unblocked-six-seven/', icon: 'fa-link' },
+        { title: 'Algebra Practice (blocked)', url: 'https://algebrapractise.pages.dev/', icon: 'fa-shield-halved' },
+        { title: 'Algebra Practice 1 (blocked)', url: 'https://algebrapractise1.pages.dev/', icon: 'fa-link' },
+        { title: 'Algebra Practice 2 (blocked)', url: 'https://algebrapractise2.pages.dev/', icon: 'fa-link' },
+        { title: 'Algebra Practice 3 (blocked)', url: 'https://algebrapractise3.pages.dev/', icon: 'fa-link' },
+        { title: 'MathEnglish', url: 'https://mathenglish.pages.dev/', icon: 'fa-link' },
+        { title: 'Real Good Math', url: 'https://realgoodmath.pages.dev/', icon: 'fa-link' },
+        { title: 'ILoveSchool', url: 'https://ilovesschool.pages.dev/', icon: 'fa-link' },
+        { title: 'Algebra Practise 4', url: 'https://algebrapractise4.pages.dev/', icon: 'fa-link' },
+        { title: 'Algebra Practise 5', url: 'https://algebrapractise5.pages.dev/', icon: 'fa-link' },
+        { title: 'Algebra Practise 67', url: 'https://algebrapractise67.pages.dev/', icon: 'fa-link' },
+        { title: 'MyPractise123', url: 'https://mypractise123.pages.dev/', icon: 'fa-link' },
+        { title: '7x34bfcnasdf', url: 'https://7x34bfcnasdf.pages.dev/', icon: 'fa-link' }
+    ];
+
     let currentMode = "games";
     let particlesEnabled = true;
     let currentUrl = "";
@@ -404,14 +423,27 @@
         currentMode = mode;
         const grid = document.getElementById('gameGrid');
         grid.innerHTML = "";
-        let list = games.filter(g => (mode === "apps" ? g.type === "app" : g.type !== "app"));
+        
+        let list = [];
+        if (mode === "backups") {
+            list = backups;
+        } else {
+            list = games.filter(g => (mode === "apps" ? g.type === "app" : g.type !== "app"));
+        }
+
         if(filter) list = list.filter(g => g.title.toLowerCase().includes(filter.toLowerCase()));
 
         list.forEach(g => {
             const div = document.createElement('div');
-            div.className = "game-card";
-            div.onclick = () => openGame(g);
-            div.innerHTML = `<img src="${g.thumb}" onerror="this.src='https://via.placeholder.com/150'"><div class="card-title">${g.title}</div>`;
+            if (mode === "backups") {
+                div.className = "backup-card";
+                div.onclick = () => window.open(g.url, '_blank');
+                div.innerHTML = `<i class="fas ${g.icon}"></i><div class="card-title">${g.title}</div><span class="text-xs opacity-60 px-2">${g.title}</span>`;
+            } else {
+                div.className = "game-card";
+                div.onclick = () => openGame(g);
+                div.innerHTML = `<img src="${g.thumb}" onerror="this.src='https://via.placeholder.com/150'"><div class="card-title">${g.title}</div>`;
+            }
             grid.appendChild(div);
         });
     }
@@ -458,7 +490,6 @@
     }
 
     function toggleInfo() { document.getElementById('infoTab').classList.toggle('hidden'); }
-    function openMovies() { const m = games.find(g => g.id === "alg"); if(m) openGame(m); }
     function closeGame() { document.getElementById('gameModal').classList.add('hidden'); document.getElementById('iframeContainer').innerHTML = ""; }
     function toggleSettings() { document.getElementById('settingsPanel').classList.toggle('translate-x-full'); }
     function toggleParticles() { particlesEnabled = !particlesEnabled; document.getElementById('partToggle').innerText = particlesEnabled ? "ON" : "OFF"; }
