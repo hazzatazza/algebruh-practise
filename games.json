@@ -1,252 +1,1622 @@
+
+My stuff
+Gems
+Chats
+Cache Busting Techniques Explained
+HTML Website For Six Seven Links
+Gridley, California: NorCal Vibe
+Playing Gridley Offline: Why It Fails
+Clarifying the "Gridley" Game
+Fixing Game Embed Redirects
+Yohoho.io Game Asset Hosting Locations
+https://cdn.jsdelivr.net/gh/genizy/dmad-poki@49b5ab6b987f5f3be58f9dae59c92e8fc1aab9b0/ whats the github link for this
+TurboWarp Mic Access Explained
+Talking Ben Voice-Activated Videos
+Update Navigation With Backup Links
+Carbonara Vegetable Additions
+GitHub Directory to jsDelivr URL
+could i mod my ipod classic to make the ui look like this
+
+Settings and help
+Conversation with Gemini
+whats the method this code uses so it doesnt cache
+
+The code you provided uses a technique called Cache Busting via query parameters to ensure it always fetches the most recent version of its data from the server rather than a stored (cached) copy.
+
+Here are the specific methods used in this script:
+
+1. The Timestamp Query Parameter (?t=)
+In several places within the listZones and openZone functions, the code appends a dynamic timestamp to the end of the URL:
+
+JavaScript
+const response = await fetch(zonesURL + "?t=" + Date.now());
+// or 
+fetch(url + "?t=" + Date.now())
+How it works: Date.now() generates the current time in milliseconds.
+
+Why it prevents caching: Browsers and CDNs (like jsDelivr) treat a URL with a different query parameter as a completely new request. Because the time is always changing, the browser never sees the same URL twice and is forced to fetch the file from the origin server every time.
+
+2. GitHub API for "Commit SHA"
+The script attempts to bypass CDN caching by looking up the latest "SHA" (a unique identifier for the most recent update) of the GitHub repository:
+
+JavaScript
+sharesponse = await fetch("https://api.github.com/repos/freebuisness/assets/commits?t=" + Date.now());
+// ... results in a URL like:
+zonesURL = `https://cdn.jsdelivr.net/gh/freebuisness/assets@${sha}/zones.json`;
+How it works: Instead of requesting a generic file (like @main), it requests a specific version of the file using its unique commit ID.
+
+Why it prevents caching: Since each update to the code creates a new SHA, the URL for the data file changes every time the developer updates the game list.
+
+3. Rotating Base URLs
+The script defines multiple versions of the source URL and picks one at random:
+
+JavaScript
+const zonesurls = [
+    "https://cdn.jsdelivr.net/gh/freebuisness/assets@main/zones.json",
+    "https://cdn.jsdelivr.net/gh/freebuisness/assets@latest/zones.json",
+    "https://cdn.jsdelivr.net/gh/freebuisness/assets@master/zones.json",
+    "https://cdn.jsdelivr.net/gh/freebuisness/assets/zones.json"
+];
+By spreading requests across different endpoints (main, master, latest), it reduces the chance of the browser serving a stale version from a single cached location.
+
+Summary Table
+Method	Implementation in Code	Effectiveness
+Busting	Adding ?t=Date.now() to fetch() calls.	High (Instant)
+Versioning	Using GitHub Commit SHAs in the URL.	High (Per update)
+Redundancy	Randomly picking between @main, @master, or @latest.	Medium
+hey can you turn this into an actual json
+
+I have converted the file from its original JavaScript-style format (unquoted keys and trailing semicolons) into a standard, valid JSON file.
+JSON icon
+ games_fixed 
+JSON
+
+Key Fixes Made:
+Quoted Property Names: Added double quotes to all keys (e.g., id: → "id":).
+
+Removed Semicolons: Stripped the trailing ; from the end of the file.
+
+Trailing Commas: Removed any trailing commas that are valid in JavaScript but break JSON.
+
+Structure Validation: Ensured the entire list of 250 items is contained within a proper JSON array.
+
+You can now use this file in any standard JSON parser or web application.
+
+JSON
 [
-    { id: "soundboard", title: "Meme Soundboard", url: "https://raw.githack.com/genizy/soundboard/main/index.html", thumb: "memesoundboard.png", type: "app" },
-    { id: "ruffle", title: "Ruffle Flash Player", url: "https://flashbangplayer.pages.dev/", thumb: "ruffle.png", type: "app" },
-    { id: "htmlrun", title: "HTML Runner", url: "https://raw.githack.com/hazzatazza/the-stash/main/htmlrunner.html", thumb: "htmlrunner.png", type: "app" },
-    { id: "maddox", title: "MaddoxCloud Gaming", url: "https://cloouud.gdharry123.workers.dev/", thumb: "maddoxcloud.png", type: "app" },
-    { id: "scratch", title: "Scratch Editor", url: "https://raw.githack.com/hazzatazza/scratch-editor/main/index.html", thumb: "scratch.png", type: "app" },
-    { id: "teaerr", title: "Tea Err List", url: "https://raw.githack.com/hazzatazza/the-stash/main/teaerrlist.html", thumb: "teaerr.png", type: "app" },
-    { id: "bf3d", title: "Bottle Flip 3D", url: "https://raw.githack.com/ovo-gamez-unblocked/bottle-flip-3d/main/index.html", thumb: "bottleflip.png" },
-    { id: "bj3d", title: "Bottle Jump 3D", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/bottle-jump-3d/index.html", thumb: "bottlejump.png" },
-    { id: "sw", title: "Space Waves", url: "https://raw.githack.com/bubbls/UGS-Assets/main/space%20waves/index.html", thumb: "spacewaves.png" },
-    { id: "ssg", title: "Super Stickman Golf", url: "https://raw.githack.com/hsinidev/stickman-golf-unblocked/master/index.html", thumb: "stickmangolf.png" },
-    { id: "fnf", title: "Friday Night Funkin", url: "https://raw.githack.com/genizy/fridayfunk/09fdd5f1fa4ddb304dff7bae6f6af49eda664e8f/index.html", thumb: "fnf.png" },
-    { id: "fd", title: "Flappy Dunk", url: "https://raw.githack.com/ahrdevelopers/flappy-dunk/main/index.html", thumb: "flappydunk.png" },
-    { id: "onr", title: "Om Nom Run", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/om-nom-run/index.html", thumb: "omnomrun.png" },
-    { id: "amz", title: "Amaze", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/amaze/index.html", thumb: "amaze.png" },
-    { id: "bs", title: "Basketball Stars", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketballstars.html", thumb: "basketballstars.png" },
-    { id: "gb", title: "Going Balls", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/going-balls/index.html", thumb: "goingballs.png" },
-    { id: "hw", title: "Happy Wheels", url: "https://raw.githack.com/hazzatazza/ugs-singlefile/main/UGS-Files/clhappywheels.html", thumb: "happywheels.png" },
-    { id: "p2s", title: "Paper.io 2 (Skinless)", url: "https://raw.githack.com/chocobananakun/paperio2/main/index.html", thumb: "paperioskinless.png" },
-    { id: "goi-s", title: "Getting Over It (Scratch)", url: "https://raw.githack.com/gameinclassroom/getting-over-it/main/index.html", thumb: "gettingoveritscratch.png" },
-    { id: "goi-f", title: "Getting Over It Full", url: "https://raw.githack.com/genizy/web-port/main/getting-over-it/index.html", thumb: "gettingoveritfull.png" },
-    { id: "p2", title: "Paper.io 2", url: "https://raw.githack.com/ubg17/PaperIO2/gh-pages/index.html", thumb: "paperio2.png" },
-    { id: "2048", title: "2048", url: "https://raw.githack.com/ovolve/2048-AI/master/index.html", thumb: "2048.png" },
-    { id: "bm", title: "Bowmasters", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/bowmasters/index.html", thumb: "bowmasters.png" },
-    { id: "sr", title: "Soccer Random", url: "https://raw.githack.com/Unblocked-Games-786/Soccer-Random/gh-pages/index.html", thumb: "soccerrandom.png" },
-    { id: "fn", title: "Fruit Ninja", url: "https://raw.githack.com/genizy/UGS-Assets/main/fruit%20ninja/index.html", thumb: "fruitninja.png" },
-    { id: "sd", title: "Sling Drift", url: "https://raw.githack.com/ovo-gamez-unblocked/sling-drift/main/index.html", thumb: "slingdrift.png" },
-    { id: "ss", title: "Subway Surfers", url: "https://raw.githack.com/hazzatazza/3kh0-assets/fixy/subway-surfers/index.html", thumb: "subwaysurfers.png" },
-    { id: "3d", title: "3Dash", url: "https://raw.githack.com/hazzatazza/ugs-singlefile/main/UGS-Files/cl3dasheditor.html", thumb: "3dash.png" },
-    { id: "ec", title: "Eaglercraft", url: "https://raw.githack.com/alexander-datskov/1.12-eaglercraftx/main/index.html", thumb: "eaglercraft.png" },
-    { id: "bl", title: "BitLife", url: "https://raw.githack.com/hazzatazza/bitlife/main/index.html", thumb: "bitlife.png" },
-    { id: "tr", title: "Tap Road", url: "https://raw.githack.com/faralong/all/main/taproad/index.html", thumb: "taproad.png" },
-    { id: "ld", title: "Level Devil", url: "https://raw.githack.com/hazzatazza/level-devil/master/index.html", thumb: "leveldevil.png" },
-    { id: "fb", title: "Flappy Bird", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/flappybird/s3-eu-west-1.amazonaws.com/apps.playcanvas.com/a15aec72/index.html", thumb: "flappybird.png" },
-    { id: "cc", title: "Cookie Clicker", url: "https://cookieclickeralgebra.pages.dev", thumb: "cookieclicker.png" },
-    { id: "gdl", title: "Geometry Dash Lite", url: "https://raw.githack.com/threekho/gdl/main/index.html", thumb: "gdlite.png" },
-    { id: "trush", title: "Tunnel Rush", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/tunnelrush.html", thumb: "tunnelrush.png" },
-    { id: "tf", title: "Tiny Fishing", url: "https://raw.githack.com/MajesticWafer/tiny-fishing/main/index.html", thumb: "tinyfishing.png" },
-    { id: "sr3d", title: "Snow Rider 3D", url: "https://raw.githack.com/ahrdevelopers/snow-rider-3d/main/index.html", thumb: "snowrider3d.png" },
-    { id: "tts", title: "Tap Tap Shots", url: "https://taptapshots.pages.dev/", thumb: "taptapshots.png" },
-    { id: "sh", title: "Stickman Hook", url: "https://raw.githack.com/hazzatazza/google-class/main/stickman-hook/index.html", thumb: "stickmanhook.png" },
-    { id: "db", title: "Drift Boss", url: "https://raw.githack.com/ubg98/DriftBoss/gh-pages/index.html", thumb: "driftboss.png" },
-    { id: "dad", title: "Dadish", url: "https://raw.githack.com/Graysinl/dadish/main/index.html", thumb: "dadish.png" },
-    { id: "mx3m", title: "Moto X3M", url: "https://raw.githack.com/gameshaxor/MotoX3M/master/index.html", thumb: "motox3m.png" },
-    { id: "wordle", title: "Wordle", url: "https://raw.githack.com/hazzatazza/3kh0-assets/fixy/wordle/index.html#infinite", thumb: "wordle.png" },
-    { id: "br", title: "Basket Random", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketrandom.html", thumb: "basketrandom.png" },
-    { id: "pio", title: "Powerline.io", url: "https://powerline.coolmathgames.com/", thumb: "powerlineio.png" },
-    { id: "rgi", title: "Rocketgoal.io", url: "https://raw.githack.com/will-k16/rocketgoal/main/rocketgoal.io/index.html", thumb: "rocketgoal.png" },
-    { id: "sl", title: "Short Life", url: "https://shortlife1.pages.dev/", thumb: "shortlife.png" },
-    { id: "sr-ride", title: "Short Ride", url: "https://raw.githack.com/hazzatazza/short-ridegood/main/index.html", thumb: "shortride.png" },
-    { id: "pt", title: "Poly Track", url: "https://polytrack-3.pages.dev/", thumb: "polytrackold.png" },
-    { id: "pt52", title: "Poly Track .5.2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/polytrack.html", thumb: "polytracknew.png" },
-    { id: "cr", title: "Crossy Road", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/crossy-road/index.html", thumb: "crossyroad.png" },
-    { id: "wb", title: "Wheelie Bike", url: "https://wheeliebike-9l9.pages.dev/", thumb: "wheeliebike.png" },
-    { id: "bmast", title: "Bouncemasters", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/bouncemasters/index.html", thumb: "bouncemasters.png" },
-    { id: "jj", title: "Jetpack Joyride", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/jetpackjoyride.html", thumb: "jetpackjoyride.png" },
-    { id: "er", title: "Escape Road", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/escaperoad.html", thumb: "escaperoad.png" },
-    { id: "totm", title: "Tomb of the Mask", url: "https://raw.githack.com/water-logger/totm/main/index.html", thumb: "tombofthemask.png" },
-    { id: "run1", title: "Run", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/run.html", thumb: "run1.png" },
-    { id: "run2", title: "Run 2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/run2.html", thumb: "run2.png" },
-    { id: "r3", title: "Run 3", url: "https://run3algebra.pages.dev/", thumb: "run3.png" },
-    { id: "slp", title: "Slope", url: "https://sl0pe.pages.dev/", thumb: "slope.png" },
-    { id: "bb", title: "Block Blast", url: "https://raw.githack.com/reunbozdo/BlockBlast/main/index.html", thumb: "blockblast.png" },
-    { id: "box-r", title: "Boxing Random", url: "https://raw.githack.com/ubg98/BoxingRandom/gh-pages/index.html", thumb: "boxingrandom.png" },
-    { id: "crush", title: "Candy Crush", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/candycrush.html", thumb: "candycrush.png" },
-    { id: "au", title: "Among Us", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/amongus.html", thumb: "amongus.png" },
-    { id: "ab", title: "Angry Birds", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/angrybirds.html", thumb: "angrybirds.png" },
-    { id: "ctr", title: "Cut the Rope", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/cuttherope.html", thumb: "cuttherope.png" },
-    { id: "dino", title: "Google Dino", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/googledino.html", thumb: "dinogame.png" },
-    { id: "hj", title: "Helix Jump", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/helixjump.html", thumb: "helixjump.png" },
-    { id: "rb", title: "Retro Bowl", url: "https://ballsretro.pages.dev/", thumb: "retrobowl.png" },
-    { id: "sab", title: "Stickman Archers", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stickarchersbattle.html", thumb: "stickarchersbattle.png" },
-    { id: "dc", title: "Draw Climber", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/drawclimber.html", thumb: "drawclimber.png" },
-    { id: "fnaf", title: "FNAF", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf.html", thumb: "fnaf.png" },
-    { id: "dl", title: "Duck Life", url: "https://raw.githack.com/MDtowerz/duck-life-1/main/unity/index.html", thumb: "ducklife1.png" },
-    { id: "dl2", title: "Duck Life 2", url: "https://raw.githack.com/BonziWorld1/DuckLife2/main/index.html", thumb: "ducklife2.png" },
-    { id: "yohoho", title: "YoHoHo.io", url: "https://yohoho--io.pages.dev/", thumb: "yohoho.png" },
-    { id: "slice", title: "Slice It All", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/slice-it-all/index.html", thumb: "sliceitall.png" },
-    { id: "mc-classic", title: "Minecraft Classic", url: "https://raw.githack.com/SajagIN/Minecraft-classic/main/index.html", thumb: "minecraftclassic.png" },
-    { id: "dh", title: "Drift Hunters", url: "https://raw.githack.com/1000unblockedgames/DriftHunters/main/index.html", thumb: "drifthunters.png" },
-    { id: "dj", title: "Doodle Jump", url: "https://raw.githack.com/bubbls/UGS-Assets/main/doodle%20jump/index.html", thumb: "doodlejump.png" },
-    { id: "lmc", title: "Little Master Cricket", url: "https://raw.githack.com/ovo-gamez-unblocked/little-master-cricket/main/index.html", thumb: "littlemastercricket.png" },
-    { id: "snk-is", title: "Snake.is", url: "https://raw.githack.com/hazzatazza/snake.is/main/index.html", thumb: "snakeis.png" },
-    { id: "snk-mlg", title: "Snake.is MLG", url: "https://raw.githack.com/gameinclassroom/snake-is-mlg-edition/main/index.html", thumb: "snakeismlg.png" },
-    { id: "inf-cra", title: "Infinite Craft", url: "https://infin-craft.pages.dev/", thumb: "infinitecraft.png" },
-    { id: "suika", title: "Suika Game", url: "https://raw.githack.com/hazzatazza/suikar/main/index.html", thumb: "suikagame.png" },
-    { id: "googcric", title: "Google Doodle Cricket", url: "https://raw.githack.com/mohanrajr1987/cricket/master/index.html", thumb: "googlecricket.png" },
-    { id: "aquaio", title: "Aquapark.io", url: "https://raw.githack.com/bubbls/youtube-playables/main/aquapark-io/index.html", thumb: "aquaparkio.png" },
-    { id: "racemast", title: "Race Master 3D", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/race-master-3d/index.html", thumb: "racemaster3d.png" },
-    { id: "ovo", title: "OvO", url: "https://raw.githack.com/hazzatazza/OvO/main/index.html", thumb: "ovo.png" },
-    { id: "basbat", title: "Basket Battle", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/basket-battle/index.html", thumb: "basketbattle.png" },
-    { id: "spiroll", title: "Spiral Roll", url: "https://raw.githack.com/my-files-schoolum/spi/main/index.html", thumb: "spiralroll.png" },
-    { id: "timshoot", title: "Time Shooter", url: "https://raw.githack.com/hazzatazza/time-shooter/main/index.html", thumb: "timeshooter.png" },
-    { id: "bloxorz", title: "Bloxorz", url: "https://raw.githack.com/ubg89/Bloxorz/gh-pages/index.html", thumb: "bloxorz.png" },
-    { id: "brain-test", title: "Brain Test", url: "https://raw.githack.com/gameinclassroom/brain-test-tricky-puzzles/main/index.html", thumb: "braintest.png" },
-    { id: "drive-mad", title: "Drive Mad", url: "https://raw.githack.com/html-online-game/drive-mad/main/index.html", thumb: "drivemad.png" },
-    { id: "8-ball", title: "8 Ball Pool", url: "https://raw.githack.com/ahrdevelopers/8ball-pool/main/index.html", thumb: "8ballpool.png" },
-    { id: "aswc", title: "A Small World Cup", url: "https://raw.githack.com/ahrdevelopers/a-small-world-cup/main/index.html", thumb: "asmallworldcup.png" },
-    { id: "colsw", title: "Color Switch", url: "https://raw.githack.com/ahrdevelopers/color-switch/main/index.html", thumb: "colorswitch.png" },
-    { id: "hapgla", title: "Happy Glass", url: "https://raw.githack.com/class-google-com/google-1/main/index.html", thumb: "happyglass.png" },
-    { id: "tapot", title: "Throw A Potato", url: "https://raw.githack.com/hazzatazza/throw-a-potato/main/index.html", thumb: "throwapotato.png" },
-    { id: "tapot2", title: "Throw A Potato Again", url: "https://raw.githack.com/hazzatazza/throw-a-potato-again/main/index.html", thumb: "throwapotatoagain.png" },
-    { id: "tapot3", title: "Throw A Potato In Space", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/throwspace3/html-classic.itch.zone/html/7355361/index.html", thumb: "throwapotatoinspace.png" },
-    { id: "sonic1", title: "Sonic The Hedgehog", url: "https://raw.githack.com/hazzatazza/sonic1/main/index.html", thumb: "sonicthehedgehog.png" },
-    { id: "celeste", title: "Celeste", url: "https://raw.githack.com/hazzatazza/celeste/main/index.html", thumb: "celeste.png" },
-    { id: "joeblox", title: "Joeblox", url: "https://raw.githack.com/hazzatazza/roblox-games/main/*actualjoeblox.html", thumb: "joeblox.png" },
-    { id: "dune", title: "Dune Neon", url: "https://raw.githack.com/playgroundfree/playgroundfree.github.io/main/dune/index.html", thumb: "dune.png" },
-    { id: "fmidsh", title: "Famidash", url: "https://raw.githack.com/hazzatazza/stuff-it-emu/main/famidash.html", thumb: "famidash.png" },
-    { id: "gdsubzero", title: "Geometry Dash Subzero", url: "https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-subzero/index.html", thumb: "gdsubzero.png" },
-    { id: "gdmeltdown", title: "Geometry Dash Meltdown", url: "https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-meltdown/index.html", thumb: "gdmeltdown.png" },
-    { id: "gdworld", title: "Geometry Dash World", url: "https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-world/index.html", thumb: "gdworld.png" },
-    { id: "gdbreeze", title: "Geometry Dash Breeze", url: "https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-breeze/index.html", thumb: "gdbreeze.png" },
-    { id: "knihit", title: "Knife Hit", url: "https://raw.githack.com/marty-games/mga-construct/main/knife-hit/index.html", thumb: "knifehit.png" },
-    { id: "slowroad", title: "Slowroads.io", url: "https://script.google.com/macros/s/AKfycbzqDA2SnuVZ3DRelxxbUxSV9Z1RJz_gQfDRx06WUpgppWgrdDEErtZ1Lev9O6j2w9ioBQ/exec", thumb: "slowroads.png" },
-    { id: "stack", title: "Stack", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stack.html", thumb: "stack.png" },
-    { id: "simian", title: "Simian City", url: "https://raw.githack.com/hazzatazza/simian-city/main/simiancity.html", thumb: "simpcity.png" },
-    { id: "whg", title: "Worlds Hardest Game", url: "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/worldshardestgame.html", thumb: "worldshardestgame.png" },
-    { id: "pacman", title: "Pac-Man", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/pacman.html", thumb: "pacman.png" },
-    { id: "agar", title: "Agar.io Lite", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/agariolite.html", thumb: "agariolite.png" },
-    { id: "vrandom", title: "Volley Random", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/volleyrandom.html", thumb: "volleyrandom.png" },
-    { id: "er2", title: "Escape Road 2", url: "https://raw.githack.com/ubg42/EscapeRoad2/main/index.html", thumb: "escaperoad2.png" },
-    { id: "mx3mpp", title: "Moto X3M Pool Party", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/motox3mpoolparty.html", thumb: "motox3mpoolparty.png" },
-    { id: "fnaf2", title: "FNAF 2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf2.html", thumb: "fnaf2.png" },
-    { id: "ovo2", title: "OvO 2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/ovo2.html", thumb: "ovo2.png" },
-    { id: "stateio", title: "State.io", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stateio.html", thumb: "stateio.png" },
-    { id: "mcb", title: "Mini Car Ball", url: "https://raw.githack.com/CoolDude2349/everything/dd78353b89cf9559b4b3463d1b44fb60e420d9fa/minicarball/index.html", thumb: "minicarball.png" },
-    { id: "appel", title: "Appel", url: "https://raw.githack.com/CoolDude2349/everything/dd78353b89cf9559b4b3463d1b44fb60e420d9fa/appel/index.html", thumb: "appel.png" },
-    { id: "tilejump", title: "Tile Jumper", url: "https://raw.githack.com/CoolDude2349/everything/dd78353b89cf9559b4b3463d1b44fb60e420d9fa/tilejumperr/index.html", thumb: "tilejumper.png" },
-    { id: "golfbattle", title: "Golf Battle", url: "https://raw.githack.com/hazzatazza/golf-battle/main/samething.html", thumb: "golfbattle.png" },
-    { id: "roofsnip", title: "Rooftop Snipers", url: "https://raw.githack.com/hazzatazza/RooftopSnipers/gh-pages/index.html", thumb: "rooftopsnipers.png" },
-    { id: "granny", title: "Granny", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/granny.html", thumb: "granny1.png" },
-    { id: "goose", title: "Untitled Goose Game", url: "https://raw.githack.com/web-ports/untitled-goose-game/main/index.html", thumb: "goosegame.png" },
-    { id: "brotato", title: "Brotato", url: "https://raw.githack.com/Stinkalistic/UGS/main/MISC/brotato/index.html", thumb: "brotato.png" },
-    { id: "ragdoll", title: "Ragdoll Archers", url: "https://raw.githack.com/ubg42/RagdollArchers/main/index.html", thumb: "ragdollarchers.png" },
-    { id: "fnaf3", title: "FNAF 3", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf3.html", thumb: "fnaf3.png" },
-    { id: "schooesc", title: "School Escape", url: "https://raw.githack.com/hazzatazza/simian-city/main/schoolescape.html", thumb: "schoolescape.png" },
-    { id: "agewar", title: "Age Of War", url: "https://raw.githack.com/ahrdevelopers/age-of-war/main/index.html", thumb: "ageofwar.png" },
-    { id: "monkeobby", title: "Monkey Obby", url: "https://raw.githack.com/hazzatazza/algebra-originals/main/monkeyobby.html", thumb: "monkeyobby.png" },
-    { id: "supliqsoc", title: "Super Liquid Soccer", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/superliquidsoccer.html", thumb: "superliquidsoccer.png" },
-    { id: "guessanswer", title: "Guess Their Answer", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/guesstheiranswer.html", thumb: "guessanswer.png" },
-    { id: "pokeemer", title: "Pokemon Emerald", url: "https://raw.githack.com/hazzatazza/stuff-it-emu/main/pokemonemerald.html", thumb: "pokemonemerald.png" },
-    { id: "clashov", title: "Clash Of Vikings", url: "https://raw.githack.com/testingherokuapp/Clash-of-Vikings/main/index.html", thumb: "clashofvikings.png" },
-    { id: "fnaf4", title: "FNAF 4", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf4.html", thumb: "fnaf4.png" },
-    { id: "icetow", title: "Ice Tower", url: "https://raw.githack.com/hazzatazza/algebra-originals/main/Ice%20tower%20(1).html", thumb: "icetower.png" },
-    { id: "supmario1", title: "Super Mario Bros.", url: "https://raw.githack.com/hazzatazza/stuff-it-emu/main/supermariobros.html", thumb: "supermariobros.png" },
-    { id: "supermariokart", title: "Super Mario Kart", url: "https://raw.githack.com/hazzatazza/stuff-it-emu/main/supermariokart.html", thumb: "supermariokart.png" },
-    { id: "thoandball", title: "Thorns And Balloons", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/thronballoon2/maddox.alltutors.org/db/html/thorns_and_ballons/index.html", thumb: "thornsandballoons.png" },
-    { id: "badtime", title: "Bad Time Simulator", url: "https://raw.githack.com/hsinidev/badtimesimulator/master/index.html", thumb: "badtimesimulator.png" },
-    { id: "stackball", title: "Stack Fire Ball", url: "https://raw.githack.com/ahrdevelopers/stack-fire-ball/main/index.html", thumb: "stackball.png" },
-    { id: "sandtris", title: "Sandtris", url: "https://raw.githack.com/Kochhan/SANDTRIS/main/index.html", thumb: "sandtris.png" },
-    { id: "dleo", title: "Dont Let Ehren Out", url: "https://raw.githack.com/hazzatazza/algebra-originals/main/dontletenrenout.html", thumb: "dontletehrenout.png" },
-    { id: "blumball", title: "Blumgi Ball", url: "https://raw.githack.com/gameinclassroom/blumgi-ball/main/index.html", thumb: "blumgiballnew.png" },
-    { id: "snowballio", title: "Snowball.io", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/snowballio.html", thumb: "snowballio.png" },
-    { id: "hcrlite", title: "Hill Climb Racing Lite", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/hillclimbracinglite.html", thumb: "hillclimbracing.png" },
-    { id: "eggycar", title: "Eggy Car", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/eggycar.html", thumb: "eggycar.png" },
-    { id: "backchal", title: "Backflip Challenge", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/backflipchallenge/maddox.quackprep.com/db2/2026/unity/backflip-challenge/index.html", thumb: "backflipchallenge.png" },
-    { id: "bubshoot", title: "Bubble Shooter", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/bubbleshooter.html", thumb: "bubbleshooter.png" },
-    { id: "1on1soc", title: "1 On 1 Soccer", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/1on1soccer.html", thumb: "1on1soccer.png" },
-    { id: "aow2", title: "Age Of War 2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/ageofwar2.html", thumb: "ageofwar2.png" },
-    { id: "swingdash", title: "Swing Dash", url: "https://raw.githack.com/hazzatazza/algebra-originals/main/swingdash.html", thumb: "swingdash.png" },
-    { id: "gdfreeze", title: "Geometry Dash Freezenova", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/freezenovat2/d23tskfudfp1j.cloudfront.net/games/2023/q2/geometry-dash-freezenova/index.html", thumb: "gdfreezenova.png" },
-    { id: "monstertrack", title: "Monster Tracks", url: "https://raw.githack.com/gameinclassroom/monster-tracks/main/index.html", thumb: "monstertracks.png" },
-    { id: "swingcopters", title: "Swing Copters", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/swingcopters/www.minijuegosgratis.com/v3/games/games/prod/204939/swing-copters-online-api/index.html", thumb: "swingcopters.png" },
-    { id: "surivivalarena", title: "Survival Arena", url: "https://raw.githack.com/bubbls/UGS-Assets/main/survival%20race%20v2/index.html", thumb: "survivalarena.png" },
-    { id: "cubesurf", title: "Cube Surfer", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/cubesurfer/lagged.com/build/mj/cube-surfer/index.html", thumb: "cubesurfer.png" },
-    { id: "dashmetry", title: "Dashmetry", url: "https://raw.githack.com/marty-games/mga-unity/main/dashmetry/index.html", thumb: "dashmetry.png" },
-    { id: "jetskirace", title: "Jetski Race", url: "https://raw.githack.com/hazzatazza/the-one-with-tap-road/main/jetskirace/index.html", thumb: "jetskirace.png" },
-    { id: "rl2d", title: "Rocket League 2D", url: "https://script.google.com/macros/s/AKfycbzxpyljaqvmqRShvfh_XpN8ZRRpLRCeYHZ0V-9ZoC4wf0pFHWFfgQQM-o1o-Q7pc3qAwg/exec", thumb: "rocketleague2d.png" },
-    { id: "webdash", title: "Geometry Dash Webport", url: "https://raw.githack.com/web-dashers/web-dashers.github.io/main/index.html", thumb: "gdweb.png" },
-    { id: "melon", title: "Melon Playground", url: "https://raw.githack.com/hazzatazza/google-class/main/melon-playground/index.html", thumb: "melonplayground.png" },
-    { id: "dwtd", title: "Dumb Ways To Die", url: "https://raw.githack.com/hazzatazza/the-stash/main/dwtd.html", thumb: "dwtd.png" },
-    { id: "tnmn", title: "Thats Not My Neighbor", url: "https://raw.githack.com/genizy/web-port/main/thats-not-my-neighbor/index.html", thumb: "tnmn.png" },
-    { id: "cuphead", title: "Cuphead", url: "https://raw.githack.com/web-ports/cuphead/main/index.html", thumb: "cuphead.png" },
-    { id: "ninja5", title: "The Ninja 5", url: "https://raw.githack.com/hazzatazza/the-stash/main/The%20Ninja%205.html", thumb: "ninja5.png" },
-    { id: "dunedash", title: "Dune", url: "https://raw.githack.com/hazzatazza/dune-dash/main/index.html", thumb: "dunedash.png" },
-    { id: "coreball", title: "Coreball", url: "https://raw.githack.com/hazzatazza/the-stash/main/coreball/index.html", thumb: "coreball.png" },
-    { id: "bridge", title: "Bridge Race", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/bridge-race/index.html", thumb: "bridgerace.png" },
-    { id: "pppg", title: "People Playground", url: "https://raw.githack.com/bubbls/ugss/main/people-playground/index.html", thumb: "pppg.png" },
-    { id: "rtrobwlcol", title: "Retro Bowl College", url: "https://raw.githack.com/ahrdevelopers/retro-bowl-college/main/index.html", thumb: "rtrocollege.png" },
-    { id: "dadish2", title: "Dadish 2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/dadish2.html", thumb: "dadish2.png" },
-    { id: "stackbird", title: "Stacky Bird", url: "https://raw.githack.com/hazzatazza/stackybird/main/stackybird.io/index.html", thumb: "stackybird.png" },
-    { id: "golforbit", title: "Golf Orbit", url: "https://raw.githack.com/hazzatazza/golf-orbit/main/GolfOrbit-main/index.html", thumb: "golforbit.png" },
-    { id: "brawlsim3d", title: "Brawl Simulator 3D", url: "https://raw.githack.com/hazzatazza/brawl-simulator-3d/main/index.html", thumb: "brawlsim3d.png" },
-    { id: "getyoked", title: "Get Yoked", url: "https://raw.githack.com/ahrdevelopers/get-yoked-extreme-bodybuilding/main/index.html", thumb: "getyoked.png" },
-    { id: "dadish3", title: "Dadish 3", url: "https://raw.githack.com/hazzatazza/the-stash/main/dadish3.html", thumb: "dadish3.png" },
-    { id: "dadish3d", title: "Dadish 3D", url: "https://raw.githack.com/hazzatazza/dadish3d/main/index.html", thumb: "dadish3d.png" },
-    { id: "buckshot", title: "Buckshot Roulette", url: "https://raw.githack.com/genizy/web-port/main/buckshot-roulette/index.html", thumb: "buckshot.png" },
-    { id: "backdive3d", title: "Backflip Dive 3D", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/backflipdive3d/d23tskfudfp1j.cloudfront.net/games/2025/unity4/backflip-dive-3d/index.html", thumb: "backdive3d.png" },
-    { id: "stuntcars2", title: "Madalin Stunt Cars 2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/madalinstuntcars2.html", thumb: "madalincars2.png" },
-    { id: "baldisbasics", title: "Baldis Basics", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/baldisbasics.html", thumb: "baldisbasics.png" },
-    { id: "granny2", title: "Granny 2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/granny2.html", thumb: "granny2.png" },
-    { id: "rooftopsnipers2", title: "Rooftop Snipers 2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/rooftopsnipers2.html", thumb: "roogtopsnipers2.png" },
-    { id: "sm", title: "Slice Master", url: "https://raw.githack.com/bubbls/UGS-Assets/main/slice-master/index.html", thumb: "slicemaster.png" },
-    { id: "dhp", title: "Dreadhead Parkour", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/dreadheadparkour.html", thumb: "dreadheadparkour.png" },
-    { id: "rsd", title: "Rocket Soccer Derby", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/rocketsoccerderby.html", thumb: "rocketsoccerderby.png" },
-    { id: "wbw", title: "We Become What We Behold", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/webecomewhatwebehold.html", thumb: "webecomewhatwebehold.png" },
-    { id: "tr2", title: "Temple Run 2", url: "https://raw.githack.com/genizy/google-class/main/temple-run-2/index.html", thumb: "templerun2.png" },
-    { id: "tj", title: "Tube Jumpers", url: "https://raw.githack.com/ven0m2610/tube-jumpers-ven0m/d7e473d1bbb19c421a23516ef2202bda21e8c3f0/index.html", thumb: "tubejumpers.png" },
-    { id: "pvz", title: "Plants vs Zombies", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/plantsvszombies.html", thumb: "plantsvszombies.png" },
-    { id: "bbros", title: "Baseball Bros", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/baseballbros.html", thumb: "baseballbros.png" },
-    { id: "3dfs", title: "3D Flight Simulator", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/3Dflightsimulator.html", thumb: "3dflightsimulator.png" },
-    { id: "basketbros", title: "Basket Bros", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketbros.html", thumb: "basketbros.png" },
-    { id: "cc3d", title: "Crazy Cattle 3D", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/crazycattle3D.html", thumb: "crazycattle3d.png" },
-    { id: "fbros", title: "Football Bros", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/footballbros.html", thumb: "footballbros.png" },
-    { id: "sbros", title: "Soccer Bros", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/soccerbros.html", thumb: "soccerbros.png" },
-    { id: "ts2", title: "Time Shooter 2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/timeshooter2.html", thumb: "timeshooter2.png" },
-    { id: "ts3", title: "Time Shooter 3", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/timeshooter3.htm", thumb: "timeshooter3.png" },
-    { id: "pp", title: "Papa's Pizzeria", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papaspizzeria.html", thumb: "papaspizzeria.png" },
-    { id: "s2p", title: "Slope 2 Player", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/slope2player.html", thumb: "slope2player.png" },
-    { id: "bslime", title: "Blumgi Slime", url: "https://raw.githack.com/NoahsAmazingTutoringHelp/BlumgiSlime/main/index.html", thumb: "blumgislime.png" },
-    { id: "brock", title: "Blumgi Rocket", url: "https://raw.githack.com/MajesticWafer/BlumgiRocket/gh-pages/index.html", thumb: "blumgirocket.png" },
-    { id: "bracers", title: "Blumgi Racers", url: "https://raw.githack.com/chocobananakun/BlumgiRacers/main/index.html", thumb: "blumgiracers.png" },
-    { id: "bcastle", title: "Blumgi Castle", url: "https://raw.githack.com/jag-proj3ct/BlumgiCastle/main/index.html", thumb: "blumgicastle.png" },
-    { id: "bsoc", title: "Blumgi Soccer", url: "https://raw.githack.com/jag-proj3ct/BlumgiSoccer/main/index.html", thumb: "blumgisoccer.png" },
-    { id: "bpaint", title: "Blumgi Paintball", url: "https://raw.githack.com/mcmattyobriore/BlumgiPaintball/main/index.html", thumb: "blumgipaintball.png" },
-    { id: "bbloom", title: "Blumgi Bloom", url: "https://raw.githack.com/jag-proj3ct/BlumgiBloom/main/index.html", thumb: "blumgibloom.png" },
-    { id: "bdrag", title: "Blumgi Dragon", url: "https://raw.githack.com/mcmattyobriore/BlumgiDragon/main/index.html", thumb: "blumgidragon.png" },
-    { id: "bmerge", title: "Blumgi Merge", url: "https://raw.githack.com/jag-proj3ct/BlumgiMerge/main/index.html", thumb: "blumgimerge.png" },
-    { id: "bbounce", title: "Blumgi Bounce", url: "https://raw.githack.com/Hydra-Network/hydra-assets/main/gmes/blumgi-bounce/index.html", thumb: "blumgibounce.png" },
-    { id: "pbake", title: "Papa's Bakeria", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasbakeria.html", thumb: "papasbakeria.png" },
-    { id: "pburg", title: "Papa's Burgeria", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasburgeria.html", thumb: "papasburgeria.png" },
-    { id: "pcheese", title: "Papa's Cheeseria", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papascheeseria.html", thumb: "papascheeseria.png" },
-    { id: "pcup", title: "Papa's Cupcakeria", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papascupcakeria.html", thumb: "papascupcakeria.png" },
-    { id: "pdon", title: "Papa's Donuteria", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasdonuteria.html", thumb: "papasdonuteria.png" },
-    { id: "phot", title: "Papa's Hotdoggeria", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papashotdoggeria.html", thumb: "papashotdoggeria.png" },
-    { id: "ppan", title: "Papa's Pancakeria", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papaspancakeria.html", thumb: "papaspancakeria.png" },
-    { id: "ppasta", title: "Papa's Pastaria", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papaspastaria.html", thumb: "papaspastaria.png" },
-    { id: "pscoop", title: "Papa's Scooperia", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasscooperia.html", thumb: "papasscooperia.png" },
-    { id: "psushi", title: "Papa's Sushiria", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papassushiria.html", thumb: "papassushiria.png" },
-    { id: "ptaco", title: "Papa's Taco Mia", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papastacomia.html", thumb: "papastacomia.png" },
-    { id: "pwing", title: "Papa's Wingeria", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papaswingeria.html", thumb: "papaswingeria.png" },
-    { id: "pfreeze", title: "Papa's Freezeria", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasfreezeria.html", thumb: "papasfreezeria.png" },
-    { id: "gspin", title: "GunSpin", url: "https://raw.githack.com/ahrdevelopers/gunspin/main/index.html", thumb: "gunspin.png" },
-    { id: "ibreak", title: "Idle Breakout", url: "https://raw.githack.com/ahrdevelopers/idlebreakout/main/index.html", thumb: "idlebreakout.png" },
-    { id: "swingo", title: "Swingo", url: "https://raw.githack.com/ahrdevelopers/swingo/main/index.html", thumb: "swingo.png" },
-    { id: "ovo3d", title: "OvO Dimensions", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/ovo3dimensions.html", thumb: "ovo3.png" },
-    { id: "holeio", title: "Hole.io", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/holeio.html", thumb: "holeio.png" },
-    { id: "wrestlebros", title: "Wrestle Bros", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/wrestlebros.html", thumb: "wrestlebros.png" },
-    { id: "kartbros", title: "Kart Bros", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/kartbros.html", thumb: "kartbros.png" },
-    { id: "karatebros", title: "Karate Bros", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/karatebros.html", thumb: "karatebros.png" },
-    { id: "chessmasters", title: "Chess Masters", url: "https://raw.githack.com/hazzatazza/the-stash/main/chessmasters.html", thumb: "chessmasters.png" },
-    { id: "idledice", title: "Idle Dice", url: "https://raw.githack.com/Nailington/idle-dice/main/index.html", thumb: "idledice.png" },
-    { id: "sm63", title: "Super Mario 63", url: "https://raw.githack.com/hazzatazza/the-stash/main/sm63.html", thumb: "sm63.png" },
-    { id: "rollingsky", title: "Rolling Sky", url: "https://raw.githack.com/bubbls/UGS-Assets/main/rolling-sky/index.html", thumb: "rollingsky.png" },
-    { id: "helicoptergame", title: "Helicopter Game", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/helicoptergame/cdn2.addictinggames.com/addictinggames-content/ag-assets/content-items/html5-games/helicoptergame/index.html", thumb: "helicoptergame.png" },
-    { id: "fancypants1", title: "The Fancy Pants Adventures: World 1", url: "https://raw.githack.com/hazzatazza/the-stash/main/fancypantsworld1.html", thumb: "fancypants1.png" },
-    { id: "fancypants2", title: "The Fancy Pants Adventures: World 1", url: "https://raw.githack.com/hazzatazza/the-stash/main/fancypantsworld2.html", thumb: "fancypants2.png" },
-    { id: "ragdollhit", title: "Ragdoll Hit", url: "https://raw.githack.com/Collasperz/ragdoll-hit/main/index.html", thumb: "ragdollhit.png" },
-    { id: "stickfighter", title: "Stick Fighter", url: "https://raw.githack.com/gameinclassroom/stick-fighter/main/index.html", thumb: "stickfighter.png" },
-    { id: "deathrun3d", title: "Death Run 3D", url: "https://raw.githack.com/ahrdevelopers/death-run-3d/main/index.html", thumb: "deathrun3d.png" },
-    { id: "talkingben", title: "Talking Ben", url: "https://raw.githack.com/hazzatazza/the-stash/main/scratch/Talking%20Ben%20(1).html", thumb: "talkingben.png" }
-    ];
+    {
+        "id": "soundboard",
+        "title": "Meme Soundboard",
+        "url": "https://raw.githack.com/genizy/soundboard/main/index.html",
+        "thumb": "memesoundboard.png",
+        "type": "app"
+    },
+    {
+        "id": "ruffle",
+        "title": "Ruffle Flash Player",
+        "url": "https://flashbangplayer.pages.dev/",
+        "thumb": "ruffle.png",
+        "type": "app"
+    }
+    // ... and 248 more items
+]
+The fully converted file is named games_fixed.json.
+
+
+HTML icon
+index (2)
+HTML
+
+now can you edit this code so instead of 
+
+
+Gemini isn't human. It can make mistakes, so double-check it.
+
+[
+    {
+        "id": "soundboard",
+        "title": "Meme Soundboard",
+        "url": "https://raw.githack.com/genizy/soundboard/main/index.html",
+        "thumb": "memesoundboard.png",
+        "type": "app"
+    },
+    {
+        "id": "ruffle",
+        "title": "Ruffle Flash Player",
+        "url": "https://flashbangplayer.pages.dev/",
+        "thumb": "ruffle.png",
+        "type": "app"
+    },
+    {
+        "id": "htmlrun",
+        "title": "HTML Runner",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/htmlrunner.html",
+        "thumb": "htmlrunner.png",
+        "type": "app"
+    },
+    {
+        "id": "maddox",
+        "title": "MaddoxCloud Gaming",
+        "url": "https://cloouud.gdharry123.workers.dev/",
+        "thumb": "maddoxcloud.png",
+        "type": "app"
+    },
+    {
+        "id": "scratch",
+        "title": "Scratch Editor",
+        "url": "https://raw.githack.com/hazzatazza/scratch-editor/main/index.html",
+        "thumb": "scratch.png",
+        "type": "app"
+    },
+    {
+        "id": "teaerr",
+        "title": "Tea Err List",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/teaerrlist.html",
+        "thumb": "teaerr.png",
+        "type": "app"
+    },
+    {
+        "id": "bf3d",
+        "title": "Bottle Flip 3D",
+        "url": "https://raw.githack.com/ovo-gamez-unblocked/bottle-flip-3d/main/index.html",
+        "thumb": "bottleflip.png"
+    },
+    {
+        "id": "bj3d",
+        "title": "Bottle Jump 3D",
+        "url": "https://raw.githack.com/hazzatazza/youtube-playables/main/bottle-jump-3d/index.html",
+        "thumb": "bottlejump.png"
+    },
+    {
+        "id": "sw",
+        "title": "Space Waves",
+        "url": "https://raw.githack.com/bubbls/UGS-Assets/main/space%20waves/index.html",
+        "thumb": "spacewaves.png"
+    },
+    {
+        "id": "ssg",
+        "title": "Super Stickman Golf",
+        "url": "https://raw.githack.com/hsinidev/stickman-golf-unblocked/master/index.html",
+        "thumb": "stickmangolf.png"
+    },
+    {
+        "id": "fnf",
+        "title": "Friday Night Funkin",
+        "url": "https://raw.githack.com/genizy/fridayfunk/09fdd5f1fa4ddb304dff7bae6f6af49eda664e8f/index.html",
+        "thumb": "fnf.png"
+    },
+    {
+        "id": "fd",
+        "title": "Flappy Dunk",
+        "url": "https://raw.githack.com/ahrdevelopers/flappy-dunk/main/index.html",
+        "thumb": "flappydunk.png"
+    },
+    {
+        "id": "onr",
+        "title": "Om Nom Run",
+        "url": "https://raw.githack.com/hazzatazza/youtube-playables/main/om-nom-run/index.html",
+        "thumb": "omnomrun.png"
+    },
+    {
+        "id": "amz",
+        "title": "Amaze",
+        "url": "https://raw.githack.com/hazzatazza/youtube-playables/main/amaze/index.html",
+        "thumb": "amaze.png"
+    },
+    {
+        "id": "bs",
+        "title": "Basketball Stars",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketballstars.html",
+        "thumb": "basketballstars.png"
+    },
+    {
+        "id": "gb",
+        "title": "Going Balls",
+        "url": "https://raw.githack.com/hazzatazza/youtube-playables/main/going-balls/index.html",
+        "thumb": "goingballs.png"
+    },
+    {
+        "id": "hw",
+        "title": "Happy Wheels",
+        "url": "https://raw.githack.com/hazzatazza/ugs-singlefile/main/UGS-Files/clhappywheels.html",
+        "thumb": "happywheels.png"
+    },
+    {
+        "id": "p2s",
+        "title": "Paper.io 2 (Skinless)",
+        "url": "https://raw.githack.com/chocobananakun/paperio2/main/index.html",
+        "thumb": "paperioskinless.png"
+    },
+    {
+        "id": "goi-s",
+        "title": "Getting Over It (Scratch)",
+        "url": "https://raw.githack.com/gameinclassroom/getting-over-it/main/index.html",
+        "thumb": "gettingoveritscratch.png"
+    },
+    {
+        "id": "goi-f",
+        "title": "Getting Over It Full",
+        "url": "https://raw.githack.com/genizy/web-port/main/getting-over-it/index.html",
+        "thumb": "gettingoveritfull.png"
+    },
+    {
+        "id": "p2",
+        "title": "Paper.io 2",
+        "url": "https://raw.githack.com/ubg17/PaperIO2/gh-pages/index.html",
+        "thumb": "paperio2.png"
+    },
+    {
+        "id": "2048",
+        "title": "2048",
+        "url": "https://raw.githack.com/ovolve/2048-AI/master/index.html",
+        "thumb": "2048.png"
+    },
+    {
+        "id": "bm",
+        "title": "Bowmasters",
+        "url": "https://raw.githack.com/hazzatazza/youtube-playables/main/bowmasters/index.html",
+        "thumb": "bowmasters.png"
+    },
+    {
+        "id": "sr",
+        "title": "Soccer Random",
+        "url": "https://raw.githack.com/Unblocked-Games-786/Soccer-Random/gh-pages/index.html",
+        "thumb": "soccerrandom.png"
+    },
+    {
+        "id": "fn",
+        "title": "Fruit Ninja",
+        "url": "https://raw.githack.com/genizy/UGS-Assets/main/fruit%20ninja/index.html",
+        "thumb": "fruitninja.png"
+    },
+    {
+        "id": "sd",
+        "title": "Sling Drift",
+        "url": "https://raw.githack.com/ovo-gamez-unblocked/sling-drift/main/index.html",
+        "thumb": "slingdrift.png"
+    },
+    {
+        "id": "ss",
+        "title": "Subway Surfers",
+        "url": "https://raw.githack.com/hazzatazza/3kh0-assets/fixy/subway-surfers/index.html",
+        "thumb": "subwaysurfers.png"
+    },
+    {
+        "id": "3d",
+        "title": "3Dash",
+        "url": "https://raw.githack.com/hazzatazza/ugs-singlefile/main/UGS-Files/cl3dasheditor.html",
+        "thumb": "3dash.png"
+    },
+    {
+        "id": "ec",
+        "title": "Eaglercraft",
+        "url": "https://raw.githack.com/alexander-datskov/1.12-eaglercraftx/main/index.html",
+        "thumb": "eaglercraft.png"
+    },
+    {
+        "id": "bl",
+        "title": "BitLife",
+        "url": "https://raw.githack.com/hazzatazza/bitlife/main/index.html",
+        "thumb": "bitlife.png"
+    },
+    {
+        "id": "tr",
+        "title": "Tap Road",
+        "url": "https://raw.githack.com/faralong/all/main/taproad/index.html",
+        "thumb": "taproad.png"
+    },
+    {
+        "id": "ld",
+        "title": "Level Devil",
+        "url": "https://raw.githack.com/hazzatazza/level-devil/master/index.html",
+        "thumb": "leveldevil.png"
+    },
+    {
+        "id": "fb",
+        "title": "Flappy Bird",
+        "url": "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/flappybird/s3-eu-west-1.amazonaws.com/apps.playcanvas.com/a15aec72/index.html",
+        "thumb": "flappybird.png"
+    },
+    {
+        "id": "cc",
+        "title": "Cookie Clicker",
+        "url": "https://cookieclickeralgebra.pages.dev",
+        "thumb": "cookieclicker.png"
+    },
+    {
+        "id": "gdl",
+        "title": "Geometry Dash Lite",
+        "url": "https://raw.githack.com/threekho/gdl/main/index.html",
+        "thumb": "gdlite.png"
+    },
+    {
+        "id": "trush",
+        "title": "Tunnel Rush",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/tunnelrush.html",
+        "thumb": "tunnelrush.png"
+    },
+    {
+        "id": "tf",
+        "title": "Tiny Fishing",
+        "url": "https://raw.githack.com/MajesticWafer/tiny-fishing/main/index.html",
+        "thumb": "tinyfishing.png"
+    },
+    {
+        "id": "sr3d",
+        "title": "Snow Rider 3D",
+        "url": "https://raw.githack.com/ahrdevelopers/snow-rider-3d/main/index.html",
+        "thumb": "snowrider3d.png"
+    },
+    {
+        "id": "tts",
+        "title": "Tap Tap Shots",
+        "url": "https://taptapshots.pages.dev/",
+        "thumb": "taptapshots.png"
+    },
+    {
+        "id": "sh",
+        "title": "Stickman Hook",
+        "url": "https://raw.githack.com/hazzatazza/google-class/main/stickman-hook/index.html",
+        "thumb": "stickmanhook.png"
+    },
+    {
+        "id": "db",
+        "title": "Drift Boss",
+        "url": "https://raw.githack.com/ubg98/DriftBoss/gh-pages/index.html",
+        "thumb": "driftboss.png"
+    },
+    {
+        "id": "dad",
+        "title": "Dadish",
+        "url": "https://raw.githack.com/Graysinl/dadish/main/index.html",
+        "thumb": "dadish.png"
+    },
+    {
+        "id": "mx3m",
+        "title": "Moto X3M",
+        "url": "https://raw.githack.com/gameshaxor/MotoX3M/master/index.html",
+        "thumb": "motox3m.png"
+    },
+    {
+        "id": "wordle",
+        "title": "Wordle",
+        "url": "https://raw.githack.com/hazzatazza/3kh0-assets/fixy/wordle/index.html#infinite",
+        "thumb": "wordle.png"
+    },
+    {
+        "id": "br",
+        "title": "Basket Random",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketrandom.html",
+        "thumb": "basketrandom.png"
+    },
+    {
+        "id": "pio",
+        "title": "Powerline.io",
+        "url": "https://powerline.coolmathgames.com/",
+        "thumb": "powerlineio.png"
+    },
+    {
+        "id": "rgi",
+        "title": "Rocketgoal.io",
+        "url": "https://raw.githack.com/will-k16/rocketgoal/main/rocketgoal.io/index.html",
+        "thumb": "rocketgoal.png"
+    },
+    {
+        "id": "sl",
+        "title": "Short Life",
+        "url": "https://shortlife1.pages.dev/",
+        "thumb": "shortlife.png"
+    },
+    {
+        "id": "sr-ride",
+        "title": "Short Ride",
+        "url": "https://raw.githack.com/hazzatazza/short-ridegood/main/index.html",
+        "thumb": "shortride.png"
+    },
+    {
+        "id": "pt",
+        "title": "Poly Track",
+        "url": "https://polytrack-3.pages.dev/",
+        "thumb": "polytrackold.png"
+    },
+    {
+        "id": "pt52",
+        "title": "Poly Track .5.2",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/polytrack.html",
+        "thumb": "polytracknew.png"
+    },
+    {
+        "id": "cr",
+        "title": "Crossy Road",
+        "url": "https://raw.githack.com/hazzatazza/youtube-playables/main/crossy-road/index.html",
+        "thumb": "crossyroad.png"
+    },
+    {
+        "id": "wb",
+        "title": "Wheelie Bike",
+        "url": "https://wheeliebike-9l9.pages.dev/",
+        "thumb": "wheeliebike.png"
+    },
+    {
+        "id": "bmast",
+        "title": "Bouncemasters",
+        "url": "https://raw.githack.com/hazzatazza/youtube-playables/main/bouncemasters/index.html",
+        "thumb": "bouncemasters.png"
+    },
+    {
+        "id": "jj",
+        "title": "Jetpack Joyride",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/jetpackjoyride.html",
+        "thumb": "jetpackjoyride.png"
+    },
+    {
+        "id": "er",
+        "title": "Escape Road",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/escaperoad.html",
+        "thumb": "escaperoad.png"
+    },
+    {
+        "id": "totm",
+        "title": "Tomb of the Mask",
+        "url": "https://raw.githack.com/water-logger/totm/main/index.html",
+        "thumb": "tombofthemask.png"
+    },
+    {
+        "id": "run1",
+        "title": "Run",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/run.html",
+        "thumb": "run1.png"
+    },
+    {
+        "id": "run2",
+        "title": "Run 2",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/run2.html",
+        "thumb": "run2.png"
+    },
+    {
+        "id": "r3",
+        "title": "Run 3",
+        "url": "https://run3algebra.pages.dev/",
+        "thumb": "run3.png"
+    },
+    {
+        "id": "slp",
+        "title": "Slope",
+        "url": "https://sl0pe.pages.dev/",
+        "thumb": "slope.png"
+    },
+    {
+        "id": "bb",
+        "title": "Block Blast",
+        "url": "https://raw.githack.com/reunbozdo/BlockBlast/main/index.html",
+        "thumb": "blockblast.png"
+    },
+    {
+        "id": "box-r",
+        "title": "Boxing Random",
+        "url": "https://raw.githack.com/ubg98/BoxingRandom/gh-pages/index.html",
+        "thumb": "boxingrandom.png"
+    },
+    {
+        "id": "crush",
+        "title": "Candy Crush",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/candycrush.html",
+        "thumb": "candycrush.png"
+    },
+    {
+        "id": "au",
+        "title": "Among Us",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/amongus.html",
+        "thumb": "amongus.png"
+    },
+    {
+        "id": "ab",
+        "title": "Angry Birds",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/angrybirds.html",
+        "thumb": "angrybirds.png"
+    },
+    {
+        "id": "ctr",
+        "title": "Cut the Rope",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/cuttherope.html",
+        "thumb": "cuttherope.png"
+    },
+    {
+        "id": "dino",
+        "title": "Google Dino",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/googledino.html",
+        "thumb": "dinogame.png"
+    },
+    {
+        "id": "hj",
+        "title": "Helix Jump",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/helixjump.html",
+        "thumb": "helixjump.png"
+    },
+    {
+        "id": "rb",
+        "title": "Retro Bowl",
+        "url": "https://ballsretro.pages.dev/",
+        "thumb": "retrobowl.png"
+    },
+    {
+        "id": "sab",
+        "title": "Stickman Archers",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stickarchersbattle.html",
+        "thumb": "stickarchersbattle.png"
+    },
+    {
+        "id": "dc",
+        "title": "Draw Climber",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/drawclimber.html",
+        "thumb": "drawclimber.png"
+    },
+    {
+        "id": "fnaf",
+        "title": "FNAF",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf.html",
+        "thumb": "fnaf.png"
+    },
+    {
+        "id": "dl",
+        "title": "Duck Life",
+        "url": "https://raw.githack.com/MDtowerz/duck-life-1/main/unity/index.html",
+        "thumb": "ducklife1.png"
+    },
+    {
+        "id": "dl2",
+        "title": "Duck Life 2",
+        "url": "https://raw.githack.com/BonziWorld1/DuckLife2/main/index.html",
+        "thumb": "ducklife2.png"
+    },
+    {
+        "id": "yohoho",
+        "title": "YoHoHo.io",
+        "url": "https://yohoho--io.pages.dev/",
+        "thumb": "yohoho.png"
+    },
+    {
+        "id": "slice",
+        "title": "Slice It All",
+        "url": "https://raw.githack.com/hazzatazza/youtube-playables/main/slice-it-all/index.html",
+        "thumb": "sliceitall.png"
+    },
+    {
+        "id": "mc-classic",
+        "title": "Minecraft Classic",
+        "url": "https://raw.githack.com/SajagIN/Minecraft-classic/main/index.html",
+        "thumb": "minecraftclassic.png"
+    },
+    {
+        "id": "dh",
+        "title": "Drift Hunters",
+        "url": "https://raw.githack.com/1000unblockedgames/DriftHunters/main/index.html",
+        "thumb": "drifthunters.png"
+    },
+    {
+        "id": "dj",
+        "title": "Doodle Jump",
+        "url": "https://raw.githack.com/bubbls/UGS-Assets/main/doodle%20jump/index.html",
+        "thumb": "doodlejump.png"
+    },
+    {
+        "id": "lmc",
+        "title": "Little Master Cricket",
+        "url": "https://raw.githack.com/ovo-gamez-unblocked/little-master-cricket/main/index.html",
+        "thumb": "littlemastercricket.png"
+    },
+    {
+        "id": "snk-is",
+        "title": "Snake.is",
+        "url": "https://raw.githack.com/hazzatazza/snake.is/main/index.html",
+        "thumb": "snakeis.png"
+    },
+    {
+        "id": "snk-mlg",
+        "title": "Snake.is MLG",
+        "url": "https://raw.githack.com/gameinclassroom/snake-is-mlg-edition/main/index.html",
+        "thumb": "snakeismlg.png"
+    },
+    {
+        "id": "inf-cra",
+        "title": "Infinite Craft",
+        "url": "https://infin-craft.pages.dev/",
+        "thumb": "infinitecraft.png"
+    },
+    {
+        "id": "suika",
+        "title": "Suika Game",
+        "url": "https://raw.githack.com/hazzatazza/suikar/main/index.html",
+        "thumb": "suikagame.png"
+    },
+    {
+        "id": "googcric",
+        "title": "Google Doodle Cricket",
+        "url": "https://raw.githack.com/mohanrajr1987/cricket/master/index.html",
+        "thumb": "googlecricket.png"
+    },
+    {
+        "id": "aquaio",
+        "title": "Aquapark.io",
+        "url": "https://raw.githack.com/bubbls/youtube-playables/main/aquapark-io/index.html",
+        "thumb": "aquaparkio.png"
+    },
+    {
+        "id": "racemast",
+        "title": "Race Master 3D",
+        "url": "https://raw.githack.com/hazzatazza/youtube-playables/main/race-master-3d/index.html",
+        "thumb": "racemaster3d.png"
+    },
+    {
+        "id": "ovo",
+        "title": "OvO",
+        "url": "https://raw.githack.com/hazzatazza/OvO/main/index.html",
+        "thumb": "ovo.png"
+    },
+    {
+        "id": "basbat",
+        "title": "Basket Battle",
+        "url": "https://raw.githack.com/hazzatazza/youtube-playables/main/basket-battle/index.html",
+        "thumb": "basketbattle.png"
+    },
+    {
+        "id": "spiroll",
+        "title": "Spiral Roll",
+        "url": "https://raw.githack.com/my-files-schoolum/spi/main/index.html",
+        "thumb": "spiralroll.png"
+    },
+    {
+        "id": "timshoot",
+        "title": "Time Shooter",
+        "url": "https://raw.githack.com/hazzatazza/time-shooter/main/index.html",
+        "thumb": "timeshooter.png"
+    },
+    {
+        "id": "bloxorz",
+        "title": "Bloxorz",
+        "url": "https://raw.githack.com/ubg89/Bloxorz/gh-pages/index.html",
+        "thumb": "bloxorz.png"
+    },
+    {
+        "id": "brain-test",
+        "title": "Brain Test",
+        "url": "https://raw.githack.com/gameinclassroom/brain-test-tricky-puzzles/main/index.html",
+        "thumb": "braintest.png"
+    },
+    {
+        "id": "drive-mad",
+        "title": "Drive Mad",
+        "url": "https://raw.githack.com/html-online-game/drive-mad/main/index.html",
+        "thumb": "drivemad.png"
+    },
+    {
+        "id": "8-ball",
+        "title": "8 Ball Pool",
+        "url": "https://raw.githack.com/ahrdevelopers/8ball-pool/main/index.html",
+        "thumb": "8ballpool.png"
+    },
+    {
+        "id": "aswc",
+        "title": "A Small World Cup",
+        "url": "https://raw.githack.com/ahrdevelopers/a-small-world-cup/main/index.html",
+        "thumb": "asmallworldcup.png"
+    },
+    {
+        "id": "colsw",
+        "title": "Color Switch",
+        "url": "https://raw.githack.com/ahrdevelopers/color-switch/main/index.html",
+        "thumb": "colorswitch.png"
+    },
+    {
+        "id": "hapgla",
+        "title": "Happy Glass",
+        "url": "https://raw.githack.com/class-google-com/google-1/main/index.html",
+        "thumb": "happyglass.png"
+    },
+    {
+        "id": "tapot",
+        "title": "Throw A Potato",
+        "url": "https://raw.githack.com/hazzatazza/throw-a-potato/main/index.html",
+        "thumb": "throwapotato.png"
+    },
+    {
+        "id": "tapot2",
+        "title": "Throw A Potato Again",
+        "url": "https://raw.githack.com/hazzatazza/throw-a-potato-again/main/index.html",
+        "thumb": "throwapotatoagain.png"
+    },
+    {
+        "id": "tapot3",
+        "title": "Throw A Potato In Space",
+        "url": "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/throwspace3/html-classic.itch.zone/html/7355361/index.html",
+        "thumb": "throwapotatoinspace.png"
+    },
+    {
+        "id": "sonic1",
+        "title": "Sonic The Hedgehog",
+        "url": "https://raw.githack.com/hazzatazza/sonic1/main/index.html",
+        "thumb": "sonicthehedgehog.png"
+    },
+    {
+        "id": "celeste",
+        "title": "Celeste",
+        "url": "https://raw.githack.com/hazzatazza/celeste/main/index.html",
+        "thumb": "celeste.png"
+    },
+    {
+        "id": "joeblox",
+        "title": "Joeblox",
+        "url": "https://raw.githack.com/hazzatazza/roblox-games/main/*actualjoeblox.html",
+        "thumb": "joeblox.png"
+    },
+    {
+        "id": "dune",
+        "title": "Dune Neon",
+        "url": "https://raw.githack.com/playgroundfree/playgroundfree.github.io/main/dune/index.html",
+        "thumb": "dune.png"
+    },
+    {
+        "id": "fmidsh",
+        "title": "Famidash",
+        "url": "https://raw.githack.com/hazzatazza/stuff-it-emu/main/famidash.html",
+        "thumb": "famidash.png"
+    },
+    {
+        "id": "gdsubzero",
+        "title": "Geometry Dash Subzero",
+        "url": "https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-subzero/index.html",
+        "thumb": "gdsubzero.png"
+    },
+    {
+        "id": "gdmeltdown",
+        "title": "Geometry Dash Meltdown",
+        "url": "https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-meltdown/index.html",
+        "thumb": "gdmeltdown.png"
+    },
+    {
+        "id": "gdworld",
+        "title": "Geometry Dash World",
+        "url": "https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-world/index.html",
+        "thumb": "gdworld.png"
+    },
+    {
+        "id": "gdbreeze",
+        "title": "Geometry Dash Breeze",
+        "url": "https://raw.githack.com/marty-games/mga-unity/main/geometry-dash-breeze/index.html",
+        "thumb": "gdbreeze.png"
+    },
+    {
+        "id": "knihit",
+        "title": "Knife Hit",
+        "url": "https://raw.githack.com/marty-games/mga-construct/main/knife-hit/index.html",
+        "thumb": "knifehit.png"
+    },
+    {
+        "id": "slowroad",
+        "title": "Slowroads.io",
+        "url": "https://script.google.com/macros/s/AKfycbzqDA2SnuVZ3DRelxxbUxSV9Z1RJz_gQfDRx06WUpgppWgrdDEErtZ1Lev9O6j2w9ioBQ/exec",
+        "thumb": "slowroads.png"
+    },
+    {
+        "id": "stack",
+        "title": "Stack",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stack.html",
+        "thumb": "stack.png"
+    },
+    {
+        "id": "simian",
+        "title": "Simian City",
+        "url": "https://raw.githack.com/hazzatazza/simian-city/main/simiancity.html",
+        "thumb": "simpcity.png"
+    },
+    {
+        "id": "whg",
+        "title": "Worlds Hardest Game",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/worldshardestgame.html",
+        "thumb": "worldshardestgame.png"
+    },
+    {
+        "id": "pacman",
+        "title": "Pac-Man",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/pacman.html",
+        "thumb": "pacman.png"
+    },
+    {
+        "id": "agar",
+        "title": "Agar.io Lite",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/agariolite.html",
+        "thumb": "agariolite.png"
+    },
+    {
+        "id": "vrandom",
+        "title": "Volley Random",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/volleyrandom.html",
+        "thumb": "volleyrandom.png"
+    },
+    {
+        "id": "er2",
+        "title": "Escape Road 2",
+        "url": "https://raw.githack.com/ubg42/EscapeRoad2/main/index.html",
+        "thumb": "escaperoad2.png"
+    },
+    {
+        "id": "mx3mpp",
+        "title": "Moto X3M Pool Party",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/motox3mpoolparty.html",
+        "thumb": "motox3mpoolparty.png"
+    },
+    {
+        "id": "fnaf2",
+        "title": "FNAF 2",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf2.html",
+        "thumb": "fnaf2.png"
+    },
+    {
+        "id": "ovo2",
+        "title": "OvO 2",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/ovo2.html",
+        "thumb": "ovo2.png"
+    },
+    {
+        "id": "stateio",
+        "title": "State.io",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stateio.html",
+        "thumb": "stateio.png"
+    },
+    {
+        "id": "mcb",
+        "title": "Mini Car Ball",
+        "url": "https://raw.githack.com/CoolDude2349/everything/dd78353b89cf9559b4b3463d1b44fb60e420d9fa/minicarball/index.html",
+        "thumb": "minicarball.png"
+    },
+    {
+        "id": "appel",
+        "title": "Appel",
+        "url": "https://raw.githack.com/CoolDude2349/everything/dd78353b89cf9559b4b3463d1b44fb60e420d9fa/appel/index.html",
+        "thumb": "appel.png"
+    },
+    {
+        "id": "tilejump",
+        "title": "Tile Jumper",
+        "url": "https://raw.githack.com/CoolDude2349/everything/dd78353b89cf9559b4b3463d1b44fb60e420d9fa/tilejumperr/index.html",
+        "thumb": "tilejumper.png"
+    },
+    {
+        "id": "golfbattle",
+        "title": "Golf Battle",
+        "url": "https://raw.githack.com/hazzatazza/golf-battle/main/samething.html",
+        "thumb": "golfbattle.png"
+    },
+    {
+        "id": "roofsnip",
+        "title": "Rooftop Snipers",
+        "url": "https://raw.githack.com/hazzatazza/RooftopSnipers/gh-pages/index.html",
+        "thumb": "rooftopsnipers.png"
+    },
+    {
+        "id": "granny",
+        "title": "Granny",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/granny.html",
+        "thumb": "granny1.png"
+    },
+    {
+        "id": "goose",
+        "title": "Untitled Goose Game",
+        "url": "https://raw.githack.com/web-ports/untitled-goose-game/main/index.html",
+        "thumb": "goosegame.png"
+    },
+    {
+        "id": "brotato",
+        "title": "Brotato",
+        "url": "https://raw.githack.com/Stinkalistic/UGS/main/MISC/brotato/index.html",
+        "thumb": "brotato.png"
+    },
+    {
+        "id": "ragdoll",
+        "title": "Ragdoll Archers",
+        "url": "https://raw.githack.com/ubg42/RagdollArchers/main/index.html",
+        "thumb": "ragdollarchers.png"
+    },
+    {
+        "id": "fnaf3",
+        "title": "FNAF 3",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf3.html",
+        "thumb": "fnaf3.png"
+    },
+    {
+        "id": "schooesc",
+        "title": "School Escape",
+        "url": "https://raw.githack.com/hazzatazza/simian-city/main/schoolescape.html",
+        "thumb": "schoolescape.png"
+    },
+    {
+        "id": "agewar",
+        "title": "Age Of War",
+        "url": "https://raw.githack.com/ahrdevelopers/age-of-war/main/index.html",
+        "thumb": "ageofwar.png"
+    },
+    {
+        "id": "monkeobby",
+        "title": "Monkey Obby",
+        "url": "https://raw.githack.com/hazzatazza/algebra-originals/main/monkeyobby.html",
+        "thumb": "monkeyobby.png"
+    },
+    {
+        "id": "supliqsoc",
+        "title": "Super Liquid Soccer",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/superliquidsoccer.html",
+        "thumb": "superliquidsoccer.png"
+    },
+    {
+        "id": "guessanswer",
+        "title": "Guess Their Answer",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/guesstheiranswer.html",
+        "thumb": "guessanswer.png"
+    },
+    {
+        "id": "pokeemer",
+        "title": "Pokemon Emerald",
+        "url": "https://raw.githack.com/hazzatazza/stuff-it-emu/main/pokemonemerald.html",
+        "thumb": "pokemonemerald.png"
+    },
+    {
+        "id": "clashov",
+        "title": "Clash Of Vikings",
+        "url": "https://raw.githack.com/testingherokuapp/Clash-of-Vikings/main/index.html",
+        "thumb": "clashofvikings.png"
+    },
+    {
+        "id": "fnaf4",
+        "title": "FNAF 4",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf4.html",
+        "thumb": "fnaf4.png"
+    },
+    {
+        "id": "icetow",
+        "title": "Ice Tower",
+        "url": "https://raw.githack.com/hazzatazza/algebra-originals/main/Ice%20tower%20(1).html",
+        "thumb": "icetower.png"
+    },
+    {
+        "id": "supmario1",
+        "title": "Super Mario Bros.",
+        "url": "https://raw.githack.com/hazzatazza/stuff-it-emu/main/supermariobros.html",
+        "thumb": "supermariobros.png"
+    },
+    {
+        "id": "supermariokart",
+        "title": "Super Mario Kart",
+        "url": "https://raw.githack.com/hazzatazza/stuff-it-emu/main/supermariokart.html",
+        "thumb": "supermariokart.png"
+    },
+    {
+        "id": "thoandball",
+        "title": "Thorns And Balloons",
+        "url": "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/thronballoon2/maddox.alltutors.org/db/html/thorns_and_ballons/index.html",
+        "thumb": "thornsandballoons.png"
+    },
+    {
+        "id": "badtime",
+        "title": "Bad Time Simulator",
+        "url": "https://raw.githack.com/hsinidev/badtimesimulator/master/index.html",
+        "thumb": "badtimesimulator.png"
+    },
+    {
+        "id": "stackball",
+        "title": "Stack Fire Ball",
+        "url": "https://raw.githack.com/ahrdevelopers/stack-fire-ball/main/index.html",
+        "thumb": "stackball.png"
+    },
+    {
+        "id": "sandtris",
+        "title": "Sandtris",
+        "url": "https://raw.githack.com/Kochhan/SANDTRIS/main/index.html",
+        "thumb": "sandtris.png"
+    },
+    {
+        "id": "dleo",
+        "title": "Dont Let Ehren Out",
+        "url": "https://raw.githack.com/hazzatazza/algebra-originals/main/dontletenrenout.html",
+        "thumb": "dontletehrenout.png"
+    },
+    {
+        "id": "blumball",
+        "title": "Blumgi Ball",
+        "url": "https://raw.githack.com/gameinclassroom/blumgi-ball/main/index.html",
+        "thumb": "blumgiballnew.png"
+    },
+    {
+        "id": "snowballio",
+        "title": "Snowball.io",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/snowballio.html",
+        "thumb": "snowballio.png"
+    },
+    {
+        "id": "hcrlite",
+        "title": "Hill Climb Racing Lite",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/hillclimbracinglite.html",
+        "thumb": "hillclimbracing.png"
+    },
+    {
+        "id": "eggycar",
+        "title": "Eggy Car",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/eggycar.html",
+        "thumb": "eggycar.png"
+    },
+    {
+        "id": "backchal",
+        "title": "Backflip Challenge",
+        "url": "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/backflipchallenge/maddox.quackprep.com/db2/2026/unity/backflip-challenge/index.html",
+        "thumb": "backflipchallenge.png"
+    },
+    {
+        "id": "bubshoot",
+        "title": "Bubble Shooter",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/bubbleshooter.html",
+        "thumb": "bubbleshooter.png"
+    },
+    {
+        "id": "1on1soc",
+        "title": "1 On 1 Soccer",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/1on1soccer.html",
+        "thumb": "1on1soccer.png"
+    },
+    {
+        "id": "aow2",
+        "title": "Age Of War 2",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/ageofwar2.html",
+        "thumb": "ageofwar2.png"
+    },
+    {
+        "id": "swingdash",
+        "title": "Swing Dash",
+        "url": "https://raw.githack.com/hazzatazza/algebra-originals/main/swingdash.html",
+        "thumb": "swingdash.png"
+    },
+    {
+        "id": "gdfreeze",
+        "title": "Geometry Dash Freezenova",
+        "url": "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/freezenovat2/d23tskfudfp1j.cloudfront.net/games/2023/q2/geometry-dash-freezenova/index.html",
+        "thumb": "gdfreezenova.png"
+    },
+    {
+        "id": "monstertrack",
+        "title": "Monster Tracks",
+        "url": "https://raw.githack.com/gameinclassroom/monster-tracks/main/index.html",
+        "thumb": "monstertracks.png"
+    },
+    {
+        "id": "swingcopters",
+        "title": "Swing Copters",
+        "url": "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/swingcopters/www.minijuegosgratis.com/v3/games/games/prod/204939/swing-copters-online-api/index.html",
+        "thumb": "swingcopters.png"
+    },
+    {
+        "id": "surivivalarena",
+        "title": "Survival Arena",
+        "url": "https://raw.githack.com/bubbls/UGS-Assets/main/survival%20race%20v2/index.html",
+        "thumb": "survivalarena.png"
+    },
+    {
+        "id": "cubesurf",
+        "title": "Cube Surfer",
+        "url": "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/cubesurfer/lagged.com/build/mj/cube-surfer/index.html",
+        "thumb": "cubesurfer.png"
+    },
+    {
+        "id": "dashmetry",
+        "title": "Dashmetry",
+        "url": "https://raw.githack.com/marty-games/mga-unity/main/dashmetry/index.html",
+        "thumb": "dashmetry.png"
+    },
+    {
+        "id": "jetskirace",
+        "title": "Jetski Race",
+        "url": "https://raw.githack.com/hazzatazza/the-one-with-tap-road/main/jetskirace/index.html",
+        "thumb": "jetskirace.png"
+    },
+    {
+        "id": "rl2d",
+        "title": "Rocket League 2D",
+        "url": "https://script.google.com/macros/s/AKfycbzxpyljaqvmqRShvfh_XpN8ZRRpLRCeYHZ0V-9ZoC4wf0pFHWFfgQQM-o1o-Q7pc3qAwg/exec",
+        "thumb": "rocketleague2d.png"
+    },
+    {
+        "id": "webdash",
+        "title": "Geometry Dash Webport",
+        "url": "https://raw.githack.com/web-dashers/web-dashers.github.io/main/index.html",
+        "thumb": "gdweb.png"
+    },
+    {
+        "id": "melon",
+        "title": "Melon Playground",
+        "url": "https://raw.githack.com/hazzatazza/google-class/main/melon-playground/index.html",
+        "thumb": "melonplayground.png"
+    },
+    {
+        "id": "dwtd",
+        "title": "Dumb Ways To Die",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/dwtd.html",
+        "thumb": "dwtd.png"
+    },
+    {
+        "id": "tnmn",
+        "title": "Thats Not My Neighbor",
+        "url": "https://raw.githack.com/genizy/web-port/main/thats-not-my-neighbor/index.html",
+        "thumb": "tnmn.png"
+    },
+    {
+        "id": "cuphead",
+        "title": "Cuphead",
+        "url": "https://raw.githack.com/web-ports/cuphead/main/index.html",
+        "thumb": "cuphead.png"
+    },
+    {
+        "id": "ninja5",
+        "title": "The Ninja 5",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/The%20Ninja%205.html",
+        "thumb": "ninja5.png"
+    },
+    {
+        "id": "dunedash",
+        "title": "Dune",
+        "url": "https://raw.githack.com/hazzatazza/dune-dash/main/index.html",
+        "thumb": "dunedash.png"
+    },
+    {
+        "id": "coreball",
+        "title": "Coreball",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/coreball/index.html",
+        "thumb": "coreball.png"
+    },
+    {
+        "id": "bridge",
+        "title": "Bridge Race",
+        "url": "https://raw.githack.com/hazzatazza/youtube-playables/main/bridge-race/index.html",
+        "thumb": "bridgerace.png"
+    },
+    {
+        "id": "pppg",
+        "title": "People Playground",
+        "url": "https://raw.githack.com/bubbls/ugss/main/people-playground/index.html",
+        "thumb": "pppg.png"
+    },
+    {
+        "id": "rtrobwlcol",
+        "title": "Retro Bowl College",
+        "url": "https://raw.githack.com/ahrdevelopers/retro-bowl-college/main/index.html",
+        "thumb": "rtrocollege.png"
+    },
+    {
+        "id": "dadish2",
+        "title": "Dadish 2",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/dadish2.html",
+        "thumb": "dadish2.png"
+    },
+    {
+        "id": "stackbird",
+        "title": "Stacky Bird",
+        "url": "https://raw.githack.com/hazzatazza/stackybird/main/stackybird.io/index.html",
+        "thumb": "stackybird.png"
+    },
+    {
+        "id": "golforbit",
+        "title": "Golf Orbit",
+        "url": "https://raw.githack.com/hazzatazza/golf-orbit/main/GolfOrbit-main/index.html",
+        "thumb": "golforbit.png"
+    },
+    {
+        "id": "brawlsim3d",
+        "title": "Brawl Simulator 3D",
+        "url": "https://raw.githack.com/hazzatazza/brawl-simulator-3d/main/index.html",
+        "thumb": "brawlsim3d.png"
+    },
+    {
+        "id": "getyoked",
+        "title": "Get Yoked",
+        "url": "https://raw.githack.com/ahrdevelopers/get-yoked-extreme-bodybuilding/main/index.html",
+        "thumb": "getyoked.png"
+    },
+    {
+        "id": "dadish3",
+        "title": "Dadish 3",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/dadish3.html",
+        "thumb": "dadish3.png"
+    },
+    {
+        "id": "dadish3d",
+        "title": "Dadish 3D",
+        "url": "https://raw.githack.com/hazzatazza/dadish3d/main/index.html",
+        "thumb": "dadish3d.png"
+    },
+    {
+        "id": "buckshot",
+        "title": "Buckshot Roulette",
+        "url": "https://raw.githack.com/genizy/web-port/main/buckshot-roulette/index.html",
+        "thumb": "buckshot.png"
+    },
+    {
+        "id": "backdive3d",
+        "title": "Backflip Dive 3D",
+        "url": "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/backflipdive3d/d23tskfudfp1j.cloudfront.net/games/2025/unity4/backflip-dive-3d/index.html",
+        "thumb": "backdive3d.png"
+    },
+    {
+        "id": "stuntcars2",
+        "title": "Madalin Stunt Cars 2",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/madalinstuntcars2.html",
+        "thumb": "madalincars2.png"
+    },
+    {
+        "id": "baldisbasics",
+        "title": "Baldis Basics",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/baldisbasics.html",
+        "thumb": "baldisbasics.png"
+    },
+    {
+        "id": "granny2",
+        "title": "Granny 2",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/granny2.html",
+        "thumb": "granny2.png"
+    },
+    {
+        "id": "rooftopsnipers2",
+        "title": "Rooftop Snipers 2",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/rooftopsnipers2.html",
+        "thumb": "roogtopsnipers2.png"
+    },
+    {
+        "id": "sm",
+        "title": "Slice Master",
+        "url": "https://raw.githack.com/bubbls/UGS-Assets/main/slice-master/index.html",
+        "thumb": "slicemaster.png"
+    },
+    {
+        "id": "dhp",
+        "title": "Dreadhead Parkour",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/dreadheadparkour.html",
+        "thumb": "dreadheadparkour.png"
+    },
+    {
+        "id": "rsd",
+        "title": "Rocket Soccer Derby",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/rocketsoccerderby.html",
+        "thumb": "rocketsoccerderby.png"
+    },
+    {
+        "id": "wbw",
+        "title": "We Become What We Behold",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/webecomewhatwebehold.html",
+        "thumb": "webecomewhatwebehold.png"
+    },
+    {
+        "id": "tr2",
+        "title": "Temple Run 2",
+        "url": "https://raw.githack.com/genizy/google-class/main/temple-run-2/index.html",
+        "thumb": "templerun2.png"
+    },
+    {
+        "id": "tj",
+        "title": "Tube Jumpers",
+        "url": "https://raw.githack.com/ven0m2610/tube-jumpers-ven0m/d7e473d1bbb19c421a23516ef2202bda21e8c3f0/index.html",
+        "thumb": "tubejumpers.png"
+    },
+    {
+        "id": "pvz",
+        "title": "Plants vs Zombies",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/plantsvszombies.html",
+        "thumb": "plantsvszombies.png"
+    },
+    {
+        "id": "bbros",
+        "title": "Baseball Bros",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/baseballbros.html",
+        "thumb": "baseballbros.png"
+    },
+    {
+        "id": "3dfs",
+        "title": "3D Flight Simulator",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/3Dflightsimulator.html",
+        "thumb": "3dflightsimulator.png"
+    },
+    {
+        "id": "basketbros",
+        "title": "Basket Bros",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketbros.html",
+        "thumb": "basketbros.png"
+    },
+    {
+        "id": "cc3d",
+        "title": "Crazy Cattle 3D",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/crazycattle3D.html",
+        "thumb": "crazycattle3d.png"
+    },
+    {
+        "id": "fbros",
+        "title": "Football Bros",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/footballbros.html",
+        "thumb": "footballbros.png"
+    },
+    {
+        "id": "sbros",
+        "title": "Soccer Bros",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/soccerbros.html",
+        "thumb": "soccerbros.png"
+    },
+    {
+        "id": "ts2",
+        "title": "Time Shooter 2",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/timeshooter2.html",
+        "thumb": "timeshooter2.png"
+    },
+    {
+        "id": "ts3",
+        "title": "Time Shooter 3",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/timeshooter3.htm",
+        "thumb": "timeshooter3.png"
+    },
+    {
+        "id": "pp",
+        "title": "Papa's Pizzeria",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papaspizzeria.html",
+        "thumb": "papaspizzeria.png"
+    },
+    {
+        "id": "s2p",
+        "title": "Slope 2 Player",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/slope2player.html",
+        "thumb": "slope2player.png"
+    },
+    {
+        "id": "bslime",
+        "title": "Blumgi Slime",
+        "url": "https://raw.githack.com/NoahsAmazingTutoringHelp/BlumgiSlime/main/index.html",
+        "thumb": "blumgislime.png"
+    },
+    {
+        "id": "brock",
+        "title": "Blumgi Rocket",
+        "url": "https://raw.githack.com/MajesticWafer/BlumgiRocket/gh-pages/index.html",
+        "thumb": "blumgirocket.png"
+    },
+    {
+        "id": "bracers",
+        "title": "Blumgi Racers",
+        "url": "https://raw.githack.com/chocobananakun/BlumgiRacers/main/index.html",
+        "thumb": "blumgiracers.png"
+    },
+    {
+        "id": "bcastle",
+        "title": "Blumgi Castle",
+        "url": "https://raw.githack.com/jag-proj3ct/BlumgiCastle/main/index.html",
+        "thumb": "blumgicastle.png"
+    },
+    {
+        "id": "bsoc",
+        "title": "Blumgi Soccer",
+        "url": "https://raw.githack.com/jag-proj3ct/BlumgiSoccer/main/index.html",
+        "thumb": "blumgisoccer.png"
+    },
+    {
+        "id": "bpaint",
+        "title": "Blumgi Paintball",
+        "url": "https://raw.githack.com/mcmattyobriore/BlumgiPaintball/main/index.html",
+        "thumb": "blumgipaintball.png"
+    },
+    {
+        "id": "bbloom",
+        "title": "Blumgi Bloom",
+        "url": "https://raw.githack.com/jag-proj3ct/BlumgiBloom/main/index.html",
+        "thumb": "blumgibloom.png"
+    },
+    {
+        "id": "bdrag",
+        "title": "Blumgi Dragon",
+        "url": "https://raw.githack.com/mcmattyobriore/BlumgiDragon/main/index.html",
+        "thumb": "blumgidragon.png"
+    },
+    {
+        "id": "bmerge",
+        "title": "Blumgi Merge",
+        "url": "https://raw.githack.com/jag-proj3ct/BlumgiMerge/main/index.html",
+        "thumb": "blumgimerge.png"
+    },
+    {
+        "id": "bbounce",
+        "title": "Blumgi Bounce",
+        "url": "https://raw.githack.com/Hydra-Network/hydra-assets/main/gmes/blumgi-bounce/index.html",
+        "thumb": "blumgibounce.png"
+    },
+    {
+        "id": "pbake",
+        "title": "Papa's Bakeria",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasbakeria.html",
+        "thumb": "papasbakeria.png"
+    },
+    {
+        "id": "pburg",
+        "title": "Papa's Burgeria",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasburgeria.html",
+        "thumb": "papasburgeria.png"
+    },
+    {
+        "id": "pcheese",
+        "title": "Papa's Cheeseria",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papascheeseria.html",
+        "thumb": "papascheeseria.png"
+    },
+    {
+        "id": "pcup",
+        "title": "Papa's Cupcakeria",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papascupcakeria.html",
+        "thumb": "papascupcakeria.png"
+    },
+    {
+        "id": "pdon",
+        "title": "Papa's Donuteria",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasdonuteria.html",
+        "thumb": "papasdonuteria.png"
+    },
+    {
+        "id": "phot",
+        "title": "Papa's Hotdoggeria",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papashotdoggeria.html",
+        "thumb": "papashotdoggeria.png"
+    },
+    {
+        "id": "ppan",
+        "title": "Papa's Pancakeria",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papaspancakeria.html",
+        "thumb": "papaspancakeria.png"
+    },
+    {
+        "id": "ppasta",
+        "title": "Papa's Pastaria",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papaspastaria.html",
+        "thumb": "papaspastaria.png"
+    },
+    {
+        "id": "pscoop",
+        "title": "Papa's Scooperia",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasscooperia.html",
+        "thumb": "papasscooperia.png"
+    },
+    {
+        "id": "psushi",
+        "title": "Papa's Sushiria",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papassushiria.html",
+        "thumb": "papassushiria.png"
+    },
+    {
+        "id": "ptaco",
+        "title": "Papa's Taco Mia",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papastacomia.html",
+        "thumb": "papastacomia.png"
+    },
+    {
+        "id": "pwing",
+        "title": "Papa's Wingeria",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papaswingeria.html",
+        "thumb": "papaswingeria.png"
+    },
+    {
+        "id": "pfreeze",
+        "title": "Papa's Freezeria",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasfreezeria.html",
+        "thumb": "papasfreezeria.png"
+    },
+    {
+        "id": "gspin",
+        "title": "GunSpin",
+        "url": "https://raw.githack.com/ahrdevelopers/gunspin/main/index.html",
+        "thumb": "gunspin.png"
+    },
+    {
+        "id": "ibreak",
+        "title": "Idle Breakout",
+        "url": "https://raw.githack.com/ahrdevelopers/idlebreakout/main/index.html",
+        "thumb": "idlebreakout.png"
+    },
+    {
+        "id": "swingo",
+        "title": "Swingo",
+        "url": "https://raw.githack.com/ahrdevelopers/swingo/main/index.html",
+        "thumb": "swingo.png"
+    },
+    {
+        "id": "ovo3d",
+        "title": "OvO Dimensions",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/ovo3dimensions.html",
+        "thumb": "ovo3.png"
+    },
+    {
+        "id": "holeio",
+        "title": "Hole.io",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/holeio.html",
+        "thumb": "holeio.png"
+    },
+    {
+        "id": "wrestlebros",
+        "title": "Wrestle Bros",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/wrestlebros.html",
+        "thumb": "wrestlebros.png"
+    },
+    {
+        "id": "kartbros",
+        "title": "Kart Bros",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/kartbros.html",
+        "thumb": "kartbros.png"
+    },
+    {
+        "id": "karatebros",
+        "title": "Karate Bros",
+        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/karatebros.html",
+        "thumb": "karatebros.png"
+    },
+    {
+        "id": "chessmasters",
+        "title": "Chess Masters",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/chessmasters.html",
+        "thumb": "chessmasters.png"
+    },
+    {
+        "id": "idledice",
+        "title": "Idle Dice",
+        "url": "https://raw.githack.com/Nailington/idle-dice/main/index.html",
+        "thumb": "idledice.png"
+    },
+    {
+        "id": "sm63",
+        "title": "Super Mario 63",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/sm63.html",
+        "thumb": "sm63.png"
+    },
+    {
+        "id": "rollingsky",
+        "title": "Rolling Sky",
+        "url": "https://raw.githack.com/bubbls/UGS-Assets/main/rolling-sky/index.html",
+        "thumb": "rollingsky.png"
+    },
+    {
+        "id": "helicoptergame",
+        "title": "Helicopter Game",
+        "url": "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/helicoptergame/cdn2.addictinggames.com/addictinggames-content/ag-assets/content-items/html5-games/helicoptergame/index.html",
+        "thumb": "helicoptergame.png"
+    },
+    {
+        "id": "fancypants1",
+        "title": "The Fancy Pants Adventures: World 1",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/fancypantsworld1.html",
+        "thumb": "fancypants1.png"
+    },
+    {
+        "id": "fancypants2",
+        "title": "The Fancy Pants Adventures: World 1",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/fancypantsworld2.html",
+        "thumb": "fancypants2.png"
+    },
+    {
+        "id": "ragdollhit",
+        "title": "Ragdoll Hit",
+        "url": "https://raw.githack.com/Collasperz/ragdoll-hit/main/index.html",
+        "thumb": "ragdollhit.png"
+    },
+    {
+        "id": "stickfighter",
+        "title": "Stick Fighter",
+        "url": "https://raw.githack.com/gameinclassroom/stick-fighter/main/index.html",
+        "thumb": "stickfighter.png"
+    },
+    {
+        "id": "deathrun3d",
+        "title": "Death Run 3D",
+        "url": "https://raw.githack.com/ahrdevelopers/death-run-3d/main/index.html",
+        "thumb": "deathrun3d.png"
+    },
+    {
+        "id": "talkingben",
+        "title": "Talking Ben",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/scratch/Talking%20Ben%20(1).html",
+        "thumb": "talkingben.png"
+    }
+]
