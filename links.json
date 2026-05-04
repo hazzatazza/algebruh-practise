@@ -94,5 +94,11 @@
         "title": "CoolSchool",
         "url": "https://coolschool.pages.dev/",
         "icon": "fa-link"
+    },
+    {
+        "id": "67gaming",
+        "title": "67 Gaming",
+        "url": "https://67gaming.pages.dev/",
+        "icon": "fa-link"
     }
 ]
