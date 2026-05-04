@@ -61,7 +61,6 @@
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; border: 2px solid var(--bg); }
 
-        /* Popup Link Styles */
         .download-here-link { color: #3b82f6; font-weight: bold; cursor: pointer; text-decoration: underline; }
         .download-here-link:hover { color: #60a5fa; }
     </style>
@@ -112,8 +111,14 @@
         <div class="bg-slate-900 border border-white/10 p-8 rounded-3xl max-w-md text-center shadow-2xl" onclick="event.stopPropagation()">
             <h2 class="text-3xl mb-4" style="color: var(--primary);">About Algebra Practice</h2>
             <p class="text-lg leading-relaxed mb-4">Algebra Practise was created by hazza in 2025 and updated in 2026. i dont own any of the games here apart from the ones i made.</p>
-            <p class="text-lg mb-2">Request games <a href="https://docs.google.com/forms/d/e/1FAIpQLScww3MHYoLogsOX5WcBctTbzVTUkXwoEeiOxenN0i8gxiOtpg/viewform?usp=header" target="_blank" class="text-blue-500 underline">here</a></p>
-            <button onclick="toggleInfo()" class="mt-8 bg-white/10 px-6 py-2 rounded-full hover:bg-white/20">Close</button>
+            <p class="text-lg mb-6">Request games <a href="https://docs.google.com/forms/d/e/1FAIpQLScww3MHYoLogsOX5WcBctTbzVTUkXwoEeiOxenN0i8gxiOtpg/viewform?usp=header" target="_blank" class="text-blue-500 underline">here</a></p>
+            
+            <div class="flex flex-col gap-3">
+                <button onclick="downloadFile()" class="flex items-center justify-center gap-2 py-3 rounded-xl text-white font-bold transition-all hover:scale-105 active:scale-95" style="background-color: var(--primary);">
+                    <i class="fas fa-download"></i> Download Offline File
+                </button>
+                <button onclick="toggleInfo()" class="bg-white/10 px-6 py-2 rounded-full hover:bg-white/20 transition-all">Close</button>
+            </div>
         </div>
     </div>
 
@@ -172,9 +177,8 @@
     
     let games = []; 
     let backups = []; 
-    let currentLatestSha = ""; // To store the latest SHA for cache busting
+    let currentLatestSha = "";
 
-    // --- POPUP & CACHE-BUSTED DOWNLOAD LOGIC ---
     function closePopup() {
         if (document.getElementById('dontShowAgain').checked) {
             localStorage.setItem('hideDownloadPopup', 'true');
@@ -184,12 +188,11 @@
 
     async function downloadFile() {
         try {
-            // Get latest SHA to ensure we aren't downloading a cached file
+            // SHA Fetch for Cache Busting
             const shaResponse = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits?t=${Date.now()}`);
             const commits = await shaResponse.json();
             const sha = commits[0].sha;
 
-            // Construct the raw URL with the unique SHA
             const fileUrl = `https://cdn.jsdelivr.net/gh/${repoOwner}/${repoName}@${sha}/algebraofficialfile.html`;
             
             const response = await fetch(fileUrl);
@@ -206,7 +209,7 @@
             document.body.removeChild(a);
         } catch (e) {
             console.error("Download failed", e);
-            alert("Download failed. The file might not be found or your internet is disconnected.");
+            alert("Download failed. Make sure the file exists in your repository.");
         }
     }
 
@@ -215,7 +218,6 @@
             document.getElementById('mainLogoImg').src = cdnBase + 'logo.png';
             document.getElementById('penguinHeadImg').src = cdnBase + 'penguinhead.png';
             
-            // Initial SHA fetch for games/links
             const shaResponse = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits?t=${Date.now()}`);
             const commits = await shaResponse.json();
             currentLatestSha = commits[0].sha;
@@ -366,7 +368,6 @@
     }
 
     window.onload = () => {
-        // Show download popup if user hasn't hidden it
         if (localStorage.getItem('hideDownloadPopup') !== 'true') {
             document.getElementById('downloadPopup').classList.remove('hidden');
         }
