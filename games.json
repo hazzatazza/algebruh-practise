@@ -4,6 +4,7 @@
     { id: "htmlrun", title: "HTML Runner", url: "https://raw.githack.com/hazzatazza/the-stash/main/htmlrunner.html", thumb: "htmlrunner.png", type: "app" },
     { id: "maddox", title: "MaddoxCloud Gaming", url: "https://cloouud.gdharry123.workers.dev/", thumb: "maddoxcloud.png", type: "app" },
     { id: "scratch", title: "Scratch Editor", url: "https://raw.githack.com/hazzatazza/scratch-editor/main/index.html", thumb: "scratch.png", type: "app" },
+    { id: "teaerr", title: "Tea Err List", url: "https://raw.githack.com/hazzatazza/the-stash/main/teaerrlist.html", thumb: "teaerr.png", type: "app" },
     { id: "bf3d", title: "Bottle Flip 3D", url: "https://raw.githack.com/ovo-gamez-unblocked/bottle-flip-3d/main/index.html", thumb: "bottleflip.png" },
     { id: "bj3d", title: "Bottle Jump 3D", url: "https://raw.githack.com/hazzatazza/youtube-playables/main/bottle-jump-3d/index.html", thumb: "bottlejump.png" },
     { id: "sw", title: "Space Waves", url: "https://raw.githack.com/bubbls/UGS-Assets/main/space%20waves/index.html", thumb: "spacewaves.png" },
@@ -144,7 +145,6 @@
     { id: "supmario1", title: "Super Mario Bros.", url: "https://raw.githack.com/hazzatazza/stuff-it-emu/main/supermariobros.html", thumb: "supermariobros.png" },
     { id: "supermariokart", title: "Super Mario Kart", url: "https://raw.githack.com/hazzatazza/stuff-it-emu/main/supermariokart.html", thumb: "supermariokart.png" },
     { id: "thoandball", title: "Thorns And Balloons", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/thronballoon2/maddox.alltutors.org/db/html/thorns_and_ballons/index.html", thumb: "thornsandballoons.png" },
-    { id: "braindodge", title: "Brainrot Dodger 67", url: "https://raw.githack.com/hazzatazza/algebra-originals/main/brainrotdodger67.html", thumb: "brainrotdodger67.png" },
     { id: "badtime", title: "Bad Time Simulator", url: "https://raw.githack.com/hsinidev/badtimesimulator/master/index.html", thumb: "badtimesimulator.png" },
     { id: "stackball", title: "Stack Fire Ball", url: "https://raw.githack.com/ahrdevelopers/stack-fire-ball/main/index.html", thumb: "stackball.png" },
     { id: "sandtris", title: "Sandtris", url: "https://raw.githack.com/Kochhan/SANDTRIS/main/index.html", thumb: "sandtris.png" },
@@ -204,7 +204,7 @@
     { id: "fbros", title: "Football Bros", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/footballbros.html", thumb: "footballbros.png" },
     { id: "sbros", title: "Soccer Bros", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/soccerbros.html", thumb: "soccerbros.png" },
     { id: "ts2", title: "Time Shooter 2", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/timeshooter2.html", thumb: "timeshooter2.png" },
-    { id: "ts3", title: "Time Shooter 3", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/timeshooter3.html", thumb: "timeshooter3.png" },
+    { id: "ts3", title: "Time Shooter 3", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/timeshooter3.htm", thumb: "timeshooter3.png" },
     { id: "pp", title: "Papa's Pizzeria", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papaspizzeria.html", thumb: "papaspizzeria.png" },
     { id: "s2p", title: "Slope 2 Player", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/slope2player.html", thumb: "slope2player.png" },
     { id: "bslime", title: "Blumgi Slime", url: "https://raw.githack.com/NoahsAmazingTutoringHelp/BlumgiSlime/main/index.html", thumb: "blumgislime.png" },
@@ -237,5 +237,16 @@
     { id: "holeio", title: "Hole.io", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/holeio.html", thumb: "holeio.png" },
     { id: "wrestlebros", title: "Wrestle Bros", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/wrestlebros.html", thumb: "wrestlebros.png" },
     { id: "kartbros", title: "Kart Bros", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/kartbros.html", thumb: "kartbros.png" },
-    { id: "karatebros", title: "Karate Bros", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/karatebros.html", thumb: "karatebros.png" }
-]
+    { id: "karatebros", title: "Karate Bros", url: "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/karatebros.html", thumb: "karatebros.png" },
+    { id: "chessmasters", title: "Chess Masters", url: "https://raw.githack.com/hazzatazza/the-stash/main/chessmasters.html", thumb: "chessmasters.png" },
+    { id: "idledice", title: "Idle Dice", url: "https://raw.githack.com/Nailington/idle-dice/main/index.html", thumb: "idledice.png" },
+    { id: "sm63", title: "Super Mario 63", url: "https://raw.githack.com/hazzatazza/the-stash/main/sm63.html", thumb: "sm63.png" },
+    { id: "rollingsky", title: "Rolling Sky", url: "https://raw.githack.com/bubbls/UGS-Assets/main/rolling-sky/index.html", thumb: "rollingsky.png" },
+    { id: "helicoptergame", title: "Helicopter Game", url: "https://raw.githack.com/hazzatazza/hazzas-ripped-game-testing/main/helicoptergame/cdn2.addictinggames.com/addictinggames-content/ag-assets/content-items/html5-games/helicoptergame/index.html", thumb: "helicoptergame.png" },
+    { id: "fancypants1", title: "The Fancy Pants Adventures: World 1", url: "https://raw.githack.com/hazzatazza/the-stash/main/fancypantsworld1.html", thumb: "fancypants1.png" },
+    { id: "fancypants2", title: "The Fancy Pants Adventures: World 1", url: "https://raw.githack.com/hazzatazza/the-stash/main/fancypantsworld2.html", thumb: "fancypants2.png" },
+    { id: "ragdollhit", title: "Ragdoll Hit", url: "https://raw.githack.com/Collasperz/ragdoll-hit/main/index.html", thumb: "ragdollhit.png" },
+    { id: "stickfighter", title: "Stick Fighter", url: "https://raw.githack.com/gameinclassroom/stick-fighter/main/index.html", thumb: "stickfighter.png" },
+    { id: "deathrun3d", title: "Death Run 3D", url: "https://raw.githack.com/ahrdevelopers/death-run-3d/main/index.html", thumb: "deathrun3d.png" },
+    { id: "talkingben", title: "Talking Ben", url: "https://raw.githack.com/hazzatazza/the-stash/main/scratch/Talking%20Ben%20(1).html", thumb: "talkingben.png" }
+    ];
