@@ -46,7 +46,6 @@
         .game-card:hover, .sidebar-card:hover, .backup-card:hover { border-color: var(--primary); transform: scale(1.03); box-shadow: 0 0 15px var(--primary); }
         .game-card img, .sidebar-card img { width: 100%; height: 100%; object-fit: cover; }
         
-        /* Centered Backups */
         .backup-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; text-align: center; padding: 20px; }
         .backup-card i { font-size: 3.5rem; color: var(--primary); transition: color 0.3s ease; }
         .backup-label { color: #fff; font-size: 1.1rem; width: 100%; text-align: center; display: block; }
@@ -64,11 +63,27 @@
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; border: 2px solid var(--bg); }
+
+        /* Popup Specific Styles */
+        .download-link { color: #3b82f6; cursor: pointer; text-decoration: underline; font-weight: bold; }
+        .download-link:hover { color: #60a5fa; }
     </style>
 </head>
 <body class="p-4">
 
     <canvas id="particle-canvas"></canvas>
+
+    <div id="downloadPopup" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[300] hidden flex items-center justify-center">
+        <div class="bg-slate-900 border border-white/10 p-8 rounded-3xl max-w-md text-center shadow-2xl">
+            <h2 class="text-2xl mb-4 text-white">Algebra Practise Downloadable File</h2>
+            <p class="text-lg mb-6">You can now download the site as a file on your computer! Download it <span class="download-link" onclick="downloadFile()">here</span></p>
+            <div class="flex items-center justify-center gap-2 mb-6">
+                <input type="checkbox" id="noShowCheck" class="w-4 h-4 cursor-pointer">
+                <label for="noShowCheck" class="text-sm opacity-70 cursor-pointer">Do not show again</label>
+            </div>
+            <button onclick="closePopup()" class="bg-white/10 px-8 py-2 rounded-full hover:bg-white/20 transition-all">Close</button>
+        </div>
+    </div>
 
     <div class="main-logo-container">
         <img id="mainLogoImg" src="" alt="Logo" class="main-logo" onclick="location.reload()">
@@ -159,6 +174,36 @@
     let games = []; 
     let backups = []; 
 
+    // --- POPUP LOGIC ---
+    function closePopup() {
+        if (document.getElementById('noShowCheck').checked) {
+            localStorage.setItem('hideAlgebraPopup', 'true');
+        }
+        document.getElementById('downloadPopup').classList.add('hidden');
+    }
+
+    function downloadFile() {
+        // Gets the current page's HTML
+        const htmlData = document.documentElement.outerHTML;
+        const blob = new Blob([htmlData], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'algebraofficialfile.html';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
+
+    function checkPopupStatus() {
+        const isHidden = localStorage.getItem('hideAlgebraPopup');
+        // ONLY show if it's NOT a local file AND user hasn't checked "do not show again"
+        if (window.location.protocol !== 'file:' && isHidden !== 'true') {
+            document.getElementById('downloadPopup').classList.remove('hidden');
+        }
+    }
+
     async function loadData() {
         try {
             document.getElementById('mainLogoImg').src = cdnBase + 'logo.png';
@@ -229,31 +274,19 @@
         if (el && el.requestFullscreen) { el.requestFullscreen(); }
     }
 
-    function popOut() {
-        const iframe = document.getElementById('gameIframe');
-        if(iframe) window.open(iframe.src, '_blank', 'width=1280,height=720');
-    }
-
-    /* CLOAKED ABOUT:BLANK GAME OPENER */
     function openAboutBlank() {
         const iframe = document.getElementById('gameIframe');
-        // If a game is currently open in the modal, cloak that game.
-        // Otherwise, cloak the entire home page.
         const targetUrl = iframe ? iframe.src : window.location.href;
-        
         const win = window.open();
         if (!win) return alert("Please allow popups!");
-        
         const doc = win.document;
         const body = doc.body;
         const outerIframe = doc.createElement('iframe');
-        
         doc.title = document.title;
         const link = doc.createElement('link');
         link.rel = 'icon';
         link.href = document.getElementById('favicon').href;
         doc.head.appendChild(link);
-
         outerIframe.style.width = "100%";
         outerIframe.style.height = "100%";
         outerIframe.style.border = "none";
@@ -261,7 +294,6 @@
         outerIframe.style.top = "0";
         outerIframe.style.left = "0";
         outerIframe.src = targetUrl;
-        
         body.appendChild(outerIframe);
         body.style.margin = "0";
         body.style.padding = "0";
@@ -336,6 +368,7 @@
         if(sIcon) document.getElementById('favicon').href = sIcon;
         loadData();
         initPts(); draw();
+        checkPopupStatus();
     };
 
     document.getElementById('searchInput').oninput = (e) => renderGames('games', e.target.value);
