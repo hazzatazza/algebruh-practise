@@ -1504,5 +1504,11 @@
         "title": "Talking Ben",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/scratch/Talking%20Ben%20(1).html",
         "thumb": "talkingben.png"
+    },
+    {
+        "id": "badpiggies",
+        "title": "Bad Piggies",
+        "url": "https://raw.githack.com/hazzatazza/the-one-with-bad-piggies/main/badpiggies/index.html",
+        "thumb": "badpiggies.png"
     }
 ]
