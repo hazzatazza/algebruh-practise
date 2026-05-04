@@ -12,35 +12,6 @@
         "url": "https://flashbangplayer.pages.dev/",
         "thumb": "ruffle.png",
         "type": "app"
-    }
-    // ... and 248 more items
-]
-The fully converted file is named games_fixed.json.
-
-
-HTML icon
-index (2)
-HTML
-
-now can you edit this code so instead of 
-
-
-Gemini isn't human. It can make mistakes, so double-check it.
-
-[
-    {
-        "id": "soundboard",
-        "title": "Meme Soundboard",
-        "url": "https://raw.githack.com/genizy/soundboard/main/index.html",
-        "thumb": "memesoundboard.png",
-        "type": "app"
-    },
-    {
-        "id": "ruffle",
-        "title": "Ruffle Flash Player",
-        "url": "https://flashbangplayer.pages.dev/",
-        "thumb": "ruffle.png",
-        "type": "app"
     },
     {
         "id": "htmlrun",
