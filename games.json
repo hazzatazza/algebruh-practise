@@ -1523,5 +1523,11 @@
         "title": "Fall Guys Runner",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/scratch/Fall%20Guys%20Runner!.html",
         "thumb": "fallguys.png"
+    },
+    {
+        "id": "harvestsim",
+        "title": "Harvest Simulator",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/harvestsim23/frivez.com/games/harvest-simulator/index.html",
+        "thumb": "harvestsim.png"
     }
 ]
