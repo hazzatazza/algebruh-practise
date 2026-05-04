@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-
-<!-- An Algebra Practise Official File--> 
-<!-- Created By Hazza (Harry)-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -64,9 +61,9 @@
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; border: 2px solid var(--bg); }
 
-        /* Popup Specific Styles */
-        .download-link { color: #3b82f6; cursor: pointer; text-decoration: underline; font-weight: bold; }
-        .download-link:hover { color: #60a5fa; }
+        /* Popup Link Styles */
+        .download-here-link { color: #3b82f6; font-weight: bold; cursor: pointer; text-decoration: underline; }
+        .download-here-link:hover { color: #60a5fa; }
     </style>
 </head>
 <body class="p-4">
@@ -76,10 +73,12 @@
     <div id="downloadPopup" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[300] hidden flex items-center justify-center">
         <div class="bg-slate-900 border border-white/10 p-8 rounded-3xl max-w-md text-center shadow-2xl">
             <h2 class="text-2xl mb-4 text-white">Algebra Practise Downloadable File</h2>
-            <p class="text-lg mb-6">You can now download the site as a file on your computer! Download it <span class="download-link" onclick="downloadFile()">here</span></p>
-            <div class="flex items-center justify-center gap-2 mb-6">
-                <input type="checkbox" id="noShowCheck" class="w-4 h-4 cursor-pointer">
-                <label for="noShowCheck" class="text-sm opacity-70 cursor-pointer">Do not show again</label>
+            <p class="text-lg mb-6">You can now download the site as a file on your computer! <br> 
+               Download it <span class="download-here-link" onclick="downloadFile()">here</span>.
+            </p>
+            <div class="flex items-center justify-center gap-3 mb-6">
+                <input type="checkbox" id="dontShowAgain" class="w-4 h-4 cursor-pointer">
+                <label for="dontShowAgain" class="text-sm opacity-80 cursor-pointer">Do not show again</label>
             </div>
             <button onclick="closePopup()" class="bg-white/10 px-8 py-2 rounded-full hover:bg-white/20 transition-all">Close</button>
         </div>
@@ -173,34 +172,41 @@
     
     let games = []; 
     let backups = []; 
+    let currentLatestSha = ""; // To store the latest SHA for cache busting
 
-    // --- POPUP LOGIC ---
+    // --- POPUP & CACHE-BUSTED DOWNLOAD LOGIC ---
     function closePopup() {
-        if (document.getElementById('noShowCheck').checked) {
-            localStorage.setItem('hideAlgebraPopup', 'true');
+        if (document.getElementById('dontShowAgain').checked) {
+            localStorage.setItem('hideDownloadPopup', 'true');
         }
         document.getElementById('downloadPopup').classList.add('hidden');
     }
 
-    function downloadFile() {
-        // Gets the current page's HTML
-        const htmlData = document.documentElement.outerHTML;
-        const blob = new Blob([htmlData], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'algebraofficialfile.html';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-    }
+    async function downloadFile() {
+        try {
+            // Get latest SHA to ensure we aren't downloading a cached file
+            const shaResponse = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits?t=${Date.now()}`);
+            const commits = await shaResponse.json();
+            const sha = commits[0].sha;
 
-    function checkPopupStatus() {
-        const isHidden = localStorage.getItem('hideAlgebraPopup');
-        // ONLY show if it's NOT a local file AND user hasn't checked "do not show again"
-        if (window.location.protocol !== 'file:' && isHidden !== 'true') {
-            document.getElementById('downloadPopup').classList.remove('hidden');
+            // Construct the raw URL with the unique SHA
+            const fileUrl = `https://cdn.jsdelivr.net/gh/${repoOwner}/${repoName}@${sha}/algebraofficialfile.html`;
+            
+            const response = await fetch(fileUrl);
+            if (!response.ok) throw new Error('Fetch failed');
+            
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'algebraofficialfile.html';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        } catch (e) {
+            console.error("Download failed", e);
+            alert("Download failed. The file might not be found or your internet is disconnected.");
         }
     }
 
@@ -208,12 +214,15 @@
         try {
             document.getElementById('mainLogoImg').src = cdnBase + 'logo.png';
             document.getElementById('penguinHeadImg').src = cdnBase + 'penguinhead.png';
+            
+            // Initial SHA fetch for games/links
             const shaResponse = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits?t=${Date.now()}`);
             const commits = await shaResponse.json();
-            const latestSha = commits[0].sha;
-            const gamesResponse = await fetch(`https://cdn.jsdelivr.net/gh/${repoOwner}/${repoName}@${latestSha}/games.json`);
+            currentLatestSha = commits[0].sha;
+
+            const gamesResponse = await fetch(`https://cdn.jsdelivr.net/gh/${repoOwner}/${repoName}@${currentLatestSha}/games.json`);
             games = await gamesResponse.json();
-            const linksResponse = await fetch(`https://cdn.jsdelivr.net/gh/${repoOwner}/${repoName}@${latestSha}/links.json`);
+            const linksResponse = await fetch(`https://cdn.jsdelivr.net/gh/${repoOwner}/${repoName}@${currentLatestSha}/links.json`);
             backups = await linksResponse.json();
             renderGames('games');
         } catch (error) { console.error("Error loading data:", error); }
@@ -357,6 +366,11 @@
     }
 
     window.onload = () => {
+        // Show download popup if user hasn't hidden it
+        if (localStorage.getItem('hideDownloadPopup') !== 'true') {
+            document.getElementById('downloadPopup').classList.remove('hidden');
+        }
+
         const savedColor = localStorage.getItem('user_p_color') || '#a855f7';
         updatePrimary(savedColor); 
         document.getElementById('primaryPicker').value = savedColor;
@@ -368,7 +382,6 @@
         if(sIcon) document.getElementById('favicon').href = sIcon;
         loadData();
         initPts(); draw();
-        checkPopupStatus();
     };
 
     document.getElementById('searchInput').oninput = (e) => renderGames('games', e.target.value);
