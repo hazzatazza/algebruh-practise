@@ -44,7 +44,7 @@
     {
         "id": "musicmaker",
         "title": "Music Maker Pro",
-        "url": "https://github.com/hazzatazza/the-stash/blob/main/html%20for%20other%20stuff/musicmakerpro.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/html%20for%20other%20stuff/musicmakerpro.html",
         "thumb": "musicmakerpro.png",
         "type": "app"
     },
