@@ -16,7 +16,7 @@
     {
         "id": "htmlrun",
         "title": "HTML Runner",
-        "url": "https://raw.githack.com/hazzatazza/the-stash/main/htmlrunner.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/html%20for%20other%20stuff/htmlrunner.html",
         "thumb": "htmlrunner.png",
         "type": "app"
     },
@@ -37,8 +37,15 @@
     {
         "id": "teaerr",
         "title": "Tea Err List",
-        "url": "https://raw.githack.com/hazzatazza/the-stash/main/teaerrlist.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/html%20for%20other%20stuff/teaerrlist.html",
         "thumb": "teaerr.png",
+        "type": "app"
+    },
+    {
+        "id": "musicmaker",
+        "title": "Music Maker Pro",
+        "url": "https://github.com/hazzatazza/the-stash/blob/main/html%20for%20other%20stuff/musicmakerpro.html",
+        "thumb": "musicmakerpro.png",
         "type": "app"
     },
     {
@@ -1022,7 +1029,7 @@
     {
         "id": "dwtd",
         "title": "Dumb Ways To Die",
-        "url": "https://raw.githack.com/hazzatazza/the-stash/main/dwtd.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/dwtd.html",
         "thumb": "dwtd.png"
     },
     {
@@ -1040,7 +1047,7 @@
     {
         "id": "ninja5",
         "title": "The Ninja 5",
-        "url": "https://raw.githack.com/hazzatazza/the-stash/main/The%20Ninja%205.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/scratch/The%20Ninja%205.html",
         "thumb": "ninja5.png"
     },
     {
@@ -1052,7 +1059,7 @@
     {
         "id": "coreball",
         "title": "Coreball",
-        "url": "https://raw.githack.com/hazzatazza/the-stash/main/coreball/index.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/coreball/index.html",
         "thumb": "coreball.png"
     },
     {
@@ -1106,7 +1113,7 @@
     {
         "id": "dadish3",
         "title": "Dadish 3",
-        "url": "https://raw.githack.com/hazzatazza/the-stash/main/dadish3.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/dadish3.html",
         "thumb": "dadish3.png"
     },
     {
@@ -1442,7 +1449,7 @@
     {
         "id": "chessmasters",
         "title": "Chess Masters",
-        "url": "https://raw.githack.com/hazzatazza/the-stash/main/chessmasters.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/chessmasters.html",
         "thumb": "chessmasters.png"
     },
     {
@@ -1454,7 +1461,7 @@
     {
         "id": "sm63",
         "title": "Super Mario 63",
-        "url": "https://raw.githack.com/hazzatazza/the-stash/main/sm63.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/sm63.html",
         "thumb": "sm63.png"
     },
     {
@@ -1472,13 +1479,13 @@
     {
         "id": "fancypants1",
         "title": "The Fancy Pants Adventures: World 1",
-        "url": "https://raw.githack.com/hazzatazza/the-stash/main/fancypantsworld1.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/fancypantsworld1.html",
         "thumb": "fancypants1.png"
     },
     {
         "id": "fancypants2",
-        "title": "The Fancy Pants Adventures: World 1",
-        "url": "https://raw.githack.com/hazzatazza/the-stash/main/fancypantsworld2.html",
+        "title": "The Fancy Pants Adventures: World 2",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/fancypantsworld2.html",
         "thumb": "fancypants2.png"
     },
     {
@@ -1510,5 +1517,11 @@
         "title": "Bad Piggies",
         "url": "https://raw.githack.com/hazzatazza/the-one-with-bad-piggies/main/badpiggies/index.html",
         "thumb": "badpiggies.png"
+    },
+    {
+        "id": "fallguysrunner",
+        "title": "Fall Guys Runner",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/scratch/Fall%20Guys%20Runner!.html",
+        "thumb": "fallguys.png"
     }
 ]
