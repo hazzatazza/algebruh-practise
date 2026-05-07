@@ -1529,5 +1529,12 @@
         "title": "Harvest Simulator",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/harvestsim23/frivez.com/games/harvest-simulator/index.html",
         "thumb": "harvestsim.png"
+    },
+    {
+        "id": "ducklingsio",
+        "title": "Ducklings.io",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/ducklingsio.html",
+        "thumb": "ducklingsio.png"
     }
+]
 ]
