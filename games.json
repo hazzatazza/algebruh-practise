@@ -1535,5 +1535,11 @@
         "title": "Ducklings.io",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/ducklingsio.html",
         "thumb": "ducklingsio.png"
+    },
+    {
+        "id": "buildnowgg",
+        "title": "BuildNow.gg",
+        "url": "https://raw.githack.com/genizy/cg-rip/main/buildnow-gg/index.html",
+        "thumb": "buildnowgg.png"
     }
 ]
