@@ -1541,5 +1541,11 @@
         "title": "BuildNow.gg",
         "url": "https://raw.githack.com/genizy/cg-rip/main/buildnow-gg/index.html",
         "thumb": "buildnowgg.png"
+    },
+    {
+        "id": "smashkarts",
+        "title": "Smash Karts",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/smash-karts-main/index.html",
+        "thumb": "smashkarts.png"
     }
 ]
