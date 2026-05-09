@@ -1547,5 +1547,17 @@
         "title": "Smash Karts",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/smash-karts-main/index.html",
         "thumb": "smashkarts.png"
+    },
+    {
+        "id": "67game",
+        "title": "67 Game",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/67game/a155a05b-3e04-4c13-9053-ef50e4bb82ed.gdn.poki.com/aa105997-dd7e-4586-86f2-6ee2f98a93b7/index.html",
+        "thumb": "67game.png"
+    },
+    {
+        "id": "blumgisplash",
+        "title": "Blumgi Splash",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/blumgisplash/9b7896dc-b417-41ee-b682-2c29f4782242.gdn.poki.com/2021a659-3027-4d01-830b-c6b223944e5d/index.html",
+        "thumb": "blumgisplash.png"
     }
 ]
