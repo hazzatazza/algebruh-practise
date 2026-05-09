@@ -1559,5 +1559,23 @@
         "title": "Blumgi Splash",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/blumgisplash/9b7896dc-b417-41ee-b682-2c29f4782242.gdn.poki.com/2021a659-3027-4d01-830b-c6b223944e5d/index.html",
         "thumb": "blumgisplash.png"
+    },
+    {
+        "id": "shortcutrace",
+        "title": "Shortcut Race",
+        "url": "https://raw.githack.com/ahrdevelopers/shortcut-race/main/index.html",
+        "thumb": "shortcutrace.png"
+    },
+    {
+        "id": "fallbeans",
+        "title": "Fall Beans",
+        "url": "https://raw.githack.com/allunblockedgames/fall-beans/main/index.html",
+        "thumb": "fallbeans.png"
+    },
+    {
+        "id": "ragdolldrop",
+        "title": "Ragdoll Drop",
+        "url": "https://raw.githack.com/ahrdevelopers/ragdoll-drop/main/index.html",
+        "thumb": "ragdolldrop.png"
     }
 ]
