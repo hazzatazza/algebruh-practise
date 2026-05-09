@@ -1583,5 +1583,18 @@
         "title": "Go Escape",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/goescape/famobi.cdn.msnfun.com/9pbqfqvkv7pr/v2/index.html",
         "thumb": "goescape.png"
+    },
+    {
+        "id": "bartblast",
+        "title": "Bart Blast",
+        "url": "https://raw.githack.com/genizy/google-class/main/bart-blast/index.html",
+        "thumb": "bartblast.png"
+    },
+    {
+        "id": "getawayshootout",
+        "title": "Getaway Shootout",
+        "url": "https://raw.githack.com/1000unblockedgames/GetawayShootout/main/index.html",
+        "thumb": "getawayshootout.png"
     }
+]
 ]
