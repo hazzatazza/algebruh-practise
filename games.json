@@ -1,3 +1,4 @@
+
 [
     {
         "id": "soundboard",
@@ -99,7 +100,7 @@
     {
         "id": "bs",
         "title": "Basketball Stars",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketballstars.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/basketballstars.html",
         "thumb": "basketballstars.png"
     },
     {
@@ -225,7 +226,7 @@
     {
         "id": "trush",
         "title": "Tunnel Rush",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/tunnelrush.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/tunnelrush.html",
         "thumb": "tunnelrush.png"
     },
     {
@@ -279,7 +280,7 @@
     {
         "id": "br",
         "title": "Basket Random",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketrandom.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/basketrandom.html",
         "thumb": "basketrandom.png"
     },
     {
@@ -315,7 +316,7 @@
     {
         "id": "pt52",
         "title": "Poly Track .5.2",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/polytrack.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/polytrack.html",
         "thumb": "polytracknew.png"
     },
     {
@@ -339,13 +340,13 @@
     {
         "id": "jj",
         "title": "Jetpack Joyride",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/jetpackjoyride.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/jetpackjoyride.html",
         "thumb": "jetpackjoyride.png"
     },
     {
         "id": "er",
         "title": "Escape Road",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/escaperoad.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/escaperoad.html",
         "thumb": "escaperoad.png"
     },
     {
@@ -357,13 +358,13 @@
     {
         "id": "run1",
         "title": "Run",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/run.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/run.html",
         "thumb": "run1.png"
     },
     {
         "id": "run2",
         "title": "Run 2",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/run2.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/run2.html",
         "thumb": "run2.png"
     },
     {
@@ -393,37 +394,37 @@
     {
         "id": "crush",
         "title": "Candy Crush",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/candycrush.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/candycrush.html",
         "thumb": "candycrush.png"
     },
     {
         "id": "au",
         "title": "Among Us",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/amongus.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/amongus.html",
         "thumb": "amongus.png"
     },
     {
         "id": "ab",
         "title": "Angry Birds",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/angrybirds.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/angrybirds.html",
         "thumb": "angrybirds.png"
     },
     {
         "id": "ctr",
         "title": "Cut the Rope",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/cuttherope.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/cuttherope.html",
         "thumb": "cuttherope.png"
     },
     {
         "id": "dino",
         "title": "Google Dino",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/googledino.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/googledino.html",
         "thumb": "dinogame.png"
     },
     {
         "id": "hj",
         "title": "Helix Jump",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/helixjump.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/helixjump.html",
         "thumb": "helixjump.png"
     },
     {
@@ -435,19 +436,19 @@
     {
         "id": "sab",
         "title": "Stickman Archers",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stickarchersbattle.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/stickarchersbattle.html",
         "thumb": "stickarchersbattle.png"
     },
     {
         "id": "dc",
         "title": "Draw Climber",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/drawclimber.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/drawclimber.html",
         "thumb": "drawclimber.png"
     },
     {
         "id": "fnaf",
         "title": "FNAF",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/fnaf.html",
         "thumb": "fnaf.png"
     },
     {
@@ -693,7 +694,7 @@
     {
         "id": "stack",
         "title": "Stack",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stack.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/stack.html",
         "thumb": "stack.png"
     },
     {
@@ -711,19 +712,19 @@
     {
         "id": "pacman",
         "title": "Pac-Man",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/pacman.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/pacman.html",
         "thumb": "pacman.png"
     },
     {
         "id": "agar",
         "title": "Agar.io Lite",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/agariolite.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/agariolite.html",
         "thumb": "agariolite.png"
     },
     {
         "id": "vrandom",
         "title": "Volley Random",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/volleyrandom.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/volleyrandom.html",
         "thumb": "volleyrandom.png"
     },
     {
@@ -735,25 +736,25 @@
     {
         "id": "mx3mpp",
         "title": "Moto X3M Pool Party",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/motox3mpoolparty.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/motox3mpoolparty.html",
         "thumb": "motox3mpoolparty.png"
     },
     {
         "id": "fnaf2",
         "title": "FNAF 2",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf2.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/fnaf2.html",
         "thumb": "fnaf2.png"
     },
     {
         "id": "ovo2",
         "title": "OvO 2",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/ovo2.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/ovo2.html",
         "thumb": "ovo2.png"
     },
     {
         "id": "stateio",
         "title": "State.io",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/stateio.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/stateio.html",
         "thumb": "stateio.png"
     },
     {
@@ -789,7 +790,7 @@
     {
         "id": "granny",
         "title": "Granny",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/granny.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/granny.html",
         "thumb": "granny1.png"
     },
     {
@@ -813,7 +814,7 @@
     {
         "id": "fnaf3",
         "title": "FNAF 3",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf3.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/fnaf3.html",
         "thumb": "fnaf3.png"
     },
     {
@@ -837,13 +838,13 @@
     {
         "id": "supliqsoc",
         "title": "Super Liquid Soccer",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/superliquidsoccer.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/superliquidsoccer.html",
         "thumb": "superliquidsoccer.png"
     },
     {
         "id": "guessanswer",
         "title": "Guess Their Answer",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/guesstheiranswer.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/guesstheiranswer.html",
         "thumb": "guessanswer.png"
     },
     {
@@ -861,7 +862,7 @@
     {
         "id": "fnaf4",
         "title": "FNAF 4",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/fnaf4.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/fnaf4.html",
         "thumb": "fnaf4.png"
     },
     {
@@ -921,19 +922,19 @@
     {
         "id": "snowballio",
         "title": "Snowball.io",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/snowballio.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/snowballio.html",
         "thumb": "snowballio.png"
     },
     {
         "id": "hcrlite",
         "title": "Hill Climb Racing Lite",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/hillclimbracinglite.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/hillclimbracinglite.html",
         "thumb": "hillclimbracing.png"
     },
     {
         "id": "eggycar",
         "title": "Eggy Car",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/eggycar.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/eggycar.html",
         "thumb": "eggycar.png"
     },
     {
@@ -945,19 +946,19 @@
     {
         "id": "bubshoot",
         "title": "Bubble Shooter",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/bubbleshooter.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/bubbleshooter.html",
         "thumb": "bubbleshooter.png"
     },
     {
         "id": "1on1soc",
         "title": "1 On 1 Soccer",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/1on1soccer.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/1on1soccer.html",
         "thumb": "1on1soccer.png"
     },
     {
         "id": "aow2",
         "title": "Age Of War 2",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/ageofwar2.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/ageofwar2.html",
         "thumb": "ageofwar2.png"
     },
     {
@@ -1083,7 +1084,7 @@
     {
         "id": "dadish2",
         "title": "Dadish 2",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/dadish2.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/dadish2.html",
         "thumb": "dadish2.png"
     },
     {
@@ -1137,25 +1138,25 @@
     {
         "id": "stuntcars2",
         "title": "Madalin Stunt Cars 2",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/madalinstuntcars2.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/madalinstuntcars2.html",
         "thumb": "madalincars2.png"
     },
     {
         "id": "baldisbasics",
         "title": "Baldis Basics",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/baldisbasics.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/baldisbasics.html",
         "thumb": "baldisbasics.png"
     },
     {
         "id": "granny2",
         "title": "Granny 2",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/granny2.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/granny2.html",
         "thumb": "granny2.png"
     },
     {
         "id": "rooftopsnipers2",
         "title": "Rooftop Snipers 2",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/rooftopsnipers2.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/rooftopsnipers2.html",
         "thumb": "roogtopsnipers2.png"
     },
     {
@@ -1167,19 +1168,19 @@
     {
         "id": "dhp",
         "title": "Dreadhead Parkour",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/dreadheadparkour.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/dreadheadparkour.html",
         "thumb": "dreadheadparkour.png"
     },
     {
         "id": "rsd",
         "title": "Rocket Soccer Derby",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/rocketsoccerderby.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/rocketsoccerderby.html",
         "thumb": "rocketsoccerderby.png"
     },
     {
         "id": "wbw",
         "title": "We Become What We Behold",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/webecomewhatwebehold.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/webecomewhatwebehold.html",
         "thumb": "webecomewhatwebehold.png"
     },
     {
@@ -1197,67 +1198,67 @@
     {
         "id": "pvz",
         "title": "Plants vs Zombies",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/plantsvszombies.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/plantsvszombies.html",
         "thumb": "plantsvszombies.png"
     },
     {
         "id": "bbros",
         "title": "Baseball Bros",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/baseballbros.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/baseballbros.html",
         "thumb": "baseballbros.png"
     },
     {
         "id": "3dfs",
         "title": "3D Flight Simulator",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/3Dflightsimulator.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/3Dflightsimulator.html",
         "thumb": "3dflightsimulator.png"
     },
     {
         "id": "basketbros",
         "title": "Basket Bros",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/basketbros.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/basketbros.html",
         "thumb": "basketbros.png"
     },
     {
         "id": "cc3d",
         "title": "Crazy Cattle 3D",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/crazycattle3D.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/crazycattle3D.html",
         "thumb": "crazycattle3d.png"
     },
     {
         "id": "fbros",
         "title": "Football Bros",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/footballbros.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/footballbros.html",
         "thumb": "footballbros.png"
     },
     {
         "id": "sbros",
         "title": "Soccer Bros",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/soccerbros.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/soccerbros.html",
         "thumb": "soccerbros.png"
     },
     {
         "id": "ts2",
         "title": "Time Shooter 2",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/timeshooter2.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/timeshooter2.html",
         "thumb": "timeshooter2.png"
     },
     {
         "id": "ts3",
         "title": "Time Shooter 3",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/timeshooter3.htm",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/timeshooter3.htm",
         "thumb": "timeshooter3.png"
     },
     {
         "id": "pp",
         "title": "Papa's Pizzeria",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papaspizzeria.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/papaspizzeria.html",
         "thumb": "papaspizzeria.png"
     },
     {
         "id": "s2p",
         "title": "Slope 2 Player",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/slope2player.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/slope2player.html",
         "thumb": "slope2player.png"
     },
     {
@@ -1323,79 +1324,79 @@
     {
         "id": "pbake",
         "title": "Papa's Bakeria",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasbakeria.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/papasbakeria.html",
         "thumb": "papasbakeria.png"
     },
     {
         "id": "pburg",
         "title": "Papa's Burgeria",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasburgeria.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/papasburgeria.html",
         "thumb": "papasburgeria.png"
     },
     {
         "id": "pcheese",
         "title": "Papa's Cheeseria",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papascheeseria.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/papascheeseria.html",
         "thumb": "papascheeseria.png"
     },
     {
         "id": "pcup",
         "title": "Papa's Cupcakeria",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papascupcakeria.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/papascupcakeria.html",
         "thumb": "papascupcakeria.png"
     },
     {
         "id": "pdon",
         "title": "Papa's Donuteria",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasdonuteria.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/papasdonuteria.html",
         "thumb": "papasdonuteria.png"
     },
     {
         "id": "phot",
         "title": "Papa's Hotdoggeria",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papashotdoggeria.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/papashotdoggeria.html",
         "thumb": "papashotdoggeria.png"
     },
     {
         "id": "ppan",
         "title": "Papa's Pancakeria",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papaspancakeria.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/papaspancakeria.html",
         "thumb": "papaspancakeria.png"
     },
     {
         "id": "ppasta",
         "title": "Papa's Pastaria",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papaspastaria.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/papaspastaria.html",
         "thumb": "papaspastaria.png"
     },
     {
         "id": "pscoop",
         "title": "Papa's Scooperia",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasscooperia.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/papasscooperia.html",
         "thumb": "papasscooperia.png"
     },
     {
         "id": "psushi",
         "title": "Papa's Sushiria",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papassushiria.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/papassushiria.html",
         "thumb": "papassushiria.png"
     },
     {
         "id": "ptaco",
         "title": "Papa's Taco Mia",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papastacomia.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/papastacomia.html",
         "thumb": "papastacomia.png"
     },
     {
         "id": "pwing",
         "title": "Papa's Wingeria",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papaswingeria.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/papaswingeria.html",
         "thumb": "papaswingeria.png"
     },
     {
         "id": "pfreeze",
         "title": "Papa's Freezeria",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/papasfreezeria.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/papasfreezeria.html",
         "thumb": "papasfreezeria.png"
     },
     {
@@ -1419,31 +1420,31 @@
     {
         "id": "ovo3d",
         "title": "OvO Dimensions",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/ovo3dimensions.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/ovo3dimensions.html",
         "thumb": "ovo3.png"
     },
     {
         "id": "holeio",
         "title": "Hole.io",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/holeio.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/holeio.html",
         "thumb": "holeio.png"
     },
     {
         "id": "wrestlebros",
         "title": "Wrestle Bros",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/wrestlebros.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/wrestlebros.html",
         "thumb": "wrestlebros.png"
     },
     {
         "id": "kartbros",
         "title": "Kart Bros",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/kartbros.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/kartbros.html",
         "thumb": "kartbros.png"
     },
     {
         "id": "karatebros",
         "title": "Karate Bros",
-        "url": "https://raw.githack.com/shayderrr/Offline-HTML-Games-Pack/master/offline/karatebros.html",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/karatebros.html",
         "thumb": "karatebros.png"
     },
     {
