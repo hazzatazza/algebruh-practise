@@ -1596,5 +1596,23 @@
         "title": "Getaway Shootout",
         "url": "https://raw.githack.com/1000unblockedgames/GetawayShootout/main/index.html",
         "thumb": "getawayshootout.png"
+    },
+    {
+        "id": "johnnytrigger",
+        "title": "Johnny Trigger",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/johnnytrigger.html",
+        "thumb": "johnnytrigger.png"
+    },
+    {
+        "id": "theimpossiblequiz",
+        "title": "The Impossible Quiz",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/theimpossiblequiz.html",
+        "thumb": "theimpossiblequiz.png"
+    },
+    {
+        "id": "theimpossiblequiz2",
+        "title": "The Impossible Quiz 2",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/theimpossiblequiz2.html",
+        "thumb": "theimpossiblequiz2.png"
     }
 ]
