@@ -908,12 +908,6 @@
         "thumb": "sandtris.png"
     },
     {
-        "id": "dleo",
-        "title": "Dont Let Ehren Out",
-        "url": "https://raw.githack.com/hazzatazza/algebra-originals/main/dontletenrenout.html",
-        "thumb": "dontletehrenout.png"
-    },
-    {
         "id": "blumball",
         "title": "Blumgi Ball",
         "url": "https://raw.githack.com/gameinclassroom/blumgi-ball/main/index.html",
@@ -1614,5 +1608,11 @@
         "title": "The Impossible Quiz 2",
         "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/theimpossiblequiz2.html",
         "thumb": "theimpossiblequiz2.png"
+    },
+    {
+        "id": "angrybirds2",
+        "title": "Angry Birds 2",
+        "url": "https://raw.githack.com/Reeyuki/angry2/main/index.html",
+        "thumb": "angrybirds2.png"
     }
 ]
