@@ -171,13 +171,8 @@
     </div>
 
 <script>
-    const repoOwner = "hazzatazza";
-    const repoName = "algebruh-practise";
-    const cdnBase = `https://cdn.jsdelivr.net/gh/${repoOwner}/${repoName}@main/`;
-    
     let games = []; 
     let backups = []; 
-    let currentLatestSha = "";
 
     function closePopup() {
         if (document.getElementById('dontShowAgain').checked) {
@@ -188,13 +183,7 @@
 
     async function downloadFile() {
         try {
-            // SHA Fetch for Cache Busting
-            const shaResponse = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits?t=${Date.now()}`);
-            const commits = await shaResponse.json();
-            const sha = commits[0].sha;
-
-            const fileUrl = `https://cdn.jsdelivr.net/gh/${repoOwner}/${repoName}@${sha}/algebraofficialfile.html`;
-            
+            const fileUrl = 'algebraofficialfile.html';
             const response = await fetch(fileUrl);
             if (!response.ok) throw new Error('Fetch failed');
             
@@ -209,25 +198,25 @@
             document.body.removeChild(a);
         } catch (e) {
             console.error("Download failed", e);
-            alert("Download failed. Make sure the file exists in your repository.");
+            alert("Download failed. Make sure 'algebraofficialfile.html' exists in your local folder.");
         }
     }
 
     async function loadData() {
         try {
-            document.getElementById('mainLogoImg').src = cdnBase + 'logo.png';
-            document.getElementById('penguinHeadImg').src = cdnBase + 'penguinhead.png';
+            document.getElementById('mainLogoImg').src = 'logo.png';
+            document.getElementById('penguinHeadImg').src = 'penguinhead.png';
             
-            const shaResponse = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits?t=${Date.now()}`);
-            const commits = await shaResponse.json();
-            currentLatestSha = commits[0].sha;
-
-            const gamesResponse = await fetch(`https://cdn.jsdelivr.net/gh/${repoOwner}/${repoName}@${currentLatestSha}/games.json`);
+            const gamesResponse = await fetch('games.json');
             games = await gamesResponse.json();
-            const linksResponse = await fetch(`https://cdn.jsdelivr.net/gh/${repoOwner}/${repoName}@${currentLatestSha}/links.json`);
+            
+            const linksResponse = await fetch('links.json');
             backups = await linksResponse.json();
+            
             renderGames('games');
-        } catch (error) { console.error("Error loading data:", error); }
+        } catch (error) { 
+            console.error("Error loading data locally:", error); 
+        }
     }
 
     function renderGames(filter = 'games', search = '') {
@@ -246,7 +235,7 @@
             } else {
                 card.className = 'game-card';
                 card.onclick = () => openGame(item.id);
-                card.innerHTML = `<img src="${cdnBase}${item.thumb}" loading="lazy"><div class="card-title">${item.title}</div>`;
+                card.innerHTML = `<img src="${item.thumb}" loading="lazy"><div class="card-title">${item.title}</div>`;
             }
             grid.appendChild(card);
         });
@@ -256,7 +245,7 @@
         const game = games.find(g => g.id === id);
         if(!game) return;
         document.getElementById('modalTitle').textContent = game.title;
-        document.getElementById('modalIcon').src = cdnBase + game.thumb;
+        document.getElementById('modalIcon').src = game.thumb;
         document.getElementById('iframeContainer').innerHTML = `<iframe id="gameIframe" src="${game.url}" class="w-full h-full border-none" allowfullscreen></iframe>`;
         document.getElementById('gameModal').classList.remove('hidden');
         const suggested = games.filter(g => g.id !== id).sort(() => 0.5 - Math.random()).slice(0, 6);
@@ -266,7 +255,7 @@
             const scard = document.createElement('div');
             scard.className = 'sidebar-card';
             scard.onclick = () => openGame(g.id);
-            scard.innerHTML = `<img src="${cdnBase}${g.thumb}"><div class="card-title">${g.title}</div>`;
+            scard.innerHTML = `<img src="${g.thumb}"><div class="card-title">${g.title}</div>`;
             suggGrid.appendChild(scard);
         });
     }
