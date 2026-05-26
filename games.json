@@ -1614,5 +1614,11 @@
         "title": "Angry Birds 2",
         "url": "https://raw.githack.com/Reeyuki/angry2/main/index.html",
         "thumb": "angrybirds2.png"
+    },
+    {
+        "id": "slimeroad",
+        "title": "Slime Road",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/1d41199be07023355149d851a8f1ae9bdf3e33d5/slimeroad/class811.github.io/g6/slime-road/index.html",
+        "thumb": "slimeroad.png"
     }
 ]
