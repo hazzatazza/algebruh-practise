@@ -1626,5 +1626,11 @@
         "title": "Angry Birds Online",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/flash%20files/angrybirds/index.html",
         "thumb": "angrybirdsog.png"
+    },
+    {
+        "id": "fc26packopener",
+        "title": "FIFA FC26 Pack Opener",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/scratch/FIFA%20FC26%20Pack%20Opening%20Simulator!.html",
+        "thumb": "fc26packopener.png"
     }
 ]
