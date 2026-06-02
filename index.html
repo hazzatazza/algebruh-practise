@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algebra Practice - Study Module</title>
     <link id="favicon" rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/0/01/El_Sato_Tux_The_penguin_in_sonic_style.png">
-    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -15,6 +15,9 @@
             background-color: var(--bg); color: var(--text); font-family: 'Chewy', cursive;
             transition: all 0.3s ease; overflow-x: hidden; min-height: 100vh;
             background-size: cover; background-position: center; background-attachment: fixed;
+        }
+        body.edu-mode {
+            font-family: 'Inter', sans-serif !important;
         }
         #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
         
@@ -43,6 +46,20 @@
         .game-card:hover, .sidebar-card:hover, .backup-card:hover { border-color: var(--primary); transform: scale(1.03); box-shadow: 0 0 15px var(--primary); }
         .game-card img, .sidebar-card img { width: 100%; height: 100%; object-fit: cover; }
         
+        /* Educational text-only fallback card styles */
+        .edu-text-card {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 20px; text-align: center; background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .edu-module-badge {
+            font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 8px;
+        }
+        .edu-module-title {
+            font-size: 0.9rem; color: #94a3b8; font-weight: 500;
+        }
+
+        /* Centered Backups */
         .backup-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; text-align: center; padding: 20px; }
         .backup-card i { font-size: 3.5rem; color: var(--primary); transition: color 0.3s ease; }
         .backup-label { color: #fff; font-size: 1.1rem; width: 100%; text-align: center; display: block; }
@@ -128,6 +145,10 @@
             <button onclick="toggleSettings()"><i class="fas fa-times text-xl"></i></button>
         </div>
         <div class="space-y-6">
+            <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/10">
+                <span class="font-semibold text-sm">Educational Theme</span>
+                <button id="eduToggle" onclick="toggleEduMode()" class="font-bold transition-colors">OFF</button>
+            </div>
             <div>
                 <label class="block text-xs opacity-50 mb-2 uppercase">Theme Color</label>
                 <input type="color" id="primaryPicker" value="#a855f7" oninput="updatePrimary(this.value)" class="w-full h-10 rounded-lg cursor-pointer bg-transparent border-none">
@@ -139,7 +160,21 @@
             <button onclick="setBg()" class="w-full bg-white/10 py-3 rounded-xl text-sm">Set Background Image</button>
             <button onclick="resetBg()" class="w-full bg-red-500/10 text-red-400 py-2 rounded-xl text-xs">Reset Background</button>
             <button onclick="openAboutBlank()" class="w-full bg-white/10 py-3 rounded-xl text-sm">Open in About:Blank</button>
+            
             <div class="space-y-3 pt-4 border-t border-white/10 flex flex-col">
+                <span class="block text-xs opacity-50 uppercase font-semibold">Emergency Settings</span>
+                <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/10">
+                    <span class="text-sm">Panic Key Switch</span>
+                    <button id="panicToggle" onclick="togglePanicMode()" class="font-bold transition-colors text-red-500">OFF</button>
+                </div>
+                <button id="panicKeyBtn" onclick="startPanicKeyCapture()" class="w-full bg-white/5 border border-white/10 text-left py-2 px-3 rounded-lg text-sm truncate">
+                    Key Bind: <span class="text-gray-400">None</span>
+                </button>
+                <input type="text" id="panicUrl" placeholder="Emergency Redirect URL" oninput="savePanicUrl(this.value)" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
+            </div>
+
+            <div class="space-y-3 pt-4 border-t border-white/10 flex flex-col">
+                <span class="block text-xs opacity-50 uppercase font-semibold">Tab Cloaking</span>
                 <input type="text" id="cloakTitle" placeholder="Tab Title" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
                 <input type="text" id="cloakFavicon" placeholder="Favicon URL" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
                 <button onclick="applyCloak()" id="applyBtn" class="w-full text-black py-3 px-4 rounded-xl text-sm font-bold shadow-lg hover:brightness-110 transition-all mt-2" style="background-color: var(--primary);">Apply Cloak</button>
@@ -153,12 +188,13 @@
                 <div id="iframeContainer" class="w-full h-full"></div>
             </div>
             <div class="sidebar hidden lg:flex flex-col gap-4 overflow-y-auto pr-2">
-                <h3 class="text-xl" style="color: var(--primary);">More Like This</h3>
+                <h3 class="text-xl id-more-like-this" style="color: var(--primary);">More Like This</h3>
                 <div id="suggestedGames" class="grid grid-cols-2 gap-3"></div>
             </div>
         </div>
         <div class="h-20 px-8 flex items-center justify-between bg-white/5 backdrop-blur-md">
             <div class="flex items-center gap-4">
+                <div id="modalIconContainer" class="h-10 w-10 rounded-lg flex items-center justify-center bg-white/10 text-xs font-bold text-white hidden"></div>
                 <img id="modalIcon" src="" class="h-10 w-10 rounded-lg object-cover">
                 <h3 id="modalTitle" class="text-xl">Game Title</h3>
             </div>
@@ -173,6 +209,14 @@
 <script>
     let games = []; 
     let backups = []; 
+
+    let eduModeEnabled = localStorage.getItem('eduMode') === 'true';
+
+    // Emergency Panic Configuration Variables
+    let panicEnabled = localStorage.getItem('panicEnabled') === 'true';
+    let panicBind = JSON.parse(localStorage.getItem('panicBind')) || null; 
+    let targetPanicUrl = localStorage.getItem('targetPanicUrl') || 'https://www.google.com';
+    let isCapturingKey = false;
 
     function closePopup() {
         if (document.getElementById('dontShowAgain').checked) {
@@ -202,6 +246,12 @@
         }
     }
 
+    function generateModuleString(index) {
+        const major = Math.floor(index / 10) + 1;
+        const minor = index % 10;
+        return minor === 0 ? `Module ${major}` : `Module ${major}.${minor}`;
+    }
+
     async function loadData() {
         try {
             document.getElementById('mainLogoImg').src = 'logo.png';
@@ -223,42 +273,193 @@
         const grid = document.getElementById('gameGrid');
         grid.innerHTML = '';
         let items = filter === 'backups' ? backups : games;
-        items.forEach(item => {
+        
+        let validItemIndex = 0; 
+        items.forEach((item) => {
             if (filter === 'apps' && item.type !== 'app') return;
             if (filter === 'games' && item.type === 'app') return;
-            if (search && !item.title.toLowerCase().includes(search.toLowerCase())) return;
+            
+            let displayTitle = item.title;
+            let moduleLabel = generateModuleString(validItemIndex);
+            
+            if (eduModeEnabled && filter !== 'backups') {
+                displayTitle = moduleLabel;
+            }
+            
+            if (search && !displayTitle.toLowerCase().includes(search.toLowerCase())) {
+                if (filter !== 'backups') validItemIndex++;
+                return;
+            }
+            
             const card = document.createElement('div');
             if(filter === 'backups') {
                 card.className = 'backup-card';
                 card.onclick = () => window.open(item.url, '_blank');
                 card.innerHTML = `<i class="fas ${item.icon}"></i><div class="backup-label">${item.title}</div>`;
             } else {
-                card.className = 'game-card';
-                card.onclick = () => openGame(item.id);
-                card.innerHTML = `<img src="${item.thumb}" loading="lazy"><div class="card-title">${item.title}</div>`;
+                if (eduModeEnabled) {
+                    card.className = 'game-card edu-text-card';
+                    card.onclick = () => openGame(item.id, moduleLabel);
+                    card.innerHTML = `
+                        <div class="edu-module-badge">${moduleLabel}</div>
+                        <div class="edu-module-title">Curriculum Study Block</div>
+                    `;
+                } else {
+                    card.className = 'game-card';
+                    card.onclick = () => openGame(item.id, item.title);
+                    card.innerHTML = `<img src="${item.thumb}" loading="lazy"><div class="card-title">${item.title}</div>`;
+                }
             }
             grid.appendChild(card);
+            if (filter !== 'backups') validItemIndex++;
         });
     }
 
-    function openGame(id) {
+    function openGame(id, forcedTitle) {
         const game = games.find(g => g.id === id);
         if(!game) return;
-        document.getElementById('modalTitle').textContent = game.title;
-        document.getElementById('modalIcon').src = game.thumb;
+        
+        const titleText = eduModeEnabled ? forcedTitle : game.title;
+        document.getElementById('modalTitle').textContent = titleText;
+        
+        if (eduModeEnabled) {
+            document.getElementById('modalIcon').classList.add('hidden');
+            const iconContainer = document.getElementById('modalIconContainer');
+            iconContainer.classList.remove('hidden');
+            iconContainer.textContent = forcedTitle.split(" ")[1] || "EDU";
+        } else {
+            document.getElementById('modalIconContainer').classList.add('hidden');
+            const imgIcon = document.getElementById('modalIcon');
+            imgIcon.classList.remove('hidden');
+            imgIcon.src = game.thumb;
+        }
+        
         document.getElementById('iframeContainer').innerHTML = `<iframe id="gameIframe" src="${game.url}" class="w-full h-full border-none" allowfullscreen></iframe>`;
         document.getElementById('gameModal').classList.remove('hidden');
+        
         const suggested = games.filter(g => g.id !== id).sort(() => 0.5 - Math.random()).slice(0, 6);
         const suggGrid = document.getElementById('suggestedGames');
         suggGrid.innerHTML = '';
-        suggested.forEach(g => {
+        
+        suggested.forEach((g, idx) => {
+            const fakeModuleLabel = generateModuleString(idx + 15);
             const scard = document.createElement('div');
-            scard.className = 'sidebar-card';
-            scard.onclick = () => openGame(g.id);
-            scard.innerHTML = `<img src="${g.thumb}"><div class="card-title">${g.title}</div>`;
+            if (eduModeEnabled) {
+                scard.className = 'sidebar-card edu-text-card';
+                scard.onclick = () => openGame(g.id, fakeModuleLabel);
+                scard.innerHTML = `<div class="edu-module-badge" style="font-size: 1.1rem;">${fakeModuleLabel}</div>`;
+            } else {
+                scard.className = 'sidebar-card';
+                scard.onclick = () => openGame(g.id, g.title);
+                scard.innerHTML = `<img src="${g.thumb}"><div class="card-title">${g.title}</div>`;
+            }
             suggGrid.appendChild(scard);
         });
     }
+
+    function toggleEduMode() {
+        eduModeEnabled = !eduModeEnabled;
+        localStorage.setItem('eduMode', eduModeEnabled);
+        applyEduThemeSettings();
+        renderGames('games');
+    }
+
+    function applyEduThemeSettings() {
+        const btn = document.getElementById('eduToggle');
+        const headerTitle = document.querySelector('.id-more-like-this');
+        
+        if (eduModeEnabled) {
+            document.body.classList.add('edu-mode');
+            btn.textContent = 'ON';
+            btn.style.color = '#22c55e';
+            updatePrimary('#22c55e');
+            if(headerTitle) headerTitle.textContent = "Related Curriculum Modules";
+        } else {
+            document.body.classList.remove('edu-mode');
+            btn.textContent = 'OFF';
+            btn.style.color = '#ef4444';
+            const savedColor = localStorage.getItem('user_p_color') || '#a855f7';
+            updatePrimary(savedColor);
+            if(headerTitle) headerTitle.textContent = "More Like This";
+        }
+    }
+
+    // EMERGENCY KEY (PANIC MOD) LOGIC FUNCTIONS
+    function togglePanicMode() {
+        panicEnabled = !panicEnabled;
+        localStorage.setItem('panicEnabled', panicEnabled);
+        updatePanicUI();
+    }
+
+    function updatePanicUI() {
+        const toggleBtn = document.getElementById('panicToggle');
+        if (panicEnabled) {
+            toggleBtn.textContent = 'ON';
+            toggleBtn.style.color = '#22c55e';
+        } else {
+            toggleBtn.textContent = 'OFF';
+            toggleBtn.style.color = '#ef4444';
+        }
+
+        const bindBtn = document.getElementById('panicKeyBtn');
+        if (panicBind) {
+            let shortcutText = [];
+            if (panicBind.ctrl) shortcutText.push('Ctrl');
+            if (panicBind.shift) shortcutText.push('Shift');
+            if (panicBind.alt) shortcutText.push('Alt');
+            shortcutText.push(panicBind.key.toUpperCase());
+            bindBtn.innerHTML = `Key Bind: <span class="text-white font-bold">${shortcutText.join(' + ')}</span>`;
+        } else {
+            bindBtn.innerHTML = `Key Bind: <span class="text-gray-400">None (Click to set)</span>`;
+        }
+    }
+
+    function startPanicKeyCapture() {
+        isCapturingKey = true;
+        const bindBtn = document.getElementById('panicKeyBtn');
+        bindBtn.innerHTML = `Key Bind: <span class="text-yellow-400 animate-pulse">Press any key...</span>`;
+    }
+
+    function savePanicUrl(val) {
+        let formattedUrl = val.trim();
+        if (formattedUrl && !/^https?:\/\//i.test(formattedUrl)) {
+            formattedUrl = 'https://' + formattedUrl;
+        }
+        targetPanicUrl = formattedUrl || 'https://www.google.com';
+        localStorage.setItem('targetPanicUrl', targetPanicUrl);
+    }
+
+    // Global Event Listener for Keyboard Input Setup/Triggering
+    window.addEventListener('keydown', (e) => {
+        if (isCapturingKey) {
+            e.preventDefault();
+            if (['Control', 'Shift', 'Alt', 'Meta'].includes(e.key)) return;
+
+            panicBind = {
+                ctrl: e.ctrlKey,
+                shift: e.shiftKey,
+                alt: e.altKey,
+                key: e.key.toLowerCase()
+            };
+            
+            localStorage.setItem('panicBind', JSON.stringify(panicBind));
+            isCapturingKey = false;
+            updatePanicUI();
+            return;
+        }
+
+        if (panicEnabled && panicBind) {
+            const matchesCtrl = panicBind.ctrl === e.ctrlKey;
+            const matchesShift = panicBind.shift === e.shiftKey;
+            const matchesAlt = panicBind.alt === e.altKey;
+            const matchesKey = panicBind.key === e.key.toLowerCase();
+
+            if (matchesCtrl && matchesShift && matchesAlt && matchesKey) {
+                e.preventDefault();
+                window.location.href = targetPanicUrl;
+            }
+        }
+    });
 
     function closeGame() {
         document.getElementById('gameModal').classList.add('hidden');
@@ -266,7 +467,10 @@
     }
 
     function openRandomGame() {
-        if(games.length > 0) openGame(games[Math.floor(Math.random() * games.length)].id);
+        if(games.length > 0) {
+            const randGame = games[Math.floor(Math.random() * games.length)];
+            openGame(randGame.id, eduModeEnabled ? "Module 1.0" : randGame.title);
+        }
     }
 
     function toggleFullscreen() {
@@ -312,7 +516,7 @@
         document.documentElement.style.setProperty('--primary', color);
         const applyBtn = document.getElementById('applyBtn');
         if(applyBtn) applyBtn.style.backgroundColor = color;
-        localStorage.setItem('user_p_color', color);
+        if(!eduModeEnabled) localStorage.setItem('user_p_color', color);
     }
 
     let particlesEnabled = localStorage.getItem('particles') !== 'false';
@@ -370,6 +574,12 @@
         const sIcon = localStorage.getItem('user_cloak_icon');
         if(sTitle) document.title = sTitle;
         if(sIcon) document.getElementById('favicon').href = sIcon;
+        
+        // Initialize Panic Input fields
+        document.getElementById('panicUrl').value = localStorage.getItem('targetPanicUrl') || '';
+        updatePanicUI();
+
+        applyEduThemeSettings();
         loadData();
         initPts(); draw();
     };
