@@ -1638,5 +1638,11 @@
         "title": "A Dance Of Fire And Ice",
         "url": "https://raw.githack.com/hazzatazza/a-dance-of-fire-and-ice/main/index.html",
         "thumb": "adofai.png"
+    },
+    {
+        "id": "qwop",
+        "title": "QWOP",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/qwop.html",
+        "thumb": "qwop.png"
     }
 ]
