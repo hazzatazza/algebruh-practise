@@ -1632,5 +1632,11 @@
         "title": "FIFA FC26 Pack Opener",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/scratch/FIFA%20FC26%20Pack%20Opening%20Simulator!.html",
         "thumb": "fc26packopener.png"
+    },
+    {
+        "id": "adofai",
+        "title": "A Dance Of Fire And Ice",
+        "url": "https://raw.githack.com/hazzatazza/a-dance-of-fire-and-ice/main/index.html",
+        "thumb": "adofai.png"
     }
 ]
