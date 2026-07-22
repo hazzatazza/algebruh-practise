@@ -1644,5 +1644,29 @@
         "title": "QWOP",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/qwop.html",
         "thumb": "qwop.png"
+    },
+    {
+        "id": "bison1",
+        "title": "Burrito Bison: Launcha Libre",
+        "url": "https://raw.githack.com/ovo-gamez-unblocked/burrito-bison/main/index.html",
+        "thumb": "burritobisonlaunch.png"
+    },
+    {
+        "id": "bison2",
+        "title": "Burrito Bison Revenge",
+        "url": "https://raw.githack.com/1002unblockedgames/BurritoBisonRevenge/main/index.html",
+        "thumb": "burritobisonrevenge.png"
+    },
+    {
+        "id": "speedstars",
+        "title": "Speed Stars",
+        "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/speedstars.html",
+        "thumb": "speedstars.png"
+    },
+    {
+        "id": "adgac",
+        "title": "A Difficult Game About Climbing",
+        "url": "https://raw.githack.com/web-ports/adgac/main/index.html",
+        "thumb": "adgac.png"
     }
 ]
