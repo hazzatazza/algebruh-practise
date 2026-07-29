@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algebra Practice - Study Module</title>
+    <link id="favicon" rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/0/01/El_Sato_Tux_The_penguin_in_sonic_style.png">
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Inter:wght@400;600;700&family=Press+Start+2P&family=Fira+Code:wght@400;700&family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --primary: #a855f7; 
+            --accent: #22c55e; 
+            --bg: #020617; 
+            --text: #ffffff; 
+            --card: rgba(30, 41, 59, 0.5); 
+            --card-border: rgba(255, 255, 255, 0.1);
+            --radius: 1.2rem;
+            --font-main: 'Chewy', cursive;
+        }
+
+        body { 
+            background-color: var(--bg); 
+            color: var(--text); 
+            font-family: var(--font-main);
+            transition: background 0.3s ease, color 0.3s ease; 
+            overflow-x: hidden; 
+            min-height: 100vh;
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed;
+        }
+
+        #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
+        
+        .main-logo-container { display: flex; justify-content: center; padding-top: 40px; margin-bottom: -10px; }
+        .main-logo { width: 350px; height: auto; filter: drop-shadow(0 0 15px var(--primary)); cursor: pointer; transition: transform 0.3s ease, filter 0.3s ease; }
+        .main-logo:hover { transform: scale(1.05); }
+
+        .island-header {
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
+            border: 1px solid var(--card-border); border-radius: 99px;
+            padding: 10px 28px; display: flex; align-items: center; gap: 20px;
+            margin: 20px auto 40px; width: fit-content; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .nav-icon { font-size: 1.5rem; cursor: pointer; transition: color 0.2s; opacity: 0.7; }
+        .nav-icon:hover { color: var(--primary) !important; opacity: 1; }
+        
+        .penguin-nav-btn { height: 40px; width: 40px; object-fit: contain; cursor: pointer; transition: filter 0.3s; }
+        .penguin-nav-btn:hover { filter: drop-shadow(0 0 8px var(--primary)); }
+
+        .game-card, .sidebar-card, .backup-card {
+            position: relative; aspect-ratio: 1/1; overflow: hidden; border-radius: var(--radius);
+            border: 2px solid var(--card-border); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--card); cursor: pointer;
+        }
+        .game-card:hover, .sidebar-card:hover, .backup-card:hover { 
+            border-color: var(--primary); 
+            transform: translateY(-4px) scale(1.02); 
+            box-shadow: 0 10px 25px -5px var(--primary); 
+        }
+        .game-card img, .sidebar-card img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .card-title {
+            position: absolute; bottom: -100%; left: 0; width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.95));
+            padding: 20px 8px 10px; text-align: center; transition: bottom 0.3s ease; font-size: 0.85rem;
+        }
+        .game-card:hover .card-title, .sidebar-card:hover .card-title, .backup-card:hover .card-title { bottom: 0; }
+
+        /* Centered Backups */
+        .backup-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; text-align: center; padding: 20px; }
+        .backup-card i { font-size: 3.5rem; color: var(--primary); transition: color 0.3s ease; }
+        .backup-label { color: var(--text); font-size: 1.1rem; width: 100%; text-align: center; display: block; }
+
+        #settingsPanel { z-index: 100; transition: transform 0.4s ease; }
+        .game-container { display: grid; grid-template-columns: 1fr 300px; gap: 20px; height: calc(100vh - 100px); padding: 20px; }
+        
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; border: 2px solid var(--bg); }
+
+        .download-here-link { color: #3b82f6; font-weight: bold; cursor: pointer; text-decoration: underline; }
+        .download-here-link:hover { color: #60a5fa; }
+
+        /* ==================== 15 LAYOUT & THEME PRESETS ==================== */
+
+        /* 1. DEFAULT DARK GLASS */
+        body[data-theme="default"] { --bg: #020617; --primary: #a855f7; --card: rgba(30, 41, 59, 0.5); --font-main: 'Chewy', cursive; }
+
+        /* 2. EDUCATIONAL MODULE MODE */
+        body[data-theme="educational"] { --bg: #0f172a; --primary: #22c55e; --card: rgba(15, 23, 42, 0.9); --font-main: 'Inter', sans-serif; --radius: 0.75rem; }
+        body[data-theme="educational"] .edu-text-card { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+        body[data-theme="educational"] .edu-module-badge { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+        body[data-theme="educational"] .edu-module-title { font-size: 0.85rem; color: #94a3b8; font-weight: 500; }
+
+        /* 3. POKI ARCADE STYLE */
+        body[data-theme="poki"] { --bg: #00d2ff; --primary: #ff007f; --card: #ffffff; --text: #1e1e1e; --font-main: 'Fredoka', sans-serif; --radius: 1.8rem; }
+        body[data-theme="poki"] .island-header { background: #ffffff; border: 4px solid #1e1e1e; box-shadow: 6px 6px 0px #1e1e1e; color: #1e1e1e; }
+        body[data-theme="poki"] .game-card { border: 4px solid #1e1e1e; box-shadow: 4px 4px 0px #1e1e1e; }
+        body[data-theme="poki"] .game-card:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0px #1e1e1e; }
+
+        /* 4. CRAZYGAMES MODERN */
+        body[data-theme="crazygames"] { --bg: #0b0e14; --primary: #7c3aed; --card: #181c25; --font-main: 'Inter', sans-serif; --radius: 0.5rem; }
+        body[data-theme="crazygames"] .game-card { border: 1px solid #2a2e3d; }
+        body[data-theme="crazygames"] .game-card:hover { border-color: #7c3aed; box-shadow: 0 0 15px rgba(124, 58, 237, 0.4); }
+
+        /* 5. ULTRA MINIMALIST */
+        body[data-theme="minimalist"] { --bg: #ffffff; --text: #000000; --primary: #000000; --card: #f4f4f5; --font-main: 'Inter', sans-serif; --radius: 0px; }
+        body[data-theme="minimalist"] .island-header { background: #ffffff; border: 1px solid #e4e4e7; box-shadow: none; border-radius: 0px; color: #000000; }
+        body[data-theme="minimalist"] .game-card { border: 1px solid #e4e4e7; box-shadow: none; }
+        body[data-theme="minimalist"] .game-card:hover { border-color: #000000; transform: none; }
+
+        /* 6. CYBERPUNK 2077 / NEON */
+        body[data-theme="cyberpunk"] { --bg: #05050a; --primary: #00f0ff; --card: rgba(255, 0, 85, 0.15); --card-border: #ff0055; --font-main: 'Fira Code', monospace; --radius: 0px; }
+        body[data-theme="cyberpunk"] .game-card { clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%); border: 1px solid #ff0055; }
+        body[data-theme="cyberpunk"] .game-card:hover { border-color: #00f0ff; box-shadow: 0 0 20px #00f0ff; }
+
+        /* 7. RETRO 8-BIT ARCADE */
+        body[data-theme="retro"] { --bg: #120024; --primary: #facc15; --card: #20003b; --font-main: 'Press Start 2P', cursive; --radius: 0px; }
+        body[data-theme="retro"] .island-header, body[data-theme="retro"] .game-card { border: 4px solid #facc15; box-shadow: 4px 4px 0 #ff0055; }
+        body[data-theme="retro"] .card-title { font-size: 0.6rem; background: #000000; padding: 6px; }
+
+        /* 8. GLASSMORPHISM LUXE */
+        body[data-theme="glassmorphism"] { --bg: linear-gradient(135deg, #0f172a 0%, #31103f 100%); --primary: #38bdf8; --card: rgba(255, 255, 255, 0.08); --card-border: rgba(255, 255, 255, 0.2); --radius: 1.5rem; }
+        body[data-theme="glassmorphism"] .game-card { backdrop-filter: blur(16px); }
+
+        /* 9. NEUMORPHIC LIGHT */
+        body[data-theme="neumorphic"] { --bg: #e0e5ec; --text: #333333; --primary: #4d7c0f; --card: #e0e5ec; --font-main: 'Inter', sans-serif; --radius: 1.5rem; }
+        body[data-theme="neumorphic"] .island-header, body[data-theme="neumorphic"] .game-card {
+            background: #e0e5ec; border: none;
+            box-shadow: 9px 9px 16px #a3b1c6, -9px -9px 16px #ffffff; color: #333;
+        }
+
+        /* 10. TERMINAL HACKER */
+        body[data-theme="terminal"] { --bg: #000000; --text: #00ff66; --primary: #00ff66; --card: #051105; --font-main: 'Fira Code', monospace; --radius: 0px; }
+        body[data-theme="terminal"] .game-card { border: 1px solid #00ff66; }
+        body[data-theme="terminal"] .island-header { background: #000; border: 1px solid #00ff66; border-radius: 0; }
+
+        /* 11. STEAM STORE DECK */
+        body[data-theme="steam"] { --bg: #1b2838; --primary: #66c0f4; --card: #101822; --font-main: 'Inter', sans-serif; --radius: 0.4rem; }
+        body[data-theme="steam"] .game-card { border: 1px solid #2a475e; }
+        body[data-theme="steam"] .game-card:hover { border-color: #66c0f4; box-shadow: 0 0 12px #66c0f4; }
+
+        /* 12. Y2K METALLIC */
+        body[data-theme="y2k"] { --bg: #1e293b; --primary: #06b6d4; --card: linear-gradient(180deg, #334155 0%, #0f172a 100%); --font-main: 'Fredoka', sans-serif; --radius: 2rem; }
+        body[data-theme="y2k"] .game-card { border: 3px solid #94a3b8; }
+
+        /* 13. PAPER NOTEBOOK */
+        body[data-theme="paper"] { --bg: #fef3c7; --text: #1e293b; --primary: #d97706; --card: #fffbe3; --font-main: 'Fredoka', cursive; --radius: 0.5rem; }
+        body[data-theme="paper"] .game-card { border: 2px dashed #b45309; color: #1e293b; }
+        body[data-theme="paper"] .island-header { background: #fffbe3; border: 2px solid #b45309; border-radius: 0.5rem; color: #1e293b; }
+
+        /* 14. NORDIC FOREST */
+        body[data-theme="nordic"] { --bg: #1a2321; --primary: #a3e635; --card: #283531; --font-main: 'Inter', sans-serif; --radius: 1rem; }
+        body[data-theme="nordic"] .game-card { border: 1px solid #3f524c; }
+
+        /* 15. COMPACT DIRECTORY LIST */
+        body[data-theme="compact"] { --bg: #0d1117; --primary: #58a6ff; --card: #161b22; --font-main: 'Inter', sans-serif; --radius: 0.2rem; }
+        body[data-theme="compact"] #gameGrid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important; gap: 10px !important; }
+        body[data-theme="compact"] .game-card { aspect-ratio: 16/9; }
+    </style>
+</head>
+<body class="p-4" data-theme="default">
+
+    <canvas id="particle-canvas"></canvas>
+
+    <div id="downloadPopup" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[300] hidden flex items-center justify-center">
+        <div class="bg-slate-900 border border-white/10 p-8 rounded-3xl max-w-md text-center shadow-2xl">
+            <h2 class="text-2xl mb-4 text-white">Algebra Practise Downloadable File</h2>
+            <p class="text-lg mb-6">You can now download the site as a file on your computer! <br> 
+               Download it <span class="download-here-link" onclick="downloadFile()">here</span>.
+            </p>
+            <div class="flex items-center justify-center gap-3 mb-6">
+                <input type="checkbox" id="dontShowAgain" class="w-4 h-4 cursor-pointer">
+                <label for="dontShowAgain" class="text-sm opacity-80 cursor-pointer">Do not show again</label>
+            </div>
+            <button onclick="closePopup()" class="bg-white/10 px-8 py-2 rounded-full hover:bg-white/20 transition-all">Close</button>
+        </div>
+    </div>
+
+    <div class="main-logo-container">
+        <img id="mainLogoImg" src="" alt="Logo" class="main-logo" onclick="location.reload()">
+    </div>
+
+    <header class="island-header">
+        <img id="penguinHeadImg" src="" onclick="location.reload()" class="penguin-nav-btn" title="Home">
+        <div class="h-6 w-[1px] bg-white/20"></div>
+        <i class="fas fa-gamepad nav-icon" onclick="renderGames('games')" title="Games"></i>
+        <i class="fas fa-th-large nav-icon" onclick="renderGames('apps')" title="Apps"></i>
+        <i class="fas fa-dice nav-icon" onclick="openRandomGame()" title="Random Game"></i>
+        <i class="fas fa-link nav-icon" onclick="renderGames('backups')" title="Backups"></i>
+        <i class="fas fa-circle-info nav-icon" onclick="toggleInfo()" title="Info"></i>
+        <div class="relative">
+            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-sm opacity-50"></i>
+            <input type="text" id="searchInput" placeholder="Search..." 
+                   class="bg-white/5 border border-white/10 py-1 pl-9 pr-4 rounded-full focus:outline-none focus:ring-1 focus:ring-primary text-sm w-32 md:w-48">
+        </div>
+        <i class="fas fa-sliders nav-icon" onclick="toggleSettings()"></i>
+    </header>
+
+    <main class="max-w-7xl mx-auto">
+        <div id="gameGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5"></div>
+    </main>
+
+    <div id="infoTab" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[200] hidden flex items-center justify-center" onclick="toggleInfo()">
+        <div class="bg-slate-900 border border-white/10 p-8 rounded-3xl max-w-md text-center shadow-2xl" onclick="event.stopPropagation()">
+            <h2 class="text-3xl mb-4" style="color: var(--primary);">About Algebra Practice</h2>
+            <p class="text-lg leading-relaxed mb-4">Algebra Practise was created by hazza in 2025 and updated in 2026. i dont own any of the games here apart from the ones i made.</p>
+            <p class="text-lg mb-6">Request games <a href="https://docs.google.com/forms/d/e/1FAIpQLScww3MHYoLogsOX5WcBctTbzVTUkXwoEeiOxenN0i8gxiOtpg/viewform?usp=header" target="_blank" class="text-blue-500 underline">here</a></p>
+            
+            <div class="flex flex-col gap-3">
+                <button onclick="downloadFile()" class="flex items-center justify-center gap-2 py-3 rounded-xl text-white font-bold transition-all hover:scale-105 active:scale-95" style="background-color: var(--primary);">
+                    <i class="fas fa-download"></i> Download Offline File
+                </button>
+                <button onclick="toggleInfo()" class="bg-white/10 px-6 py-2 rounded-full hover:bg-white/20 transition-all">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsPanel" class="fixed top-0 right-0 h-full w-80 bg-slate-900 border-l border-white/10 p-8 transform translate-x-full shadow-2xl overflow-y-auto">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl">Settings</h2>
+            <button onclick="toggleSettings()"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <div class="space-y-6">
+            
+            <div>
+                <label class="block text-xs opacity-50 mb-2 uppercase font-semibold">Layout & Style Preset</label>
+                <select id="themeSelector" onchange="changeThemePreset(this.value)" class="w-full bg-slate-800 text-white border border-white/20 p-2.5 rounded-xl text-sm focus:outline-none">
+                    <option value="default">1. Default Dark Glass</option>
+                    <option value="educational">2. Educational Curriculum</option>
+                    <option value="poki">3. Poki Arcade</option>
+                    <option value="crazygames">4. CrazyGames Modern</option>
+                    <option value="minimalist">5. Ultra Minimalist</option>
+                    <option value="cyberpunk">6. Cyberpunk Neon</option>
+                    <option value="retro">7. 8-Bit Retro Arcade</option>
+                    <option value="glassmorphism">8. Glassmorphism Luxe</option>
+                    <option value="neumorphic">9. Neumorphic Light</option>
+                    <option value="terminal">10. Terminal Hacker</option>
+                    <option value="steam">11. Steam Store Deck</option>
+                    <option value="y2k">12. Y2K Glossy Metallic</option>
+                    <option value="paper">13. Paper Notebook</option>
+                    <option value="nordic">14. Nordic Forest</option>
+                    <option value="compact">15. Compact Directory</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-xs opacity-50 mb-2 uppercase">Custom Primary Color</label>
+                <input type="color" id="primaryPicker" value="#a855f7" oninput="updatePrimary(this.value)" class="w-full h-10 rounded-lg cursor-pointer bg-transparent border-none">
+            </div>
+            <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl">
+                <span>Particles</span>
+                <button id="partToggle" onclick="toggleParticles()" style="color: var(--primary);">ON</button>
+            </div>
+            <button onclick="setBg()" class="w-full bg-white/10 py-3 rounded-xl text-sm">Set Background Image</button>
+            <button onclick="resetBg()" class="w-full bg-red-500/10 text-red-400 py-2 rounded-xl text-xs">Reset Background</button>
+            <button onclick="openAboutBlank()" class="w-full bg-white/10 py-3 rounded-xl text-sm">Open in About:Blank</button>
+            
+            <div class="space-y-3 pt-4 border-t border-white/10 flex flex-col">
+                <span class="block text-xs opacity-50 uppercase font-semibold">Emergency Settings</span>
+                <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/10">
+                    <span class="text-sm">Panic Key Switch</span>
+                    <button id="panicToggle" onclick="togglePanicMode()" class="font-bold transition-colors text-red-500">OFF</button>
+                </div>
+                <button id="panicKeyBtn" onclick="startPanicKeyCapture()" class="w-full bg-white/5 border border-white/10 text-left py-2 px-3 rounded-lg text-sm truncate">
+                    Key Bind: <span class="text-gray-400">None</span>
+                </button>
+                <input type="text" id="panicUrl" placeholder="Emergency Redirect URL" oninput="savePanicUrl(this.value)" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
+            </div>
+
+            <div class="space-y-3 pt-4 border-t border-white/10 flex flex-col">
+                <span class="block text-xs opacity-50 uppercase font-semibold">Tab Cloaking</span>
+                <input type="text" id="cloakTitle" placeholder="Tab Title" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
+                <input type="text" id="cloakFavicon" placeholder="Favicon URL" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
+                <button onclick="applyCloak()" id="applyBtn" class="w-full text-black py-3 px-4 rounded-xl text-sm font-bold shadow-lg hover:brightness-110 transition-all mt-2" style="background-color: var(--primary);">Apply Cloak</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="gameModal" class="fixed inset-0 z-[110] hidden bg-black/95 flex flex-col">
+        <div class="game-container">
+            <div class="bg-black rounded-2xl overflow-hidden border border-white/5">
+                <div id="iframeContainer" class="w-full h-full"></div>
+            </div>
+            <div class="sidebar hidden lg:flex flex-col gap-4 overflow-y-auto pr-2">
+                <h3 class="text-xl id-more-like-this" style="color: var(--primary);">More Like This</h3>
+                <div id="suggestedGames" class="grid grid-cols-2 gap-3"></div>
+            </div>
+        </div>
+        <div class="h-20 px-8 flex items-center justify-between bg-white/5 backdrop-blur-md">
+            <div class="flex items-center gap-4">
+                <div id="modalIconContainer" class="h-10 w-10 rounded-lg flex items-center justify-center bg-white/10 text-xs font-bold text-white hidden"></div>
+                <img id="modalIcon" src="" class="h-10 w-10 rounded-lg object-cover">
+                <h3 id="modalTitle" class="text-xl">Game Title</h3>
+            </div>
+            <div class="flex items-center gap-8">
+                <button onclick="openAboutBlank()" class="nav-icon" title="Open in About:Blank"><i class="fas fa-mask text-xl"></i></button>
+                <button onclick="toggleFullscreen()" class="nav-icon"><i class="fas fa-expand text-xl"></i></button>
+                <button onclick="closeGame()" class="text-red-500 text-2xl"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    let games = []; 
+    let backups = []; 
+    let currentTheme = localStorage.getItem('user_theme_preset') || 'default';
+
+    let panicEnabled = localStorage.getItem('panicEnabled') === 'true';
+    let panicBind = JSON.parse(localStorage.getItem('panicBind')) || null; 
+    let targetPanicUrl = localStorage.getItem('targetPanicUrl') || 'https://www.google.com';
+    let isCapturingKey = false;
+
+    function changeThemePreset(themeName) {
+        currentTheme = themeName;
+        document.body.setAttribute('data-theme', themeName);
+        localStorage.setItem('user_theme_preset', themeName);
+        renderGames('games');
+    }
+
+    function closePopup() {
+        if (document.getElementById('dontShowAgain').checked) {
+            localStorage.setItem('hideDownloadPopup', 'true');
+        }
+        document.getElementById('downloadPopup').classList.add('hidden');
+    }
+
+    async function downloadFile() {
+        try {
+            const fileUrl = 'algebraofficialfile.html';
+            const response = await fetch(fileUrl);
+            if (!response.ok) throw new Error('Fetch failed');
+            
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'algebraofficialfile.html';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        } catch (e) {
+            console.error("Download failed", e);
+            alert("Download failed. Make sure 'algebraofficialfile.html' exists in your local folder.");
+        }
+    }
+
+    function generateModuleString(index) {
+        const major = Math.floor(index / 10) + 1;
+        const minor = index % 10;
+        return minor === 0 ? `Module ${major}` : `Module ${major}.${minor}`;
+    }
+
+    async function loadData() {
+        try {
+            document.getElementById('mainLogoImg').src = 'logo.png';
+            document.getElementById('penguinHeadImg').src = 'penguinhead.png';
+            
+            const gamesResponse = await fetch('games.json');
+            games = await gamesResponse.json();
+            
+            const linksResponse = await fetch('links.json');
+            backups = await linksResponse.json();
+            
+            renderGames('games');
+        } catch (error) { 
+            console.error("Error loading data locally:", error); 
+        }
+    }
+
+    function renderGames(filter = 'games', search = '') {
+        const grid = document.getElementById('gameGrid');
+        grid.innerHTML = '';
+        let items = filter === 'backups' ? backups : games;
+        
+        let validItemIndex = 0; 
+        items.forEach((item) => {
+            if (filter === 'apps' && item.type !== 'app') return;
+            if (filter === 'games' && item.type === 'app') return;
+            
+            let displayTitle = item.title;
+            let moduleLabel = generateModuleString(validItemIndex);
+            
+            if (currentTheme === 'educational' && filter !== 'backups') {
+                displayTitle = moduleLabel;
+            }
+            
+            if (search && !displayTitle.toLowerCase().includes(search.toLowerCase())) {
+                if (filter !== 'backups') validItemIndex++;
+                return;
+            }
+            
+            const card = document.createElement('div');
+            if(filter === 'backups') {
+                card.className = 'backup-card';
+                card.onclick = () => window.open(item.url, '_blank');
+                card.innerHTML = `<i class="fas ${item.icon}"></i><div class="backup-label">${item.title}</div>`;
+            } else {
+                if (currentTheme === 'educational') {
+                    card.className = 'game-card edu-text-card';
+                    card.onclick = () => openGame(item.id, moduleLabel);
+                    card.innerHTML = `
+                        <div class="edu-module-badge">${moduleLabel}</div>
+                        <div class="edu-module-title">Curriculum Study Block</div>
+                    `;
+                } else {
+                    card.className = 'game-card';
+                    card.onclick = () => openGame(item.id, item.title);
+                    card.innerHTML = `<img src="${item.thumb}" loading="lazy"><div class="card-title">${item.title}</div>`;
+                }
+            }
+            grid.appendChild(card);
+            if (filter !== 'backups') validItemIndex++;
+        });
+    }
+
+    function openGame(id, forcedTitle) {
+        const game = games.find(g => g.id === id);
+        if(!game) return;
+        
+        const isEdu = currentTheme === 'educational';
+        const titleText = isEdu ? forcedTitle : game.title;
+        document.getElementById('modalTitle').textContent = titleText;
+        
+        if (isEdu) {
+            document.getElementById('modalIcon').classList.add('hidden');
+            const iconContainer = document.getElementById('modalIconContainer');
+            iconContainer.classList.remove('hidden');
+            iconContainer.textContent = forcedTitle.split(" ")[1] || "EDU";
+        } else {
+            document.getElementById('modalIconContainer').classList.add('hidden');
+            const imgIcon = document.getElementById('modalIcon');
+            imgIcon.classList.remove('hidden');
+            imgIcon.src = game.thumb;
+        }
+        
+        document.getElementById('iframeContainer').innerHTML = `<iframe id="gameIframe" src="${game.url}" class="w-full h-full border-none" allowfullscreen></iframe>`;
+        document.getElementById('gameModal').classList.remove('hidden');
+        
+        const suggested = games.filter(g => g.id !== id).sort(() => 0.5 - Math.random()).slice(0, 6);
+        const suggGrid = document.getElementById('suggestedGames');
+        suggGrid.innerHTML = '';
+        
+        suggested.forEach((g, idx) => {
+            const fakeModuleLabel = generateModuleString(idx + 15);
+            const scard = document.createElement('div');
+            if (isEdu) {
+                scard.className = 'sidebar-card edu-text-card';
+                scard.onclick = () => openGame(g.id, fakeModuleLabel);
+                scard.innerHTML = `<div class="edu-module-badge" style="font-size: 1.1rem;">${fakeModuleLabel}</div>`;
+            } else {
+                scard.className = 'sidebar-card';
+                scard.onclick = () => openGame(g.id, g.title);
+                scard.innerHTML = `<img src="${g.thumb}"><div class="card-title">${g.title}</div>`;
+            }
+            suggGrid.appendChild(scard);
+        });
+    }
+
+    function togglePanicMode() {
+        panicEnabled = !panicEnabled;
+        localStorage.setItem('panicEnabled', panicEnabled);
+        updatePanicUI();
+    }
+
+    function updatePanicUI() {
+        const toggleBtn = document.getElementById('panicToggle');
+        if (panicEnabled) {
+            toggleBtn.textContent = 'ON';
+            toggleBtn.style.color = '#22c55e';
+        } else {
+            toggleBtn.textContent = 'OFF';
+            toggleBtn.style.color = '#ef4444';
+        }
+
+        const bindBtn = document.getElementById('panicKeyBtn');
+        if (panicBind) {
+            let shortcutText = [];
+            if (panicBind.ctrl) shortcutText.push('Ctrl');
+            if (panicBind.shift) shortcutText.push('Shift');
+            if (panicBind.alt) shortcutText.push('Alt');
+            shortcutText.push(panicBind.key.toUpperCase());
+            bindBtn.innerHTML = `Key Bind: <span class="text-white font-bold">${shortcutText.join(' + ')}</span>`;
+        } else {
+            bindBtn.innerHTML = `Key Bind: <span class="text-gray-400">None (Click to set)</span>`;
+        }
+    }
+
+    function startPanicKeyCapture() {
+        isCapturingKey = true;
+        const bindBtn = document.getElementById('panicKeyBtn');
+        bindBtn.innerHTML = `Key Bind: <span class="text-yellow-400 animate-pulse">Press any key...</span>`;
+    }
+
+    function savePanicUrl(val) {
+        let formattedUrl = val.trim();
+        if (formattedUrl && !/^https?:\/\//i.test(formattedUrl)) {
+            formattedUrl = 'https://' + formattedUrl;
+        }
+        targetPanicUrl = formattedUrl || 'https://www.google.com';
+        localStorage.setItem('targetPanicUrl', targetPanicUrl);
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (isCapturingKey) {
+            e.preventDefault();
+            if (['Control', 'Shift', 'Alt', 'Meta'].includes(e.key)) return;
+
+            panicBind = {
+                ctrl: e.ctrlKey,
+                shift: e.shiftKey,
+                alt: e.altKey,
+                key: e.key.toLowerCase()
+            };
+            
+            localStorage.setItem('panicBind', JSON.stringify(panicBind));
+            isCapturingKey = false;
+            updatePanicUI();
+            return;
+        }
+
+        if (panicEnabled && panicBind) {
+            const matchesCtrl = panicBind.ctrl === e.ctrlKey;
+            const matchesShift = panicBind.shift === e.shiftKey;
+            const matchesAlt = panicBind.alt === e.altKey;
+            const matchesKey = panicBind.key === e.key.toLowerCase();
+
+            if (matchesCtrl && matchesShift && matchesAlt && matchesKey) {
+                e.preventDefault();
+                window.location.href = targetPanicUrl;
+            }
+        }
+    });
+
+    function closeGame() {
+        document.getElementById('gameModal').classList.add('hidden');
+        document.getElementById('iframeContainer').innerHTML = '';
+    }
+
+    function openRandomGame() {
+        if(games.length > 0) {
+            const randGame = games[Math.floor(Math.random() * games.length)];
+            openGame(randGame.id, currentTheme === 'educational' ? "Module 1.0" : randGame.title);
+        }
+    }
+
+    function toggleFullscreen() {
+        const el = document.getElementById('gameIframe');
+        if (el && el.requestFullscreen) { el.requestFullscreen(); }
+    }
+
+    function openAboutBlank() {
+        const iframe = document.getElementById('gameIframe');
+        const targetUrl = iframe ? iframe.src : window.location.href;
+        const win = window.open();
+        if (!win) return alert("Please allow popups!");
+        const doc = win.document;
+        const body = doc.body;
+        const outerIframe = doc.createElement('iframe');
+        doc.title = document.title;
+        const link = doc.createElement('link');
+        link.rel = 'icon';
+        link.href = document.getElementById('favicon').href;
+        doc.head.appendChild(link);
+        outerIframe.style.width = "100%";
+        outerIframe.style.height = "100%";
+        outerIframe.style.border = "none";
+        outerIframe.style.position = "fixed";
+        outerIframe.style.top = "0";
+        outerIframe.style.left = "0";
+        outerIframe.src = targetUrl;
+        body.appendChild(outerIframe);
+        body.style.margin = "0";
+        body.style.padding = "0";
+    }
+
+    function applyCloak() {
+        const title = document.getElementById('cloakTitle').value;
+        const icon = document.getElementById('cloakFavicon').value;
+        if(title) document.title = title;
+        if(icon) document.getElementById('favicon').href = icon;
+        localStorage.setItem('user_cloak_title', title);
+        localStorage.setItem('user_cloak_icon', icon);
+    }
+
+    function updatePrimary(color) {
+        document.documentElement.style.setProperty('--primary', color);
+        const applyBtn = document.getElementById('applyBtn');
+        if(applyBtn) applyBtn.style.backgroundColor = color;
+        localStorage.setItem('user_p_color', color);
+    }
+
+    let particlesEnabled = localStorage.getItem('particles') !== 'false';
+    function toggleParticles() {
+        particlesEnabled = !particlesEnabled;
+        localStorage.setItem('particles', particlesEnabled);
+        document.getElementById('partToggle').textContent = particlesEnabled ? 'ON' : 'OFF';
+        document.getElementById('partToggle').style.color = particlesEnabled ? getComputedStyle(document.documentElement).getPropertyValue('--primary') : '#ef4444';
+    }
+
+    function toggleSettings() {
+        const panel = document.getElementById('settingsPanel');
+        panel.style.transform = panel.style.transform === 'translateX(0%)' ? 'translateX(100%)' : 'translateX(0%)';
+    }
+
+    function toggleInfo() {
+        document.getElementById('infoTab').classList.toggle('hidden');
+    }
+
+    function setBg() {
+        const url = prompt("Enter Image URL:");
+        if(url) {
+            document.body.style.backgroundImage = `url('${url}')`;
+            localStorage.setItem('user_bg', url);
+        }
+    }
+    function resetBg() {
+        document.body.style.backgroundImage = 'none';
+        localStorage.removeItem('user_bg');
+    }
+
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let pts = [];
+    function initPts() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; pts = Array(40).fill().map(() => ({ x:Math.random()*canvas.width, y:Math.random()*canvas.height, s:Math.random()*2, v:Math.random()*0.5+0.2 })); }
+    function draw() {
+        if(!particlesEnabled) { ctx.clearRect(0,0,canvas.width,canvas.height); return requestAnimationFrame(draw); }
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary');
+        pts.forEach(p => { p.y -= p.v; if(p.y<0) p.y=canvas.height; ctx.beginPath(); ctx.arc(p.x,p.y,p.s,0,7); ctx.fill(); });
+        requestAnimationFrame(draw);
+    }
+
+    window.onload = () => {
+        if (localStorage.getItem('hideDownloadPopup') !== 'true') {
+            document.getElementById('downloadPopup').classList.remove('hidden');
+        }
+
+        // Apply saved theme preset
+        const savedTheme = localStorage.getItem('user_theme_preset') || 'default';
+        document.getElementById('themeSelector').value = savedTheme;
+        changeThemePreset(savedTheme);
+
+        const savedColor = localStorage.getItem('user_p_color') || '#a855f7';
+        updatePrimary(savedColor); 
+        document.getElementById('primaryPicker').value = savedColor;
+        const sBg = localStorage.getItem('user_bg');
+        if(sBg) document.body.style.backgroundImage = `url('${sBg}')`;
+        const sTitle = localStorage.getItem('user_cloak_title');
+        const sIcon = localStorage.getItem('user_cloak_icon');
+        if(sTitle) document.title = sTitle;
+        if(sIcon) document.getElementById('favicon').href = sIcon;
+        
+        document.getElementById('panicUrl').value = localStorage.getItem('targetPanicUrl') || '';
+        updatePanicUI();
+
+        loadData();
+        initPts(); draw();
+    };
+
+    document.getElementById('searchInput').oninput = (e) => renderGames('games', e.target.value);
+    window.onresize = initPts;
+</script>
+</body>
+</html>
