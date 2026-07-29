@@ -35,12 +35,11 @@
 
         #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
         
-        /* Dynamic Header Logo & Text Styling */
-        .main-logo-container { display: flex; justify-content: center; align-items: center; padding-top: 30px; margin-bottom: 10px; }
-        .main-logo { width: 350px; height: auto; filter: drop-shadow(0 0 15px var(--primary)); cursor: pointer; transition: transform 0.3s ease, filter 0.3s ease; }
+        /* Header Logo Styling */
+        .main-logo-container { display: flex; justify-content: center; align-items: center; padding-top: 20px; margin-bottom: 10px; }
+        .main-logo { width: 320px; height: auto; filter: drop-shadow(0 0 15px var(--primary)); cursor: pointer; transition: transform 0.3s ease, filter 0.3s ease; }
         .main-logo:hover { transform: scale(1.05); }
 
-        /* Custom Text Header - Mimics Uploaded Gummy Purple/Green Style */
         .custom-logo-text {
             font-family: 'Fredoka', 'Chewy', cursive;
             font-weight: 700;
@@ -51,26 +50,44 @@
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 0 18px var(--primary)) drop-shadow(0 4px 10px rgba(0,0,0,0.5));
             cursor: pointer;
-            transition: transform 0.3s ease, filter 0.3s ease;
+            transition: transform 0.3s ease;
             user-select: none;
             text-align: center;
         }
         .custom-logo-text:hover { transform: scale(1.04); }
 
+        /* Universal Island Header */
         .island-header {
-            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
-            border: 1px solid var(--card-border); border-radius: 99px;
-            padding: 10px 28px; display: flex; align-items: center; gap: 20px;
-            margin: 20px auto 40px; width: fit-content; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--card-border); 
+            border-radius: 99px;
+            padding: 10px 24px; 
+            display: flex; 
+            align-items: center; 
+            gap: 18px;
+            margin: 10px auto 30px; 
+            width: fit-content; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             transition: all 0.3s ease;
+            position: relative;
+            z-index: 40;
         }
 
-        .nav-icon { font-size: 1.5rem; cursor: pointer; transition: color 0.2s, opacity 0.2s; opacity: 0.85; }
-        .nav-icon:hover { color: var(--primary) !important; opacity: 1; }
+        .nav-icon { 
+            font-size: 1.4rem; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            opacity: 0.9;
+            color: var(--text);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .nav-icon:hover { color: var(--primary) !important; opacity: 1; transform: scale(1.1); }
         
-        .penguin-nav-btn { height: 40px; width: 40px; object-fit: contain; cursor: pointer; transition: filter 0.3s; }
+        .penguin-nav-btn { height: 38px; width: 38px; object-fit: contain; cursor: pointer; transition: filter 0.3s; }
         .penguin-nav-btn:hover { filter: drop-shadow(0 0 8px var(--primary)); }
 
+        /* General Game Cards */
         .game-card, .sidebar-card, .backup-card {
             position: relative; aspect-ratio: 1/1; overflow: hidden; border-radius: var(--radius);
             border: 2px solid var(--card-border); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -91,108 +108,131 @@
         }
         .game-card:hover .card-title, .sidebar-card:hover .card-title, .backup-card:hover .card-title { bottom: 0; }
 
-        /* Centered Backups */
         .backup-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; text-align: center; padding: 20px; }
-        .backup-card i { font-size: 3.5rem; color: var(--primary); transition: color 0.3s ease; }
+        .backup-card i { font-size: 3.5rem; color: var(--primary); }
         .backup-label { color: var(--text); font-size: 1.1rem; width: 100%; text-align: center; display: block; }
+
+        /* FIXED UNTOUCHABLE SETTINGS & INFO MODAL STYLING */
+        #settingsPanel, #infoTabContent {
+            background-color: #0f172a !important;
+            color: #f8fafc !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+        #settingsPanel *, #infoTabContent * {
+            color: #f8fafc;
+        }
+        #settingsPanel input, #settingsPanel select {
+            background-color: #1e293b !important;
+            color: #ffffff !important;
+            border-color: #334155 !important;
+        }
+        #settingsPanel label, #settingsPanel span {
+            color: #cbd5e1 !important;
+        }
 
         #settingsPanel { z-index: 100; transition: transform 0.4s ease; }
         .game-container { display: grid; grid-template-columns: 1fr 300px; gap: 20px; height: calc(100vh - 100px); padding: 20px; }
         
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; border: 2px solid var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
         .download-here-link { color: #3b82f6; font-weight: bold; cursor: pointer; text-decoration: underline; }
-        .download-here-link:hover { color: #60a5fa; }
 
         /* ==================== 15 LAYOUT & THEME PRESETS ==================== */
 
-        /* Light Themes Contrast Adjustments */
-        .light-theme-text-adjust { color: #111827 !important; }
-
         /* 1. DEFAULT DARK GLASS */
-        body[data-theme="default"] { --bg: #020617; --primary: #a855f7; --text: #ffffff; --card: rgba(30, 41, 59, 0.5); --font-main: 'Chewy', cursive; }
+        body[data-theme="default"] #gameGrid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.25rem;
+        }
 
         /* 2. EDUCATIONAL MODULE MODE */
-        body[data-theme="educational"] { --bg: #0f172a; --primary: #22c55e; --text: #ffffff; --card: rgba(15, 23, 42, 0.9); --font-main: 'Inter', sans-serif; --radius: 0.75rem; }
-        body[data-theme="educational"] .edu-text-card { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
-        body[data-theme="educational"] .edu-module-badge { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
-        body[data-theme="educational"] .edu-module-title { font-size: 0.85rem; color: #94a3b8; font-weight: 500; }
+        body[data-theme="educational"] { --bg: #0f172a; --primary: #22c55e; --font-main: 'Inter', sans-serif; --radius: 0.75rem; }
+        body[data-theme="educational"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+        body[data-theme="educational"] .game-card { aspect-ratio: 16/9; }
+        body[data-theme="educational"] .edu-text-card { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; text-align: center; }
+        body[data-theme="educational"] .edu-module-badge { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
 
-        /* 3. POKI ARCADE STYLE - Alternative Layout (Sidebar Navigation) */
-        body[data-theme="poki"] { --bg: #00d2ff; --primary: #ff007f; --card: #ffffff; --text: #1e1e1e; --font-main: 'Fredoka', sans-serif; --radius: 1.8rem; }
-        body[data-theme="poki"] .island-header { background: #ffffff; border: 4px solid #1e1e1e; box-shadow: 6px 6px 0px #1e1e1e; color: #1e1e1e; flex-direction: column; position: fixed; left: 20px; top: 120px; z-index: 50; margin: 0; }
-        body[data-theme="poki"] main { margin-left: 120px; }
-        body[data-theme="poki"] .main-logo-container { filter: drop-shadow(0 0 10px #ffffff); }
-        body[data-theme="poki"] .custom-logo-text { -webkit-text-fill-color: #1e1e1e; text-shadow: 3px 3px 0px #ffffff; }
-        body[data-theme="poki"] .game-card { border: 4px solid #1e1e1e; box-shadow: 4px 4px 0px #1e1e1e; }
+        /* 3. POKI ARCADE STYLE (FIXED LAYOUT - NO OVERLAP, DYNAMIC TILES) */
+        body[data-theme="poki"] { --bg: #00d2ff; --primary: #ff007f; --card: #ffffff; --text: #1e1e1e; --font-main: 'Fredoka', sans-serif; --radius: 1.5rem; }
+        body[data-theme="poki"] .island-header { background: #ffffff; border: 4px solid #1e1e1e; box-shadow: 6px 6px 0px #1e1e1e; color: #1e1e1e; margin: 15px auto 25px; }
+        body[data-theme="poki"] .nav-icon { color: #1e1e1e !important; text-shadow: none; }
+        body[data-theme="poki"] #gameGrid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+            grid-auto-rows: 160px;
+            grid-auto-flow: dense;
+            gap: 15px; 
+        }
+        body[data-theme="poki"] .game-card { border: 4px solid #1e1e1e; box-shadow: 4px 4px 0px #1e1e1e; aspect-ratio: auto; }
         body[data-theme="poki"] .game-card:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0px #1e1e1e; }
+        body[data-theme="poki"] .poki-large { grid-column: span 2; grid-row: span 2; }
+        body[data-theme="poki"] .poki-wide { grid-column: span 2; grid-row: span 1; }
+        body[data-theme="poki"] .poki-tall { grid-column: span 1; grid-row: span 2; }
 
         /* 4. CRAZYGAMES MODERN */
-        body[data-theme="crazygames"] { --bg: #0b0e14; --primary: #7c3aed; --text: #f3f4f6; --card: #181c25; --font-main: 'Inter', sans-serif; --radius: 0.5rem; }
-        body[data-theme="crazygames"] .game-card { border: 1px solid #2a2e3d; }
-        body[data-theme="crazygames"] .game-card:hover { border-color: var(--primary); box-shadow: 0 0 15px var(--primary); }
+        body[data-theme="crazygames"] { --bg: #0b0e14; --primary: #7c3aed; --card: #181c25; --font-main: 'Inter', sans-serif; --radius: 0.5rem; }
+        body[data-theme="crazygames"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+        body[data-theme="crazygames"] .game-card { aspect-ratio: 16/10; border: 1px solid #2a2e3d; }
 
         /* 5. ULTRA MINIMALIST */
         body[data-theme="minimalist"] { --bg: #ffffff; --text: #000000; --primary: #000000; --card: #f4f4f5; --font-main: 'Inter', sans-serif; --radius: 0px; }
-        body[data-theme="minimalist"] .island-header { background: #ffffff; border: 1px solid #e4e4e7; box-shadow: none; border-radius: 0px; color: #000000; }
-        body[data-theme="minimalist"] .main-logo { filter: brightness(0); }
-        body[data-theme="minimalist"] .custom-logo-text { -webkit-text-fill-color: #000000; filter: none; }
-        body[data-theme="minimalist"] .game-card { border: 1px solid #e4e4e7; box-shadow: none; }
-        body[data-theme="minimalist"] .game-card:hover { border-color: #000000; transform: none; box-shadow: none; }
+        body[data-theme="minimalist"] .island-header { background: #ffffff; border: 1px solid #e4e4e7; box-shadow: none; }
+        body[data-theme="minimalist"] .nav-icon { color: #000000 !important; text-shadow: none; }
+        body[data-theme="minimalist"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+        body[data-theme="minimalist"] .game-card { aspect-ratio: 4/3; border: 1px solid #e4e4e7; box-shadow: none; }
 
-        /* 6. CYBERPUNK 2077 / NEON */
+        /* 6. CYBERPUNK 2077 */
         body[data-theme="cyberpunk"] { --bg: #05050a; --primary: #00f0ff; --text: #00f0ff; --card: rgba(255, 0, 85, 0.15); --card-border: #ff0055; --font-main: 'Fira Code', monospace; --radius: 0px; }
+        body[data-theme="cyberpunk"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1.25rem; }
         body[data-theme="cyberpunk"] .game-card { clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%); border: 1px solid #ff0055; }
-        body[data-theme="cyberpunk"] .game-card:hover { border-color: var(--primary); box-shadow: 0 0 20px var(--primary); }
 
         /* 7. RETRO 8-BIT ARCADE */
         body[data-theme="retro"] { --bg: #120024; --primary: #facc15; --text: #facc15; --card: #20003b; --font-main: 'Press Start 2P', cursive; --radius: 0px; }
+        body[data-theme="retro"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1.5rem; }
         body[data-theme="retro"] .island-header, body[data-theme="retro"] .game-card { border: 4px solid #facc15; box-shadow: 4px 4px 0 #ff0055; }
-        body[data-theme="retro"] .card-title { font-size: 0.6rem; background: #000000; padding: 6px; }
 
-        /* 8. GLASSMORPHISM LUXE */
-        body[data-theme="glassmorphism"] { --bg: linear-gradient(135deg, #0f172a 0%, #31103f 100%); --primary: #38bdf8; --text: #ffffff; --card: rgba(255, 255, 255, 0.08); --card-border: rgba(255, 255, 255, 0.2); --radius: 1.5rem; }
-        body[data-theme="glassmorphism"] .game-card { backdrop-filter: blur(16px); }
+        /* 8. GLASSMORPHISM LUXE (FIXED ICON VISIBILITY) */
+        body[data-theme="glassmorphism"] { --bg: linear-gradient(135deg, #0f172a 0%, #31103f 100%); --primary: #38bdf8; --text: #ffffff; --card: rgba(255, 255, 255, 0.08); --radius: 1.5rem; }
+        body[data-theme="glassmorphism"] .island-header { background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.25); }
+        body[data-theme="glassmorphism"] .nav-icon { color: #ffffff !important; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); opacity: 1; }
+        body[data-theme="glassmorphism"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
 
         /* 9. NEUMORPHIC LIGHT */
         body[data-theme="neumorphic"] { --bg: #e0e5ec; --text: #2d3748; --primary: #4d7c0f; --card: #e0e5ec; --font-main: 'Inter', sans-serif; --radius: 1.5rem; }
-        body[data-theme="neumorphic"] .island-header, body[data-theme="neumorphic"] .game-card {
-            background: #e0e5ec; border: none;
-            box-shadow: 9px 9px 16px #a3b1c6, -9px -9px 16px #ffffff; color: #2d3748;
-        }
-        body[data-theme="neumorphic"] .main-logo { filter: drop-shadow(4px 4px 6px #a3b1c6); }
-        body[data-theme="neumorphic"] .custom-logo-text { -webkit-text-fill-color: #2d3748; filter: drop-shadow(2px 2px 4px #a3b1c6); }
+        body[data-theme="neumorphic"] .island-header { background: #e0e5ec; border: none; box-shadow: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff; }
+        body[data-theme="neumorphic"] .nav-icon { color: #2d3748 !important; text-shadow: none; }
+        body[data-theme="neumorphic"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; }
+        body[data-theme="neumorphic"] .game-card { border: none; box-shadow: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff; }
 
-        /* 10. TERMINAL HACKER - Horizontal Bar Layout */
+        /* 10. TERMINAL HACKER */
         body[data-theme="terminal"] { --bg: #000000; --text: #00ff66; --primary: #00ff66; --card: #051105; --font-main: 'Fira Code', monospace; --radius: 0px; }
-        body[data-theme="terminal"] .game-card { border: 1px solid #00ff66; }
-        body[data-theme="terminal"] .island-header { background: #000; border: 1px solid #00ff66; border-radius: 0; width: 100%; justify-content: space-around; margin: 0 0 20px 0; }
+        body[data-theme="terminal"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+        body[data-theme="terminal"] .game-card { aspect-ratio: 16/9; border: 1px solid #00ff66; }
 
         /* 11. STEAM STORE DECK */
         body[data-theme="steam"] { --bg: #1b2838; --primary: #66c0f4; --text: #c6d4df; --card: #101822; --font-main: 'Inter', sans-serif; --radius: 0.4rem; }
-        body[data-theme="steam"] .game-card { border: 1px solid #2a475e; }
-        body[data-theme="steam"] .game-card:hover { border-color: var(--primary); box-shadow: 0 0 12px var(--primary); }
+        body[data-theme="steam"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; }
+        body[data-theme="steam"] .game-card { aspect-ratio: 16/9; border: 1px solid #2a475e; }
 
         /* 12. Y2K METALLIC */
         body[data-theme="y2k"] { --bg: #1e293b; --primary: #06b6d4; --text: #f1f5f9; --card: linear-gradient(180deg, #334155 0%, #0f172a 100%); --font-main: 'Fredoka', sans-serif; --radius: 2rem; }
-        body[data-theme="y2k"] .game-card { border: 3px solid #94a3b8; }
+        body[data-theme="y2k"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.25rem; }
 
         /* 13. PAPER NOTEBOOK */
         body[data-theme="paper"] { --bg: #fef3c7; --text: #1e293b; --primary: #d97706; --card: #fffbe3; --font-main: 'Fredoka', cursive; --radius: 0.5rem; }
-        body[data-theme="paper"] .game-card { border: 2px dashed #b45309; color: #1e293b; }
-        body[data-theme="paper"] .island-header { background: #fffbe3; border: 2px solid #b45309; border-radius: 0.5rem; color: #1e293b; }
-        body[data-theme="paper"] .main-logo { filter: contrast(1.2) sepia(0.3); }
-        body[data-theme="paper"] .custom-logo-text { -webkit-text-fill-color: #b45309; filter: none; }
+        body[data-theme="paper"] .island-header { background: #fffbe3; border: 2px solid #b45309; }
+        body[data-theme="paper"] .nav-icon { color: #1e293b !important; text-shadow: none; }
+        body[data-theme="paper"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.25rem; }
+        body[data-theme="paper"] .game-card { border: 2px dashed #b45309; aspect-ratio: 4/3; }
 
         /* 14. NORDIC FOREST */
         body[data-theme="nordic"] { --bg: #1a2321; --primary: #a3e635; --text: #e2e8f0; --card: #283531; --font-main: 'Inter', sans-serif; --radius: 1rem; }
-        body[data-theme="nordic"] .game-card { border: 1px solid #3f524c; }
+        body[data-theme="nordic"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1.25rem; }
 
         /* 15. COMPACT DIRECTORY LIST */
         body[data-theme="compact"] { --bg: #0d1117; --primary: #58a6ff; --text: #c9d1d9; --card: #161b22; --font-main: 'Inter', sans-serif; --radius: 0.2rem; }
-        body[data-theme="compact"] #gameGrid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)) !important; gap: 10px !important; }
+        body[data-theme="compact"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
         body[data-theme="compact"] .game-card { aspect-ratio: 16/9; }
     </style>
 </head>
@@ -230,43 +270,43 @@
         <div class="relative">
             <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-sm opacity-50"></i>
             <input type="text" id="searchInput" placeholder="Search..." 
-                   class="bg-white/5 border border-white/10 py-1 pl-9 pr-4 rounded-full focus:outline-none focus:ring-1 focus:ring-primary text-sm w-32 md:w-48">
+                   class="bg-white/10 border border-white/20 py-1 pl-9 pr-4 rounded-full focus:outline-none focus:ring-1 focus:ring-primary text-sm w-32 md:w-48 text-white">
         </div>
-        <i class="fas fa-sliders nav-icon" onclick="toggleSettings()"></i>
+        <i class="fas fa-sliders nav-icon" onclick="toggleSettings()" title="Settings"></i>
     </header>
 
     <main class="max-w-7xl mx-auto">
-        <div id="gameGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5"></div>
+        <div id="gameGrid"></div>
     </main>
 
     <div id="infoTab" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[200] hidden flex items-center justify-center" onclick="toggleInfo()">
-        <div class="bg-slate-900 border border-white/10 p-8 rounded-3xl max-w-md text-center shadow-2xl" onclick="event.stopPropagation()">
-            <h2 class="text-3xl mb-4" style="color: var(--primary);">About Algebra Practice</h2>
-            <p class="text-lg leading-relaxed mb-4">Algebra Practise was created by hazza in 2025 and updated in 2026. i dont own any of the games here apart from the ones i made.</p>
-            <p class="text-lg mb-6">Request games <a href="https://docs.google.com/forms/d/e/1FAIpQLScww3MHYoLogsOX5WcBctTbzVTUkXwoEeiOxenN0i8gxiOtpg/viewform?usp=header" target="_blank" class="text-blue-500 underline">here</a></p>
+        <div id="infoTabContent" class="border border-white/10 p-8 rounded-3xl max-w-md text-center shadow-2xl" onclick="event.stopPropagation()">
+            <h2 class="text-3xl mb-4 font-bold" style="color: var(--primary) !important;">About Algebra Practice</h2>
+            <p class="text-base leading-relaxed mb-4">Algebra Practise was created by hazza in 2025 and updated in 2026. i dont own any of the games here apart from the ones i made.</p>
+            <p class="text-base mb-6">Request games <a href="https://docs.google.com/forms/d/e/1FAIpQLScww3MHYoLogsOX5WcBctTbzVTUkXwoEeiOxenN0i8gxiOtpg/viewform?usp=header" target="_blank" class="text-blue-400 underline">here</a></p>
             
             <div class="flex flex-col gap-3">
-                <button onclick="downloadFile()" class="flex items-center justify-center gap-2 py-3 rounded-xl text-white font-bold transition-all hover:scale-105 active:scale-95" style="background-color: var(--primary);">
+                <button onclick="downloadFile()" class="flex items-center justify-center gap-2 py-3 rounded-xl text-white font-bold transition-all hover:scale-105" style="background-color: var(--primary) !important;">
                     <i class="fas fa-download"></i> Download Offline File
                 </button>
-                <button onclick="toggleInfo()" class="bg-white/10 px-6 py-2 rounded-full hover:bg-white/20 transition-all">Close</button>
+                <button onclick="toggleInfo()" class="bg-white/10 px-6 py-2 rounded-full hover:bg-white/20 transition-all text-white">Close</button>
             </div>
         </div>
     </div>
 
-    <div id="settingsPanel" class="fixed top-0 right-0 h-full w-80 bg-slate-900 border-l border-white/10 p-8 transform translate-x-full shadow-2xl overflow-y-auto">
+    <div id="settingsPanel" class="fixed top-0 right-0 h-full w-80 border-l border-slate-700 p-8 transform translate-x-full shadow-2xl overflow-y-auto">
         <div class="flex justify-between items-center mb-8">
-            <h2 class="text-3xl">Settings</h2>
-            <button onclick="toggleSettings()"><i class="fas fa-times text-xl"></i></button>
+            <h2 class="text-2xl font-bold text-white">Settings</h2>
+            <button onclick="toggleSettings()"><i class="fas fa-times text-xl text-white"></i></button>
         </div>
         <div class="space-y-6">
             
             <div>
-                <label class="block text-xs opacity-50 mb-2 uppercase font-semibold">Layout & Style Preset</label>
-                <select id="themeSelector" onchange="changeThemePreset(this.value)" class="w-full bg-slate-800 text-white border border-white/20 p-2.5 rounded-xl text-sm focus:outline-none">
+                <label class="block text-xs uppercase font-semibold mb-2">Layout & Style Preset</label>
+                <select id="themeSelector" onchange="changeThemePreset(this.value)" class="w-full p-2.5 rounded-xl text-sm focus:outline-none">
                     <option value="default">1. Default Dark Glass</option>
                     <option value="educational">2. Educational Curriculum</option>
-                    <option value="poki">3. Poki Arcade (Sidebar Layout)</option>
+                    <option value="poki">3. Poki Arcade (Bento Tiles)</option>
                     <option value="crazygames">4. CrazyGames Modern</option>
                     <option value="minimalist">5. Ultra Minimalist</option>
                     <option value="cyberpunk">6. Cyberpunk Neon</option>
@@ -282,50 +322,50 @@
                 </select>
             </div>
 
-            <div class="space-y-3 pt-4 border-t border-white/10 flex flex-col">
-                <span class="block text-xs opacity-50 uppercase font-semibold">Header Logo Options</span>
-                <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/10">
+            <div class="space-y-3 pt-4 border-t border-slate-700 flex flex-col">
+                <span class="block text-xs uppercase font-semibold">Header Logo Options</span>
+                <div class="flex items-center justify-between bg-slate-800 p-3 rounded-xl border border-slate-700">
                     <span class="text-sm">Use Custom Text Logo</span>
-                    <button id="logoTypeToggle" onclick="toggleLogoType()" class="font-bold transition-colors text-red-500">OFF</button>
+                    <button id="logoTypeToggle" onclick="toggleLogoType()" class="font-bold text-red-500">OFF</button>
                 </div>
-                <input type="text" id="logoTextInput" placeholder="Custom Logo Text..." oninput="updateLogoText(this.value)" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm hidden">
+                <input type="text" id="logoTextInput" placeholder="Custom Logo Text..." oninput="updateLogoText(this.value)" class="w-full p-2 rounded-lg text-sm hidden">
             </div>
 
             <div>
-                <label class="block text-xs opacity-50 mb-2 uppercase font-semibold">Custom Primary Accent Color</label>
+                <label class="block text-xs uppercase font-semibold mb-2">Custom Primary Accent Color</label>
                 <input type="color" id="primaryPicker" value="#a855f7" oninput="updatePrimary(this.value)" class="w-full h-10 rounded-lg cursor-pointer bg-transparent border-none">
             </div>
             
-            <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl">
-                <span>Particles</span>
-                <button id="partToggle" onclick="toggleParticles()" style="color: var(--primary);">ON</button>
+            <div class="flex items-center justify-between bg-slate-800 p-3 rounded-xl border border-slate-700">
+                <span class="text-sm">Particles</span>
+                <button id="partToggle" onclick="toggleParticles()" style="color: var(--primary) !important;">ON</button>
             </div>
             
-            <button onclick="setBg()" class="w-full bg-white/10 py-3 rounded-xl text-sm">Set Background Image</button>
-            <button onclick="resetBg()" class="w-full bg-red-500/10 text-red-400 py-2 rounded-xl text-xs">Reset Background</button>
-            <button onclick="openAboutBlank()" class="w-full bg-white/10 py-3 rounded-xl text-sm">Open in About:Blank</button>
+            <button onclick="setBg()" class="w-full bg-slate-800 hover:bg-slate-700 text-white py-3 rounded-xl text-sm border border-slate-700">Set Background Image</button>
+            <button onclick="resetBg()" class="w-full bg-red-500/10 text-red-400 py-2 rounded-xl text-xs border border-red-500/20">Reset Background</button>
+            <button onclick="openAboutBlank()" class="w-full bg-slate-800 hover:bg-slate-700 text-white py-3 rounded-xl text-sm border border-slate-700">Open in About:Blank</button>
             
-            <div class="space-y-3 pt-4 border-t border-white/10 flex flex-col">
-                <span class="block text-xs opacity-50 uppercase font-semibold">Emergency Panic Switch</span>
-                <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/10">
+            <div class="space-y-3 pt-4 border-t border-slate-700 flex flex-col">
+                <span class="block text-xs uppercase font-semibold">Emergency Panic Switch</span>
+                <div class="flex items-center justify-between bg-slate-800 p-3 rounded-xl border border-slate-700">
                     <span class="text-sm">Panic Mode Switch</span>
-                    <button id="panicToggle" onclick="togglePanicMode()" class="font-bold transition-colors text-red-500">OFF</button>
+                    <button id="panicToggle" onclick="togglePanicMode()" class="font-bold text-red-500">OFF</button>
                 </div>
-                <button id="panicKeyBtn" onclick="startPanicKeyCapture()" class="w-full bg-white/5 border border-white/10 text-left py-2 px-3 rounded-lg text-sm truncate">
+                <button id="panicKeyBtn" onclick="startPanicKeyCapture()" class="w-full bg-slate-800 border border-slate-700 text-left py-2 px-3 rounded-lg text-sm truncate">
                     Key Bind: <span class="text-gray-400">None</span>
                 </button>
-                <input type="text" id="panicUrl" placeholder="Emergency Redirect URL" oninput="savePanicUrl(this.value)" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
+                <input type="text" id="panicUrl" placeholder="Emergency Redirect URL" oninput="savePanicUrl(this.value)" class="w-full p-2 rounded-lg text-sm">
             </div>
 
-            <div class="space-y-3 pt-4 border-t border-white/10 flex flex-col">
-                <span class="block text-xs opacity-50 uppercase font-semibold">Tab Cloaking</span>
-                <input type="text" id="cloakTitle" placeholder="Tab Title" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
-                <input type="text" id="cloakFavicon" placeholder="Favicon URL" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
-                <button onclick="applyCloak()" id="applyBtn" class="w-full text-black py-3 px-4 rounded-xl text-sm font-bold shadow-lg hover:brightness-110 transition-all" style="background-color: var(--primary);">Apply Cloak</button>
+            <div class="space-y-3 pt-4 border-t border-slate-700 flex flex-col">
+                <span class="block text-xs uppercase font-semibold">Tab Cloaking</span>
+                <input type="text" id="cloakTitle" placeholder="Tab Title" class="w-full p-2 rounded-lg text-sm">
+                <input type="text" id="cloakFavicon" placeholder="Favicon URL" class="w-full p-2 rounded-lg text-sm">
+                <button onclick="applyCloak()" id="applyBtn" class="w-full text-black py-3 px-4 rounded-xl text-sm font-bold shadow-lg hover:brightness-110 transition-all" style="background-color: var(--primary) !important;">Apply Cloak</button>
                 
                 <div class="flex gap-2 mt-2">
-                    <button onclick="resetTitleCloak()" class="w-1/2 bg-white/10 text-xs py-2 rounded-lg hover:bg-white/20">Reset Title</button>
-                    <button onclick="resetFaviconCloak()" class="w-1/2 bg-white/10 text-xs py-2 rounded-lg hover:bg-white/20">Reset Favicon</button>
+                    <button onclick="resetTitleCloak()" class="w-1/2 bg-slate-800 text-xs py-2 rounded-lg hover:bg-slate-700">Reset Title</button>
+                    <button onclick="resetFaviconCloak()" class="w-1/2 bg-slate-800 text-xs py-2 rounded-lg hover:bg-slate-700">Reset Favicon</button>
                 </div>
             </div>
         </div>
@@ -337,7 +377,7 @@
                 <div id="iframeContainer" class="w-full h-full"></div>
             </div>
             <div class="sidebar hidden lg:flex flex-col gap-4 overflow-y-auto pr-2">
-                <h3 class="text-xl id-more-like-this" style="color: var(--primary);">More Like This</h3>
+                <h3 class="text-xl font-bold" style="color: var(--primary);">More Like This</h3>
                 <div id="suggestedGames" class="grid grid-cols-2 gap-3"></div>
             </div>
         </div>
@@ -345,11 +385,11 @@
             <div class="flex items-center gap-4">
                 <div id="modalIconContainer" class="h-10 w-10 rounded-lg flex items-center justify-center bg-white/10 text-xs font-bold text-white hidden"></div>
                 <img id="modalIcon" src="" class="h-10 w-10 rounded-lg object-cover">
-                <h3 id="modalTitle" class="text-xl">Game Title</h3>
+                <h3 id="modalTitle" class="text-xl text-white">Game Title</h3>
             </div>
             <div class="flex items-center gap-8">
-                <button onclick="openAboutBlank()" class="nav-icon" title="Open in About:Blank"><i class="fas fa-mask text-xl"></i></button>
-                <button onclick="toggleFullscreen()" class="nav-icon"><i class="fas fa-expand text-xl"></i></button>
+                <button onclick="openAboutBlank()" class="nav-icon" title="Open in About:Blank"><i class="fas fa-mask text-xl text-white"></i></button>
+                <button onclick="toggleFullscreen()" class="nav-icon"><i class="fas fa-expand text-xl text-white"></i></button>
                 <button onclick="closeGame()" class="text-red-500 text-2xl"><i class="fas fa-times"></i></button>
             </div>
         </div>
@@ -360,30 +400,25 @@
     let backups = []; 
     let currentTheme = localStorage.getItem('user_theme_preset') || 'default';
 
-    // Logo state variables
     let useCustomLogo = localStorage.getItem('useCustomLogo') === 'true';
     let customLogoTextValue = localStorage.getItem('customLogoTextValue') || 'algebra practise';
 
-    // Emergency Panic Switch
     let panicEnabled = localStorage.getItem('panicEnabled') === 'true';
     let panicBind = JSON.parse(localStorage.getItem('panicBind')) || null; 
     let targetPanicUrl = localStorage.getItem('targetPanicUrl') || 'https://www.google.com';
     let isCapturingKey = false;
 
-    // Theme Switcher & Adjuster
     function changeThemePreset(themeName) {
         currentTheme = themeName;
         document.body.setAttribute('data-theme', themeName);
         localStorage.setItem('user_theme_preset', themeName);
         
-        // Re-apply primary color dynamically
         const savedColor = localStorage.getItem('user_p_color') || '#a855f7';
         updatePrimary(savedColor);
 
         renderGames('games');
     }
 
-    // Logo Configuration Functions
     function toggleLogoType() {
         useCustomLogo = !useCustomLogo;
         localStorage.setItem('useCustomLogo', useCustomLogo);
@@ -419,7 +454,6 @@
         }
     }
 
-    // Tab Cloaking & Reset Functions
     function applyCloak() {
         const title = document.getElementById('cloakTitle').value;
         const icon = document.getElementById('cloakFavicon').value;
@@ -503,7 +537,7 @@
         let items = filter === 'backups' ? backups : games;
         
         let validItemIndex = 0; 
-        items.forEach((item) => {
+        items.forEach((item, index) => {
             if (filter === 'apps' && item.type !== 'app') return;
             if (filter === 'games' && item.type === 'app') return;
             
@@ -525,7 +559,17 @@
                 card.onclick = () => window.open(item.url, '_blank');
                 card.innerHTML = `<i class="fas ${item.icon}"></i><div class="backup-label">${item.title}</div>`;
             } else {
-                if (currentTheme === 'educational') {
+                if (currentTheme === 'poki') {
+                    // DYNAMIC BENTO TILE SIZES FOR POKI
+                    let pokiClass = '';
+                    if (index % 7 === 0) pokiClass = 'poki-large';
+                    else if (index % 5 === 0) pokiClass = 'poki-wide';
+                    else if (index % 3 === 0) pokiClass = 'poki-tall';
+
+                    card.className = `game-card ${pokiClass}`;
+                    card.onclick = () => openGame(item.id, item.title);
+                    card.innerHTML = `<img src="${item.thumb}" loading="lazy"><div class="card-title">${item.title}</div>`;
+                } else if (currentTheme === 'educational') {
                     card.className = 'game-card edu-text-card';
                     card.onclick = () => openGame(item.id, moduleLabel);
                     card.innerHTML = `
@@ -756,31 +800,25 @@
             document.getElementById('downloadPopup').classList.remove('hidden');
         }
 
-        // Apply saved theme preset
         const savedTheme = localStorage.getItem('user_theme_preset') || 'default';
         document.getElementById('themeSelector').value = savedTheme;
         changeThemePreset(savedTheme);
 
-        // Apply primary color
         const savedColor = localStorage.getItem('user_p_color') || '#a855f7';
         updatePrimary(savedColor); 
         document.getElementById('primaryPicker').value = savedColor;
 
-        // Apply background
         const sBg = localStorage.getItem('user_bg');
         if(sBg) document.body.style.backgroundImage = `url('${sBg}')`;
 
-        // Apply Cloaking
         const sTitle = localStorage.getItem('user_cloak_title');
         const sIcon = localStorage.getItem('user_cloak_icon');
         if(sTitle) document.title = sTitle;
         if(sIcon) document.getElementById('favicon').href = sIcon;
         
-        // Apply Panic
         document.getElementById('panicUrl').value = localStorage.getItem('targetPanicUrl') || '';
         updatePanicUI();
 
-        // Apply Logo Customization
         applyLogoSettings();
 
         loadData();
