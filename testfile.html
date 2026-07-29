@@ -35,9 +35,27 @@
 
         #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
         
-        .main-logo-container { display: flex; justify-content: center; padding-top: 40px; margin-bottom: -10px; }
+        /* Dynamic Header Logo & Text Styling */
+        .main-logo-container { display: flex; justify-content: center; align-items: center; padding-top: 30px; margin-bottom: 10px; }
         .main-logo { width: 350px; height: auto; filter: drop-shadow(0 0 15px var(--primary)); cursor: pointer; transition: transform 0.3s ease, filter 0.3s ease; }
         .main-logo:hover { transform: scale(1.05); }
+
+        /* Custom Text Header - Mimics Uploaded Gummy Purple/Green Style */
+        .custom-logo-text {
+            font-family: 'Fredoka', 'Chewy', cursive;
+            font-weight: 700;
+            font-size: 3.5rem;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #a855f7 0%, #3b82f6 50%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 18px var(--primary)) drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            user-select: none;
+            text-align: center;
+        }
+        .custom-logo-text:hover { transform: scale(1.04); }
 
         .island-header {
             background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
@@ -47,7 +65,7 @@
             transition: all 0.3s ease;
         }
 
-        .nav-icon { font-size: 1.5rem; cursor: pointer; transition: color 0.2s; opacity: 0.7; }
+        .nav-icon { font-size: 1.5rem; cursor: pointer; transition: color 0.2s, opacity 0.2s; opacity: 0.85; }
         .nav-icon:hover { color: var(--primary) !important; opacity: 1; }
         
         .penguin-nav-btn { height: 40px; width: 40px; object-fit: contain; cursor: pointer; transition: filter 0.3s; }
@@ -68,6 +86,7 @@
         .card-title {
             position: absolute; bottom: -100%; left: 0; width: 100%;
             background: linear-gradient(transparent, rgba(0,0,0,0.95));
+            color: #ffffff !important;
             padding: 20px 8px 10px; text-align: center; transition: bottom 0.3s ease; font-size: 0.85rem;
         }
         .game-card:hover .card-title, .sidebar-card:hover .card-title, .backup-card:hover .card-title { bottom: 0; }
@@ -89,79 +108,91 @@
 
         /* ==================== 15 LAYOUT & THEME PRESETS ==================== */
 
+        /* Light Themes Contrast Adjustments */
+        .light-theme-text-adjust { color: #111827 !important; }
+
         /* 1. DEFAULT DARK GLASS */
-        body[data-theme="default"] { --bg: #020617; --primary: #a855f7; --card: rgba(30, 41, 59, 0.5); --font-main: 'Chewy', cursive; }
+        body[data-theme="default"] { --bg: #020617; --primary: #a855f7; --text: #ffffff; --card: rgba(30, 41, 59, 0.5); --font-main: 'Chewy', cursive; }
 
         /* 2. EDUCATIONAL MODULE MODE */
-        body[data-theme="educational"] { --bg: #0f172a; --primary: #22c55e; --card: rgba(15, 23, 42, 0.9); --font-main: 'Inter', sans-serif; --radius: 0.75rem; }
+        body[data-theme="educational"] { --bg: #0f172a; --primary: #22c55e; --text: #ffffff; --card: rgba(15, 23, 42, 0.9); --font-main: 'Inter', sans-serif; --radius: 0.75rem; }
         body[data-theme="educational"] .edu-text-card { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         body[data-theme="educational"] .edu-module-badge { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
         body[data-theme="educational"] .edu-module-title { font-size: 0.85rem; color: #94a3b8; font-weight: 500; }
 
-        /* 3. POKI ARCADE STYLE */
+        /* 3. POKI ARCADE STYLE - Alternative Layout (Sidebar Navigation) */
         body[data-theme="poki"] { --bg: #00d2ff; --primary: #ff007f; --card: #ffffff; --text: #1e1e1e; --font-main: 'Fredoka', sans-serif; --radius: 1.8rem; }
-        body[data-theme="poki"] .island-header { background: #ffffff; border: 4px solid #1e1e1e; box-shadow: 6px 6px 0px #1e1e1e; color: #1e1e1e; }
+        body[data-theme="poki"] .island-header { background: #ffffff; border: 4px solid #1e1e1e; box-shadow: 6px 6px 0px #1e1e1e; color: #1e1e1e; flex-direction: column; position: fixed; left: 20px; top: 120px; z-index: 50; margin: 0; }
+        body[data-theme="poki"] main { margin-left: 120px; }
+        body[data-theme="poki"] .main-logo-container { filter: drop-shadow(0 0 10px #ffffff); }
+        body[data-theme="poki"] .custom-logo-text { -webkit-text-fill-color: #1e1e1e; text-shadow: 3px 3px 0px #ffffff; }
         body[data-theme="poki"] .game-card { border: 4px solid #1e1e1e; box-shadow: 4px 4px 0px #1e1e1e; }
         body[data-theme="poki"] .game-card:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0px #1e1e1e; }
 
         /* 4. CRAZYGAMES MODERN */
-        body[data-theme="crazygames"] { --bg: #0b0e14; --primary: #7c3aed; --card: #181c25; --font-main: 'Inter', sans-serif; --radius: 0.5rem; }
+        body[data-theme="crazygames"] { --bg: #0b0e14; --primary: #7c3aed; --text: #f3f4f6; --card: #181c25; --font-main: 'Inter', sans-serif; --radius: 0.5rem; }
         body[data-theme="crazygames"] .game-card { border: 1px solid #2a2e3d; }
-        body[data-theme="crazygames"] .game-card:hover { border-color: #7c3aed; box-shadow: 0 0 15px rgba(124, 58, 237, 0.4); }
+        body[data-theme="crazygames"] .game-card:hover { border-color: var(--primary); box-shadow: 0 0 15px var(--primary); }
 
         /* 5. ULTRA MINIMALIST */
         body[data-theme="minimalist"] { --bg: #ffffff; --text: #000000; --primary: #000000; --card: #f4f4f5; --font-main: 'Inter', sans-serif; --radius: 0px; }
         body[data-theme="minimalist"] .island-header { background: #ffffff; border: 1px solid #e4e4e7; box-shadow: none; border-radius: 0px; color: #000000; }
+        body[data-theme="minimalist"] .main-logo { filter: brightness(0); }
+        body[data-theme="minimalist"] .custom-logo-text { -webkit-text-fill-color: #000000; filter: none; }
         body[data-theme="minimalist"] .game-card { border: 1px solid #e4e4e7; box-shadow: none; }
-        body[data-theme="minimalist"] .game-card:hover { border-color: #000000; transform: none; }
+        body[data-theme="minimalist"] .game-card:hover { border-color: #000000; transform: none; box-shadow: none; }
 
         /* 6. CYBERPUNK 2077 / NEON */
-        body[data-theme="cyberpunk"] { --bg: #05050a; --primary: #00f0ff; --card: rgba(255, 0, 85, 0.15); --card-border: #ff0055; --font-main: 'Fira Code', monospace; --radius: 0px; }
+        body[data-theme="cyberpunk"] { --bg: #05050a; --primary: #00f0ff; --text: #00f0ff; --card: rgba(255, 0, 85, 0.15); --card-border: #ff0055; --font-main: 'Fira Code', monospace; --radius: 0px; }
         body[data-theme="cyberpunk"] .game-card { clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%); border: 1px solid #ff0055; }
-        body[data-theme="cyberpunk"] .game-card:hover { border-color: #00f0ff; box-shadow: 0 0 20px #00f0ff; }
+        body[data-theme="cyberpunk"] .game-card:hover { border-color: var(--primary); box-shadow: 0 0 20px var(--primary); }
 
         /* 7. RETRO 8-BIT ARCADE */
-        body[data-theme="retro"] { --bg: #120024; --primary: #facc15; --card: #20003b; --font-main: 'Press Start 2P', cursive; --radius: 0px; }
+        body[data-theme="retro"] { --bg: #120024; --primary: #facc15; --text: #facc15; --card: #20003b; --font-main: 'Press Start 2P', cursive; --radius: 0px; }
         body[data-theme="retro"] .island-header, body[data-theme="retro"] .game-card { border: 4px solid #facc15; box-shadow: 4px 4px 0 #ff0055; }
         body[data-theme="retro"] .card-title { font-size: 0.6rem; background: #000000; padding: 6px; }
 
         /* 8. GLASSMORPHISM LUXE */
-        body[data-theme="glassmorphism"] { --bg: linear-gradient(135deg, #0f172a 0%, #31103f 100%); --primary: #38bdf8; --card: rgba(255, 255, 255, 0.08); --card-border: rgba(255, 255, 255, 0.2); --radius: 1.5rem; }
+        body[data-theme="glassmorphism"] { --bg: linear-gradient(135deg, #0f172a 0%, #31103f 100%); --primary: #38bdf8; --text: #ffffff; --card: rgba(255, 255, 255, 0.08); --card-border: rgba(255, 255, 255, 0.2); --radius: 1.5rem; }
         body[data-theme="glassmorphism"] .game-card { backdrop-filter: blur(16px); }
 
         /* 9. NEUMORPHIC LIGHT */
-        body[data-theme="neumorphic"] { --bg: #e0e5ec; --text: #333333; --primary: #4d7c0f; --card: #e0e5ec; --font-main: 'Inter', sans-serif; --radius: 1.5rem; }
+        body[data-theme="neumorphic"] { --bg: #e0e5ec; --text: #2d3748; --primary: #4d7c0f; --card: #e0e5ec; --font-main: 'Inter', sans-serif; --radius: 1.5rem; }
         body[data-theme="neumorphic"] .island-header, body[data-theme="neumorphic"] .game-card {
             background: #e0e5ec; border: none;
-            box-shadow: 9px 9px 16px #a3b1c6, -9px -9px 16px #ffffff; color: #333;
+            box-shadow: 9px 9px 16px #a3b1c6, -9px -9px 16px #ffffff; color: #2d3748;
         }
+        body[data-theme="neumorphic"] .main-logo { filter: drop-shadow(4px 4px 6px #a3b1c6); }
+        body[data-theme="neumorphic"] .custom-logo-text { -webkit-text-fill-color: #2d3748; filter: drop-shadow(2px 2px 4px #a3b1c6); }
 
-        /* 10. TERMINAL HACKER */
+        /* 10. TERMINAL HACKER - Horizontal Bar Layout */
         body[data-theme="terminal"] { --bg: #000000; --text: #00ff66; --primary: #00ff66; --card: #051105; --font-main: 'Fira Code', monospace; --radius: 0px; }
         body[data-theme="terminal"] .game-card { border: 1px solid #00ff66; }
-        body[data-theme="terminal"] .island-header { background: #000; border: 1px solid #00ff66; border-radius: 0; }
+        body[data-theme="terminal"] .island-header { background: #000; border: 1px solid #00ff66; border-radius: 0; width: 100%; justify-content: space-around; margin: 0 0 20px 0; }
 
         /* 11. STEAM STORE DECK */
-        body[data-theme="steam"] { --bg: #1b2838; --primary: #66c0f4; --card: #101822; --font-main: 'Inter', sans-serif; --radius: 0.4rem; }
+        body[data-theme="steam"] { --bg: #1b2838; --primary: #66c0f4; --text: #c6d4df; --card: #101822; --font-main: 'Inter', sans-serif; --radius: 0.4rem; }
         body[data-theme="steam"] .game-card { border: 1px solid #2a475e; }
-        body[data-theme="steam"] .game-card:hover { border-color: #66c0f4; box-shadow: 0 0 12px #66c0f4; }
+        body[data-theme="steam"] .game-card:hover { border-color: var(--primary); box-shadow: 0 0 12px var(--primary); }
 
         /* 12. Y2K METALLIC */
-        body[data-theme="y2k"] { --bg: #1e293b; --primary: #06b6d4; --card: linear-gradient(180deg, #334155 0%, #0f172a 100%); --font-main: 'Fredoka', sans-serif; --radius: 2rem; }
+        body[data-theme="y2k"] { --bg: #1e293b; --primary: #06b6d4; --text: #f1f5f9; --card: linear-gradient(180deg, #334155 0%, #0f172a 100%); --font-main: 'Fredoka', sans-serif; --radius: 2rem; }
         body[data-theme="y2k"] .game-card { border: 3px solid #94a3b8; }
 
         /* 13. PAPER NOTEBOOK */
         body[data-theme="paper"] { --bg: #fef3c7; --text: #1e293b; --primary: #d97706; --card: #fffbe3; --font-main: 'Fredoka', cursive; --radius: 0.5rem; }
         body[data-theme="paper"] .game-card { border: 2px dashed #b45309; color: #1e293b; }
         body[data-theme="paper"] .island-header { background: #fffbe3; border: 2px solid #b45309; border-radius: 0.5rem; color: #1e293b; }
+        body[data-theme="paper"] .main-logo { filter: contrast(1.2) sepia(0.3); }
+        body[data-theme="paper"] .custom-logo-text { -webkit-text-fill-color: #b45309; filter: none; }
 
         /* 14. NORDIC FOREST */
-        body[data-theme="nordic"] { --bg: #1a2321; --primary: #a3e635; --card: #283531; --font-main: 'Inter', sans-serif; --radius: 1rem; }
+        body[data-theme="nordic"] { --bg: #1a2321; --primary: #a3e635; --text: #e2e8f0; --card: #283531; --font-main: 'Inter', sans-serif; --radius: 1rem; }
         body[data-theme="nordic"] .game-card { border: 1px solid #3f524c; }
 
         /* 15. COMPACT DIRECTORY LIST */
-        body[data-theme="compact"] { --bg: #0d1117; --primary: #58a6ff; --card: #161b22; --font-main: 'Inter', sans-serif; --radius: 0.2rem; }
-        body[data-theme="compact"] #gameGrid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important; gap: 10px !important; }
+        body[data-theme="compact"] { --bg: #0d1117; --primary: #58a6ff; --text: #c9d1d9; --card: #161b22; --font-main: 'Inter', sans-serif; --radius: 0.2rem; }
+        body[data-theme="compact"] #gameGrid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)) !important; gap: 10px !important; }
         body[data-theme="compact"] .game-card { aspect-ratio: 16/9; }
     </style>
 </head>
@@ -183,8 +214,9 @@
         </div>
     </div>
 
-    <div class="main-logo-container">
+    <div class="main-logo-container" id="logoContainer">
         <img id="mainLogoImg" src="" alt="Logo" class="main-logo" onclick="location.reload()">
+        <h1 id="customLogoText" class="custom-logo-text hidden" onclick="location.reload()">algebra practise</h1>
     </div>
 
     <header class="island-header">
@@ -234,7 +266,7 @@
                 <select id="themeSelector" onchange="changeThemePreset(this.value)" class="w-full bg-slate-800 text-white border border-white/20 p-2.5 rounded-xl text-sm focus:outline-none">
                     <option value="default">1. Default Dark Glass</option>
                     <option value="educational">2. Educational Curriculum</option>
-                    <option value="poki">3. Poki Arcade</option>
+                    <option value="poki">3. Poki Arcade (Sidebar Layout)</option>
                     <option value="crazygames">4. CrazyGames Modern</option>
                     <option value="minimalist">5. Ultra Minimalist</option>
                     <option value="cyberpunk">6. Cyberpunk Neon</option>
@@ -250,22 +282,33 @@
                 </select>
             </div>
 
+            <div class="space-y-3 pt-4 border-t border-white/10 flex flex-col">
+                <span class="block text-xs opacity-50 uppercase font-semibold">Header Logo Options</span>
+                <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/10">
+                    <span class="text-sm">Use Custom Text Logo</span>
+                    <button id="logoTypeToggle" onclick="toggleLogoType()" class="font-bold transition-colors text-red-500">OFF</button>
+                </div>
+                <input type="text" id="logoTextInput" placeholder="Custom Logo Text..." oninput="updateLogoText(this.value)" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm hidden">
+            </div>
+
             <div>
-                <label class="block text-xs opacity-50 mb-2 uppercase">Custom Primary Color</label>
+                <label class="block text-xs opacity-50 mb-2 uppercase font-semibold">Custom Primary Accent Color</label>
                 <input type="color" id="primaryPicker" value="#a855f7" oninput="updatePrimary(this.value)" class="w-full h-10 rounded-lg cursor-pointer bg-transparent border-none">
             </div>
+            
             <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl">
                 <span>Particles</span>
                 <button id="partToggle" onclick="toggleParticles()" style="color: var(--primary);">ON</button>
             </div>
+            
             <button onclick="setBg()" class="w-full bg-white/10 py-3 rounded-xl text-sm">Set Background Image</button>
             <button onclick="resetBg()" class="w-full bg-red-500/10 text-red-400 py-2 rounded-xl text-xs">Reset Background</button>
             <button onclick="openAboutBlank()" class="w-full bg-white/10 py-3 rounded-xl text-sm">Open in About:Blank</button>
             
             <div class="space-y-3 pt-4 border-t border-white/10 flex flex-col">
-                <span class="block text-xs opacity-50 uppercase font-semibold">Emergency Settings</span>
+                <span class="block text-xs opacity-50 uppercase font-semibold">Emergency Panic Switch</span>
                 <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/10">
-                    <span class="text-sm">Panic Key Switch</span>
+                    <span class="text-sm">Panic Mode Switch</span>
                     <button id="panicToggle" onclick="togglePanicMode()" class="font-bold transition-colors text-red-500">OFF</button>
                 </div>
                 <button id="panicKeyBtn" onclick="startPanicKeyCapture()" class="w-full bg-white/5 border border-white/10 text-left py-2 px-3 rounded-lg text-sm truncate">
@@ -278,7 +321,12 @@
                 <span class="block text-xs opacity-50 uppercase font-semibold">Tab Cloaking</span>
                 <input type="text" id="cloakTitle" placeholder="Tab Title" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
                 <input type="text" id="cloakFavicon" placeholder="Favicon URL" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
-                <button onclick="applyCloak()" id="applyBtn" class="w-full text-black py-3 px-4 rounded-xl text-sm font-bold shadow-lg hover:brightness-110 transition-all mt-2" style="background-color: var(--primary);">Apply Cloak</button>
+                <button onclick="applyCloak()" id="applyBtn" class="w-full text-black py-3 px-4 rounded-xl text-sm font-bold shadow-lg hover:brightness-110 transition-all" style="background-color: var(--primary);">Apply Cloak</button>
+                
+                <div class="flex gap-2 mt-2">
+                    <button onclick="resetTitleCloak()" class="w-1/2 bg-white/10 text-xs py-2 rounded-lg hover:bg-white/20">Reset Title</button>
+                    <button onclick="resetFaviconCloak()" class="w-1/2 bg-white/10 text-xs py-2 rounded-lg hover:bg-white/20">Reset Favicon</button>
+                </div>
             </div>
         </div>
     </div>
@@ -312,16 +360,90 @@
     let backups = []; 
     let currentTheme = localStorage.getItem('user_theme_preset') || 'default';
 
+    // Logo state variables
+    let useCustomLogo = localStorage.getItem('useCustomLogo') === 'true';
+    let customLogoTextValue = localStorage.getItem('customLogoTextValue') || 'algebra practise';
+
+    // Emergency Panic Switch
     let panicEnabled = localStorage.getItem('panicEnabled') === 'true';
     let panicBind = JSON.parse(localStorage.getItem('panicBind')) || null; 
     let targetPanicUrl = localStorage.getItem('targetPanicUrl') || 'https://www.google.com';
     let isCapturingKey = false;
 
+    // Theme Switcher & Adjuster
     function changeThemePreset(themeName) {
         currentTheme = themeName;
         document.body.setAttribute('data-theme', themeName);
         localStorage.setItem('user_theme_preset', themeName);
+        
+        // Re-apply primary color dynamically
+        const savedColor = localStorage.getItem('user_p_color') || '#a855f7';
+        updatePrimary(savedColor);
+
         renderGames('games');
+    }
+
+    // Logo Configuration Functions
+    function toggleLogoType() {
+        useCustomLogo = !useCustomLogo;
+        localStorage.setItem('useCustomLogo', useCustomLogo);
+        applyLogoSettings();
+    }
+
+    function updateLogoText(text) {
+        customLogoTextValue = text || 'algebra practise';
+        localStorage.setItem('customLogoTextValue', customLogoTextValue);
+        document.getElementById('customLogoText').textContent = customLogoTextValue;
+    }
+
+    function applyLogoSettings() {
+        const toggleBtn = document.getElementById('logoTypeToggle');
+        const imgElement = document.getElementById('mainLogoImg');
+        const textElement = document.getElementById('customLogoText');
+        const inputElement = document.getElementById('logoTextInput');
+
+        if (useCustomLogo) {
+            toggleBtn.textContent = 'ON';
+            toggleBtn.style.color = '#22c55e';
+            imgElement.classList.add('hidden');
+            textElement.classList.remove('hidden');
+            inputElement.classList.remove('hidden');
+            textElement.textContent = customLogoTextValue;
+            inputElement.value = customLogoTextValue;
+        } else {
+            toggleBtn.textContent = 'OFF';
+            toggleBtn.style.color = '#ef4444';
+            imgElement.classList.remove('hidden');
+            textElement.classList.add('hidden');
+            inputElement.classList.add('hidden');
+        }
+    }
+
+    // Tab Cloaking & Reset Functions
+    function applyCloak() {
+        const title = document.getElementById('cloakTitle').value;
+        const icon = document.getElementById('cloakFavicon').value;
+        if(title) {
+            document.title = title;
+            localStorage.setItem('user_cloak_title', title);
+        }
+        if(icon) {
+            document.getElementById('favicon').href = icon;
+            localStorage.setItem('user_cloak_icon', icon);
+        }
+    }
+
+    function resetTitleCloak() {
+        document.title = "Algebra Practice - Study Module";
+        localStorage.removeItem('user_cloak_title');
+        document.getElementById('cloakTitle').value = '';
+    }
+
+    function resetFaviconCloak() {
+        const defaultIcon = "https://upload.wikimedia.org/wikipedia/commons/0/01/El_Sato_Tux_The_penguin_in_sonic_style.png";
+        document.getElementById('favicon').href = defaultIcon;
+        localStorage.removeItem('user_cloak_icon');
+        document.getElementById('cloakFavicon').value = '';
     }
 
     function closePopup() {
@@ -581,15 +703,6 @@
         body.style.padding = "0";
     }
 
-    function applyCloak() {
-        const title = document.getElementById('cloakTitle').value;
-        const icon = document.getElementById('cloakFavicon').value;
-        if(title) document.title = title;
-        if(icon) document.getElementById('favicon').href = icon;
-        localStorage.setItem('user_cloak_title', title);
-        localStorage.setItem('user_cloak_icon', icon);
-    }
-
     function updatePrimary(color) {
         document.documentElement.style.setProperty('--primary', color);
         const applyBtn = document.getElementById('applyBtn');
@@ -648,18 +761,27 @@
         document.getElementById('themeSelector').value = savedTheme;
         changeThemePreset(savedTheme);
 
+        // Apply primary color
         const savedColor = localStorage.getItem('user_p_color') || '#a855f7';
         updatePrimary(savedColor); 
         document.getElementById('primaryPicker').value = savedColor;
+
+        // Apply background
         const sBg = localStorage.getItem('user_bg');
         if(sBg) document.body.style.backgroundImage = `url('${sBg}')`;
+
+        // Apply Cloaking
         const sTitle = localStorage.getItem('user_cloak_title');
         const sIcon = localStorage.getItem('user_cloak_icon');
         if(sTitle) document.title = sTitle;
         if(sIcon) document.getElementById('favicon').href = sIcon;
         
+        // Apply Panic
         document.getElementById('panicUrl').value = localStorage.getItem('targetPanicUrl') || '';
         updatePanicUI();
+
+        // Apply Logo Customization
+        applyLogoSettings();
 
         loadData();
         initPts(); draw();
