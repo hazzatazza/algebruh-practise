@@ -19,6 +19,7 @@
             --card-border: rgba(255, 255, 255, 0.1);
             --radius: 1.2rem;
             --font-main: 'Chewy', cursive;
+            --grid-cols: 6;
         }
 
         body { 
@@ -31,6 +32,7 @@
             background-size: cover; 
             background-position: center; 
             background-attachment: fixed;
+            padding-bottom: 60px;
         }
 
         #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
@@ -87,6 +89,13 @@
         .penguin-nav-btn { height: 38px; width: 38px; object-fit: contain; cursor: pointer; transition: filter 0.3s; }
         .penguin-nav-btn:hover { filter: drop-shadow(0 0 8px var(--primary)); }
 
+        /* Base Dynamic Grid System */
+        #gameGrid {
+            display: grid;
+            grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+            gap: 1.25rem;
+        }
+
         /* General Game Cards */
         .game-card, .sidebar-card, .backup-card {
             position: relative; aspect-ratio: 1/1; overflow: hidden; border-radius: var(--radius);
@@ -121,7 +130,7 @@
         #settingsPanel *, #infoTabContent * {
             color: #f8fafc;
         }
-        #settingsPanel input, #settingsPanel select {
+        #settingsPanel input[type="text"], #settingsPanel select {
             background-color: #1e293b !important;
             color: #ffffff !important;
             border-color: #334155 !important;
@@ -139,31 +148,22 @@
 
         .download-here-link { color: #3b82f6; font-weight: bold; cursor: pointer; text-decoration: underline; }
 
-        /* ==================== 15 LAYOUT & THEME PRESETS ==================== */
+        /* ==================== 17 LAYOUT & THEME PRESETS ==================== */
 
         /* 1. DEFAULT DARK GLASS */
-        body[data-theme="default"] #gameGrid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.25rem;
-        }
+        body[data-theme="default"] { --bg: #020617; --primary: #a855f7; --text: #ffffff; --card: rgba(30, 41, 59, 0.5); }
 
         /* 2. EDUCATIONAL MODULE MODE */
         body[data-theme="educational"] { --bg: #0f172a; --primary: #22c55e; --font-main: 'Inter', sans-serif; --radius: 0.75rem; }
-        body[data-theme="educational"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
         body[data-theme="educational"] .game-card { aspect-ratio: 16/9; }
         body[data-theme="educational"] .edu-text-card { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; text-align: center; }
         body[data-theme="educational"] .edu-module-badge { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
 
-        /* 3. POKI ARCADE STYLE (FIXED LAYOUT - NO OVERLAP, DYNAMIC TILES) */
+        /* 3. POKI ARCADE STYLE */
         body[data-theme="poki"] { --bg: #00d2ff; --primary: #ff007f; --card: #ffffff; --text: #1e1e1e; --font-main: 'Fredoka', sans-serif; --radius: 1.5rem; }
         body[data-theme="poki"] .island-header { background: #ffffff; border: 4px solid #1e1e1e; box-shadow: 6px 6px 0px #1e1e1e; color: #1e1e1e; margin: 15px auto 25px; }
         body[data-theme="poki"] .nav-icon { color: #1e1e1e !important; text-shadow: none; }
-        body[data-theme="poki"] #gameGrid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
-            grid-auto-rows: 160px;
-            grid-auto-flow: dense;
-            gap: 15px; 
-        }
+        body[data-theme="poki"] #gameGrid { grid-auto-rows: 160px; grid-auto-flow: dense; }
         body[data-theme="poki"] .game-card { border: 4px solid #1e1e1e; box-shadow: 4px 4px 0px #1e1e1e; aspect-ratio: auto; }
         body[data-theme="poki"] .game-card:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0px #1e1e1e; }
         body[data-theme="poki"] .poki-large { grid-column: span 2; grid-row: span 2; }
@@ -172,68 +172,77 @@
 
         /* 4. CRAZYGAMES MODERN */
         body[data-theme="crazygames"] { --bg: #0b0e14; --primary: #7c3aed; --card: #181c25; --font-main: 'Inter', sans-serif; --radius: 0.5rem; }
-        body[data-theme="crazygames"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
         body[data-theme="crazygames"] .game-card { aspect-ratio: 16/10; border: 1px solid #2a2e3d; }
 
         /* 5. ULTRA MINIMALIST */
         body[data-theme="minimalist"] { --bg: #ffffff; --text: #000000; --primary: #000000; --card: #f4f4f5; --font-main: 'Inter', sans-serif; --radius: 0px; }
         body[data-theme="minimalist"] .island-header { background: #ffffff; border: 1px solid #e4e4e7; box-shadow: none; }
         body[data-theme="minimalist"] .nav-icon { color: #000000 !important; text-shadow: none; }
-        body[data-theme="minimalist"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
         body[data-theme="minimalist"] .game-card { aspect-ratio: 4/3; border: 1px solid #e4e4e7; box-shadow: none; }
 
         /* 6. CYBERPUNK 2077 */
         body[data-theme="cyberpunk"] { --bg: #05050a; --primary: #00f0ff; --text: #00f0ff; --card: rgba(255, 0, 85, 0.15); --card-border: #ff0055; --font-main: 'Fira Code', monospace; --radius: 0px; }
-        body[data-theme="cyberpunk"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1.25rem; }
         body[data-theme="cyberpunk"] .game-card { clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%); border: 1px solid #ff0055; }
 
         /* 7. RETRO 8-BIT ARCADE */
         body[data-theme="retro"] { --bg: #120024; --primary: #facc15; --text: #facc15; --card: #20003b; --font-main: 'Press Start 2P', cursive; --radius: 0px; }
-        body[data-theme="retro"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1.5rem; }
         body[data-theme="retro"] .island-header, body[data-theme="retro"] .game-card { border: 4px solid #facc15; box-shadow: 4px 4px 0 #ff0055; }
 
-        /* 8. GLASSMORPHISM LUXE (FIXED ICON VISIBILITY) */
+        /* 8. GLASSMORPHISM LUXE */
         body[data-theme="glassmorphism"] { --bg: linear-gradient(135deg, #0f172a 0%, #31103f 100%); --primary: #38bdf8; --text: #ffffff; --card: rgba(255, 255, 255, 0.08); --radius: 1.5rem; }
         body[data-theme="glassmorphism"] .island-header { background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.25); }
-        body[data-theme="glassmorphism"] .nav-icon { color: #ffffff !important; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); opacity: 1; }
-        body[data-theme="glassmorphism"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
+        body[data-theme="glassmorphism"] .nav-icon { color: #ffffff !important; opacity: 1; }
 
         /* 9. NEUMORPHIC LIGHT */
         body[data-theme="neumorphic"] { --bg: #e0e5ec; --text: #2d3748; --primary: #4d7c0f; --card: #e0e5ec; --font-main: 'Inter', sans-serif; --radius: 1.5rem; }
         body[data-theme="neumorphic"] .island-header { background: #e0e5ec; border: none; box-shadow: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff; }
         body[data-theme="neumorphic"] .nav-icon { color: #2d3748 !important; text-shadow: none; }
-        body[data-theme="neumorphic"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; }
         body[data-theme="neumorphic"] .game-card { border: none; box-shadow: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff; }
 
         /* 10. TERMINAL HACKER */
         body[data-theme="terminal"] { --bg: #000000; --text: #00ff66; --primary: #00ff66; --card: #051105; --font-main: 'Fira Code', monospace; --radius: 0px; }
-        body[data-theme="terminal"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
         body[data-theme="terminal"] .game-card { aspect-ratio: 16/9; border: 1px solid #00ff66; }
 
         /* 11. STEAM STORE DECK */
         body[data-theme="steam"] { --bg: #1b2838; --primary: #66c0f4; --text: #c6d4df; --card: #101822; --font-main: 'Inter', sans-serif; --radius: 0.4rem; }
-        body[data-theme="steam"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; }
         body[data-theme="steam"] .game-card { aspect-ratio: 16/9; border: 1px solid #2a475e; }
 
         /* 12. Y2K METALLIC */
         body[data-theme="y2k"] { --bg: #1e293b; --primary: #06b6d4; --text: #f1f5f9; --card: linear-gradient(180deg, #334155 0%, #0f172a 100%); --font-main: 'Fredoka', sans-serif; --radius: 2rem; }
-        body[data-theme="y2k"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.25rem; }
 
         /* 13. PAPER NOTEBOOK */
         body[data-theme="paper"] { --bg: #fef3c7; --text: #1e293b; --primary: #d97706; --card: #fffbe3; --font-main: 'Fredoka', cursive; --radius: 0.5rem; }
         body[data-theme="paper"] .island-header { background: #fffbe3; border: 2px solid #b45309; }
         body[data-theme="paper"] .nav-icon { color: #1e293b !important; text-shadow: none; }
-        body[data-theme="paper"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.25rem; }
         body[data-theme="paper"] .game-card { border: 2px dashed #b45309; aspect-ratio: 4/3; }
 
         /* 14. NORDIC FOREST */
         body[data-theme="nordic"] { --bg: #1a2321; --primary: #a3e635; --text: #e2e8f0; --card: #283531; --font-main: 'Inter', sans-serif; --radius: 1rem; }
-        body[data-theme="nordic"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1.25rem; }
 
         /* 15. COMPACT DIRECTORY LIST */
         body[data-theme="compact"] { --bg: #0d1117; --primary: #58a6ff; --text: #c9d1d9; --card: #161b22; --font-main: 'Inter', sans-serif; --radius: 0.2rem; }
-        body[data-theme="compact"] #gameGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
         body[data-theme="compact"] .game-card { aspect-ratio: 16/9; }
+
+        /* 16. iOS IPAD HOME SCREEN (FIXED BOTTOM DOCK) */
+        body[data-theme="ios"] { --bg: linear-gradient(180deg, #1c1c1e 0%, #2c2c2e 100%); --primary: #0a84ff; --text: #ffffff; --font-main: 'Inter', sans-serif; --radius: 1.8rem; }
+        body[data-theme="ios"] .island-header { 
+            position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
+            margin: 0; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 35px;
+            padding: 12px 28px; z-index: 100; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        body[data-theme="ios"] .game-card { border-radius: 22px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+
+        /* 17. WINDOWS 11 HOME SCREEN (DESKTOP & TASKBAR) */
+        body[data-theme="win11"] { --bg: linear-gradient(135deg, #202b36 0%, #111827 100%); --primary: #0078d4; --text: #ffffff; --font-main: 'Inter', sans-serif; --radius: 0.5rem; }
+        body[data-theme="win11"] .island-header { 
+            position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-width: 100%;
+            margin: 0; border-radius: 0; background: rgba(32, 43, 54, 0.85); backdrop-filter: blur(20px);
+            border: none; border-top: 1px solid rgba(255,255,255,0.1); justify-content: center;
+            padding: 8px; z-index: 100; box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+        }
+        body[data-theme="win11"] .game-card { border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); }
+        body[data-theme="win11"] .game-card:hover { border-color: var(--primary); background: rgba(255, 255, 255, 0.1); }
     </style>
 </head>
 <body class="p-4" data-theme="default">
@@ -319,7 +328,17 @@
                     <option value="paper">13. Paper Notebook</option>
                     <option value="nordic">14. Nordic Forest</option>
                     <option value="compact">15. Compact Directory</option>
+                    <option value="ios">16. iOS iPad OS Screen</option>
+                    <option value="win11">17. Windows 11 Desktop</option>
                 </select>
+            </div>
+
+            <div class="space-y-2 pt-2">
+                <div class="flex justify-between items-center">
+                    <label class="text-xs uppercase font-semibold">Grid Columns per Row</label>
+                    <span id="colVal" class="text-xs font-bold text-blue-400">6</span>
+                </div>
+                <input type="range" id="colSlider" min="2" max="12" value="6" oninput="updateColumns(this.value)" class="w-full accent-purple-500 cursor-pointer">
             </div>
 
             <div class="space-y-3 pt-4 border-t border-slate-700 flex flex-col">
@@ -407,6 +426,13 @@
     let panicBind = JSON.parse(localStorage.getItem('panicBind')) || null; 
     let targetPanicUrl = localStorage.getItem('targetPanicUrl') || 'https://www.google.com';
     let isCapturingKey = false;
+
+    // Dynamic Columns Update
+    function updateColumns(val) {
+        document.documentElement.style.setProperty('--grid-cols', val);
+        document.getElementById('colVal').textContent = val;
+        localStorage.setItem('user_grid_cols', val);
+    }
 
     function changeThemePreset(themeName) {
         currentTheme = themeName;
@@ -560,7 +586,6 @@
                 card.innerHTML = `<i class="fas ${item.icon}"></i><div class="backup-label">${item.title}</div>`;
             } else {
                 if (currentTheme === 'poki') {
-                    // DYNAMIC BENTO TILE SIZES FOR POKI
                     let pokiClass = '';
                     if (index % 7 === 0) pokiClass = 'poki-large';
                     else if (index % 5 === 0) pokiClass = 'poki-wide';
@@ -799,6 +824,10 @@
         if (localStorage.getItem('hideDownloadPopup') !== 'true') {
             document.getElementById('downloadPopup').classList.remove('hidden');
         }
+
+        const savedCols = localStorage.getItem('user_grid_cols') || '6';
+        document.getElementById('colSlider').value = savedCols;
+        updateColumns(savedCols);
 
         const savedTheme = localStorage.getItem('user_theme_preset') || 'default';
         document.getElementById('themeSelector').value = savedTheme;
