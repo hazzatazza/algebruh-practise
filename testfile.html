@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algebra Practice - Study Module</title>
     <link id="favicon" rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/0/01/El_Sato_Tux_The_penguin_in_sonic_style.png">
-    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Inter:wght@400;500;600;700&family=Press+Start+2P&family=Fira+Code:wght@400;700&family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Inter:wght@400;500;600;700&family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -37,9 +37,8 @@
 
         #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
         
-        /* Header Logo Styling */
         .main-logo-container { display: flex; justify-content: center; align-items: center; padding-top: 20px; margin-bottom: 10px; }
-        .main-logo { width: 320px; height: auto; filter: drop-shadow(0 0 15px var(--primary)); cursor: pointer; transition: transform 0.3s ease, filter 0.3s ease; }
+        .main-logo { width: 320px; height: auto; filter: drop-shadow(0 0 15px var(--primary)); cursor: pointer; transition: transform 0.3s ease; }
         .main-logo:hover { transform: scale(1.05); }
 
         .custom-logo-text {
@@ -58,7 +57,7 @@
         }
         .custom-logo-text:hover { transform: scale(1.04); }
 
-        /* Universal Island Header */
+        /* Dynamic Responsive Island Header */
         .island-header {
             background: rgba(255, 255, 255, 0.08); 
             backdrop-filter: blur(15px);
@@ -67,17 +66,18 @@
             padding: 10px 24px; 
             display: flex; 
             align-items: center; 
-            gap: 18px;
+            gap: 16px;
             margin: 10px auto 30px; 
-            width: fit-content; 
+            width: fit-content;
+            max-width: 95vw;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             z-index: 40;
         }
 
         .nav-icon { 
-            font-size: 1.4rem; 
+            font-size: 1.3rem; 
             cursor: pointer; 
             transition: all 0.2s; 
             opacity: 0.9;
@@ -89,27 +89,25 @@
         .penguin-nav-btn { height: 38px; width: 38px; object-fit: contain; cursor: pointer; transition: filter 0.3s; }
         .penguin-nav-btn:hover { filter: drop-shadow(0 0 8px var(--primary)); }
 
-        /* Dynamic Grid System */
         #gameGrid {
             display: grid;
             grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
             gap: 1.25rem;
         }
 
-        /* General Game Cards */
         .game-card-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; width: 100%; }
         
-        .game-card, .sidebar-card, .backup-card {
+        .game-card {
             position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: var(--radius);
             border: 2px solid var(--card-border); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: var(--card); cursor: pointer;
         }
-        .game-card:hover, .sidebar-card:hover, .backup-card:hover { 
+        .game-card:hover { 
             border-color: var(--primary); 
             transform: translateY(-4px) scale(1.02); 
             box-shadow: 0 10px 25px -5px var(--primary); 
         }
-        .game-card img, .sidebar-card img { width: 100%; height: 100%; object-fit: cover; }
+        .game-card img { width: 100%; height: 100%; object-fit: cover; }
         
         .card-title {
             position: absolute; bottom: -100%; left: 0; width: 100%;
@@ -117,10 +115,10 @@
             color: #ffffff !important;
             padding: 20px 8px 10px; text-align: center; transition: bottom 0.3s ease; font-size: 0.85rem;
         }
-        .game-card:hover .card-title, .sidebar-card:hover .card-title, .backup-card:hover .card-title { bottom: 0; }
+        .game-card:hover .card-title { bottom: 0; }
 
         .pin-btn {
-            position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.75);
+            position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.8);
             color: #fff; border-radius: 50%; width: 28px; height: 28px;
             display: flex; align-items: center; justify-content: center;
             font-size: 0.75rem; z-index: 10; opacity: 0; transition: opacity 0.2s, transform 0.2s;
@@ -129,26 +127,33 @@
         .game-card-wrapper:hover .pin-btn { opacity: 1; }
         .pin-btn:hover { transform: scale(1.15); background: var(--primary); }
 
-        .backup-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; text-align: center; padding: 20px; }
-        .backup-card i { font-size: 3.5rem; color: var(--primary); }
-        .backup-label { color: var(--text); font-size: 1.1rem; width: 100%; text-align: center; display: block; }
+        /* Universal Dynamic Dock Items */
+        #pinnedItemsContainer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            overflow-x: auto;
+            max-width: 300px;
+            padding: 2px 4px;
+        }
+        #pinnedItemsContainer::-webkit-scrollbar { display: none; }
 
-        /* UNIVERSAL PINNED DOCK ITEMS */
         .os-pinned-item {
             width: 36px; height: 36px; border-radius: 10px; overflow: hidden;
-            cursor: pointer; transition: transform 0.2s, filter 0.2s; position: relative;
-            flex-shrink: 0; border: 1px solid rgba(255,255,255,0.2);
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; position: relative;
+            flex-shrink: 0; border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.4);
         }
-        .os-pinned-item:hover { transform: scale(1.15) translateY(-2px); }
+        .os-pinned-item:hover { transform: scale(1.15) translateY(-2px); box-shadow: 0 4px 12px var(--primary); }
         .os-pinned-item img { width: 100%; height: 100%; object-fit: cover; }
         .os-pinned-item .unpin-icon {
-            position: absolute; inset: 0; background: rgba(239, 68, 68, 0.85);
+            position: absolute; top: -2px; right: -2px; background: rgba(239, 68, 68, 0.9);
+            border-radius: 50%; width: 16px; height: 16px;
             display: flex; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.2s; color: white; font-size: 0.75rem;
+            opacity: 0; transition: opacity 0.2s; color: white; font-size: 0.6rem; z-index: 12;
         }
         .os-pinned-item:hover .unpin-icon { opacity: 1; }
 
-        /* SETTINGS & INFO MODAL STYLING */
         #settingsPanel, #infoTabContent {
             background-color: #0f172a !important;
             color: #f8fafc !important;
@@ -160,78 +165,53 @@
             color: #ffffff !important;
             border-color: #334155 !important;
         }
-        #settingsPanel label, #settingsPanel span { color: #cbd5e1 !important; }
 
         #settingsPanel { z-index: 100; transition: transform 0.4s ease; }
         .game-container { display: grid; grid-template-columns: 1fr 300px; gap: 20px; height: calc(100vh - 100px); padding: 20px; }
         
-        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
         .download-here-link { color: #3b82f6; font-weight: bold; cursor: pointer; text-decoration: underline; }
 
-        /* ==================== 17 LAYOUT & THEME PRESETS ==================== */
+        /* ==================== 4 CLEAN PRESETS ==================== */
 
+        /* 1. DEFAULT DARK GLASS */
         body[data-theme="default"] { --bg: #020617; --primary: #a855f7; --text: #ffffff; --card: rgba(30, 41, 59, 0.5); }
 
-        body[data-theme="educational"] { --bg: #0f172a; --primary: #22c55e; --font-main: 'Inter', sans-serif; --radius: 0.75rem; }
-        body[data-theme="educational"] .game-card { aspect-ratio: 16/9; }
-        body[data-theme="educational"] .edu-text-card { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; text-align: center; }
-        body[data-theme="educational"] .edu-module-badge { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+        /* 2. FIXED EDUCATIONAL CURRICULUM */
+        body[data-theme="educational"] { 
+            --bg: #0f172a; 
+            --primary: #22c55e; 
+            --font-main: 'Inter', sans-serif; 
+            --radius: 0.75rem; 
+            --card: #1e293b;
+        }
+        body[data-theme="educational"] .game-card { 
+            aspect-ratio: 16/9; 
+            border: 1px solid #334155; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 1rem;
+            text-align: center;
+        }
+        body[data-theme="educational"] .edu-module-badge { 
+            font-size: 1.1rem; 
+            font-weight: 700; 
+            color: var(--primary); 
+            margin-bottom: 4px;
+        }
+        body[data-theme="educational"] .edu-module-title { 
+            font-size: 0.85rem; 
+            color: #94a3b8; 
+            font-weight: 500;
+            line-height: 1.2;
+        }
 
-        body[data-theme="poki"] { --bg: #00d2ff; --primary: #ff007f; --card: #ffffff; --text: #1e1e1e; --font-main: 'Fredoka', sans-serif; --radius: 1.5rem; }
-        body[data-theme="poki"] .island-header { background: #ffffff; border: 4px solid #1e1e1e; box-shadow: 6px 6px 0px #1e1e1e; color: #1e1e1e; margin: 15px auto 25px; }
-        body[data-theme="poki"] .nav-icon { color: #1e1e1e !important; text-shadow: none; }
-        body[data-theme="poki"] #gameGrid { grid-auto-rows: 160px; grid-auto-flow: dense; }
-        body[data-theme="poki"] .game-card { border: 4px solid #1e1e1e; box-shadow: 4px 4px 0px #1e1e1e; aspect-ratio: auto; }
-        body[data-theme="poki"] .game-card:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0px #1e1e1e; }
-        body[data-theme="poki"] .poki-large { grid-column: span 2; grid-row: span 2; }
-        body[data-theme="poki"] .poki-wide { grid-column: span 2; grid-row: span 1; }
-        body[data-theme="poki"] .poki-tall { grid-column: span 1; grid-row: span 2; }
-
-        body[data-theme="crazygames"] { --bg: #0b0e14; --primary: #7c3aed; --card: #181c25; --font-main: 'Inter', sans-serif; --radius: 0.5rem; }
-        body[data-theme="crazygames"] .game-card { aspect-ratio: 16/10; border: 1px solid #2a2e3d; }
-
-        body[data-theme="minimalist"] { --bg: #ffffff; --text: #000000; --primary: #000000; --card: #f4f4f5; --font-main: 'Inter', sans-serif; --radius: 0px; }
-        body[data-theme="minimalist"] .island-header { background: #ffffff; border: 1px solid #e4e4e7; box-shadow: none; }
-        body[data-theme="minimalist"] .nav-icon { color: #000000 !important; text-shadow: none; }
-        body[data-theme="minimalist"] .game-card { aspect-ratio: 4/3; border: 1px solid #e4e4e7; box-shadow: none; }
-
-        body[data-theme="cyberpunk"] { --bg: #05050a; --primary: #00f0ff; --text: #00f0ff; --card: rgba(255, 0, 85, 0.15); --card-border: #ff0055; --font-main: 'Fira Code', monospace; --radius: 0px; }
-        body[data-theme="cyberpunk"] .game-card { clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%); border: 1px solid #ff0055; }
-
-        body[data-theme="retro"] { --bg: #120024; --primary: #facc15; --text: #facc15; --card: #20003b; --font-main: 'Press Start 2P', cursive; --radius: 0px; }
-        body[data-theme="retro"] .island-header, body[data-theme="retro"] .game-card { border: 4px solid #facc15; box-shadow: 4px 4px 0 #ff0055; }
-
-        body[data-theme="glassmorphism"] { --bg: linear-gradient(135deg, #0f172a 0%, #31103f 100%); --primary: #38bdf8; --text: #ffffff; --card: rgba(255, 255, 255, 0.08); --radius: 1.5rem; }
-        body[data-theme="glassmorphism"] .island-header { background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.25); }
-        body[data-theme="glassmorphism"] .nav-icon { color: #ffffff !important; opacity: 1; }
-
-        body[data-theme="neumorphic"] { --bg: #e0e5ec; --text: #2d3748; --primary: #4d7c0f; --card: #e0e5ec; --font-main: 'Inter', sans-serif; --radius: 1.5rem; }
-        body[data-theme="neumorphic"] .island-header { background: #e0e5ec; border: none; box-shadow: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff; }
-        body[data-theme="neumorphic"] .nav-icon { color: #2d3748 !important; text-shadow: none; }
-        body[data-theme="neumorphic"] .game-card { border: none; box-shadow: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff; }
-
-        body[data-theme="terminal"] { --bg: #000000; --text: #00ff66; --primary: #00ff66; --card: #051105; --font-main: 'Fira Code', monospace; --radius: 0px; }
-        body[data-theme="terminal"] .game-card { aspect-ratio: 16/9; border: 1px solid #00ff66; }
-
-        body[data-theme="steam"] { --bg: #1b2838; --primary: #66c0f4; --text: #c6d4df; --card: #101822; --font-main: 'Inter', sans-serif; --radius: 0.4rem; }
-        body[data-theme="steam"] .game-card { aspect-ratio: 16/9; border: 1px solid #2a475e; }
-
-        body[data-theme="y2k"] { --bg: #1e293b; --primary: #06b6d4; --text: #f1f5f9; --card: linear-gradient(180deg, #334155 0%, #0f172a 100%); --font-main: 'Fredoka', sans-serif; --radius: 2rem; }
-
-        body[data-theme="paper"] { --bg: #fef3c7; --text: #1e293b; --primary: #d97706; --card: #fffbe3; --font-main: 'Fredoka', cursive; --radius: 0.5rem; }
-        body[data-theme="paper"] .island-header { background: #fffbe3; border: 2px solid #b45309; }
-        body[data-theme="paper"] .nav-icon { color: #1e293b !important; text-shadow: none; }
-        body[data-theme="paper"] .game-card { border: 2px dashed #b45309; aspect-ratio: 4/3; }
-
-        body[data-theme="nordic"] { --bg: #1a2321; --primary: #a3e635; --text: #e2e8f0; --card: #283531; --font-main: 'Inter', sans-serif; --radius: 1rem; }
-
-        body[data-theme="compact"] { --bg: #0d1117; --primary: #58a6ff; --text: #c9d1d9; --card: #161b22; --font-main: 'Inter', sans-serif; --radius: 0.2rem; }
-        body[data-theme="compact"] .game-card { aspect-ratio: 16/9; }
-
-        /* iPad OS Layout Override */
+        /* 3. iOS IPAD OS SCREEN */
         body[data-theme="ios"] {
             --bg: url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=2070&auto=format&fit=crop');
             --primary: #0a84ff; --text: #ffffff; --font-main: 'Inter', sans-serif;
@@ -239,17 +219,17 @@
         }
         body[data-theme="ios"] .main-logo-container { display: none; }
         body[data-theme="ios"] #gameGrid { gap: 2rem 1.5rem; padding: 20px; max-width: 1100px; margin: 0 auto; }
-        body[data-theme="ios"] .game-card { aspect-ratio: 1/1; border-radius: 22%; border: none; box-shadow: 0 8px 20px rgba(0,0,0,0.3); background: rgba(255,255,255,0.15); }
+        body[data-theme="ios"] .game-card { aspect-ratio: 1/1; border-radius: 22%; border: none; box-shadow: 0 8px 20px rgba(0,0,0,0.3); background: rgba(255,255,255,0.18); }
         body[data-theme="ios"] .game-card .card-title { display: none; }
-        body[data-theme="ios"] .ios-label {
-            display: block !important; margin-top: 8px; font-size: 0.78rem; font-weight: 500; text-align: center; color: #ffffff; text-shadow: 0 1px 4px rgba(0,0,0,0.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;
+        body[data-theme="ios"] .app-label {
+            display: block !important; margin-top: 8px; font-size: 0.8rem; font-weight: 500; text-align: center; color: #ffffff; text-shadow: 0 1px 4px rgba(0,0,0,0.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;
         }
         body[data-theme="ios"] .island-header { 
             position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); margin: 0; background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(35px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 32px; padding: 10px 20px; z-index: 100; box-shadow: 0 20px 50px rgba(0,0,0,0.4); gap: 14px;
         }
         body[data-theme="ios"] .island-header .nav-icon { color: #1c1c1e !important; text-shadow: none; font-size: 1.3rem; }
 
-        /* Windows 11 Desktop Layout Override */
+        /* 4. WINDOWS 11 DESKTOP */
         body[data-theme="win11"] {
             --bg: url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1974&auto=format&fit=crop');
             --primary: #0078d4; --text: #ffffff; --font-main: 'Inter', sans-serif;
@@ -261,7 +241,7 @@
         body[data-theme="win11"] .game-card img { border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         body[data-theme="win11"] .game-card:hover { background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.2); transform: none; box-shadow: none; }
         body[data-theme="win11"] .game-card .card-title { display: none; }
-        body[data-theme="win11"] .win11-label {
+        body[data-theme="win11"] .app-label {
             display: block !important; margin-top: 4px; font-size: 0.72rem; font-weight: 400; text-align: center; color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.9); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.1;
         }
         body[data-theme="win11"] .island-header { 
@@ -302,7 +282,9 @@
         <i class="fas fa-link nav-icon" onclick="renderGames('backups')" title="Backups"></i>
         <i class="fas fa-circle-info nav-icon" onclick="toggleInfo()" title="Info"></i>
         
-        <div id="pinnedItemsContainer" class="flex items-center gap-2 border-l border-white/20 pl-3"></div>
+        <div id="pinnedDockWrapper" class="flex items-center gap-2 border-l border-white/20 pl-3 hidden">
+            <div id="pinnedItemsContainer"></div>
+        </div>
 
         <div class="relative">
             <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-sm opacity-50"></i>
@@ -346,25 +328,12 @@
         <div class="space-y-6">
             
             <div>
-                <label class="block text-xs uppercase font-semibold mb-2">Layout & Style Preset</label>
+                <label class="block text-xs uppercase font-semibold mb-2">Layout & Theme Preset</label>
                 <select id="themeSelector" onchange="changeThemePreset(this.value)" class="w-full p-2.5 rounded-xl text-sm focus:outline-none">
                     <option value="default">1. Default Dark Glass</option>
                     <option value="educational">2. Educational Curriculum</option>
-                    <option value="poki">3. Poki Arcade (Bento Tiles)</option>
-                    <option value="crazygames">4. CrazyGames Modern</option>
-                    <option value="minimalist">5. Ultra Minimalist</option>
-                    <option value="cyberpunk">6. Cyberpunk Neon</option>
-                    <option value="retro">7. 8-Bit Retro Arcade</option>
-                    <option value="glassmorphism">8. Glassmorphism Luxe</option>
-                    <option value="neumorphic">9. Neumorphic Light</option>
-                    <option value="terminal">10. Terminal Hacker</option>
-                    <option value="steam">11. Steam Store Deck</option>
-                    <option value="y2k">12. Y2K Glossy Metallic</option>
-                    <option value="paper">13. Paper Notebook</option>
-                    <option value="nordic">14. Nordic Forest</option>
-                    <option value="compact">15. Compact Directory</option>
-                    <option value="ios">16. iOS iPad OS Screen</option>
-                    <option value="win11">17. Windows 11 Desktop</option>
+                    <option value="win11">3. Windows 11 Desktop</option>
+                    <option value="ios">4. iOS iPad OS Screen</option>
                 </select>
             </div>
 
@@ -474,6 +443,7 @@
 <script>
     let games = []; 
     let backups = []; 
+    let currentFilter = 'games';
     let currentTheme = localStorage.getItem('user_theme_preset') || 'default';
 
     let useCustomLogo = localStorage.getItem('useCustomLogo') === 'true';
@@ -484,10 +454,8 @@
     let targetPanicUrl = localStorage.getItem('targetPanicUrl') || 'https://www.google.com';
     let isCapturingKey = false;
 
-    // Pinned games management
     let pinnedGameIds = JSON.parse(localStorage.getItem('user_pinned_games')) || [];
 
-    // Background Management Logic
     function changeBgType(type) {
         localStorage.setItem('user_bg_type', type);
         document.getElementById('bgImageControls').classList.toggle('hidden', type !== 'image');
@@ -544,7 +512,6 @@
         changeBgType('preset');
     }
 
-    // Dynamic Columns Update
     function updateColumns(val) {
         document.documentElement.style.setProperty('--grid-cols', val);
         document.getElementById('colVal').textContent = val;
@@ -559,15 +526,14 @@
         const savedColor = localStorage.getItem('user_p_color') || '#a855f7';
         updatePrimary(savedColor);
 
-        // Maintain bg choice across theme changes
         const bgType = localStorage.getItem('user_bg_type') || 'preset';
         changeBgType(bgType);
 
         updatePinnedDock();
-        renderGames('games');
+        renderGames(currentFilter);
     }
 
-    // Pinning Logic
+    /* Functional Pin & Interactive Dynamic Dock */
     function togglePinGame(gameId, e) {
         if(e) e.stopPropagation();
         if (pinnedGameIds.includes(gameId)) {
@@ -577,31 +543,33 @@
         }
         localStorage.setItem('user_pinned_games', JSON.stringify(pinnedGameIds));
         updatePinnedDock();
-        renderGames('games');
+        renderGames(currentFilter);
     }
 
     function updatePinnedDock() {
+        const wrapper = document.getElementById('pinnedDockWrapper');
         const container = document.getElementById('pinnedItemsContainer');
-        if (!container) return;
+        if (!container || !wrapper) return;
         
         container.innerHTML = '';
         if (pinnedGameIds.length === 0) {
-            container.classList.add('hidden');
+            wrapper.classList.add('hidden');
             return;
         }
 
-        container.classList.remove('hidden');
+        wrapper.classList.remove('hidden');
         pinnedGameIds.forEach(id => {
             const game = games.find(g => g.id === id);
             if (!game) return;
             
             const item = document.createElement('div');
             item.className = 'os-pinned-item';
-            item.title = game.title;
+            item.title = `Launch ${game.title}`;
             item.onclick = () => openGame(game.id, game.title);
+            
             item.innerHTML = `
-                <img src="${game.thumb}">
-                <div class="unpin-icon" onclick="togglePinGame('${game.id}', event)">
+                <img src="${game.thumb}" alt="${game.title}">
+                <div class="unpin-icon" onclick="togglePinGame('${game.id}', event)" title="Unpin">
                     <i class="fas fa-times"></i>
                 </div>
             `;
@@ -701,7 +669,7 @@
     function generateModuleString(index) {
         const major = Math.floor(index / 10) + 1;
         const minor = index % 10;
-        return minor === 0 ? `Module ${major}` : `Module ${major}.${minor}`;
+        return minor === 0 ? `Module ${major}.0` : `Module ${major}.${minor}`;
     }
 
     async function loadData() {
@@ -722,7 +690,9 @@
         }
     }
 
+    /* Universal Rendering Engine for Games & Links/Backups Across All 4 Themes */
     function renderGames(filter = 'games', search = '') {
+        currentFilter = filter;
         const grid = document.getElementById('gameGrid');
         grid.innerHTML = '';
         let items = filter === 'backups' ? backups : games;
@@ -747,66 +717,50 @@
             const wrapper = document.createElement('div');
             wrapper.className = 'game-card-wrapper';
 
-            if(filter === 'backups') {
+            const isPinned = pinnedGameIds.includes(item.id);
+            const pinIconClass = isPinned ? 'fa-thumbtack text-purple-400' : 'fa-thumbtack opacity-60';
+            const pinBtnHtml = filter !== 'backups' ? `<button class="pin-btn" onclick="togglePinGame('${item.id}', event)" title="${isPinned ? 'Unpin' : 'Pin to Dynamic Header'}"><i class="fas ${pinIconClass}"></i></button>` : '';
+
+            const isBackup = filter === 'backups';
+            const clickAction = isBackup ? `window.open('${item.url}', '_blank')` : `openGame('${item.id}', '${item.title}')`;
+            const thumbUrl = isBackup ? 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=300&auto=format&fit=crop' : item.thumb;
+
+            if (currentTheme === 'ios') {
                 wrapper.innerHTML = `
-                    <div class="backup-card" onclick="window.open('${item.url}', '_blank')">
-                        <i class="fas ${item.icon}"></i>
-                        <div class="backup-label">${item.title}</div>
+                    ${pinBtnHtml}
+                    <div class="game-card" onclick="${clickAction}">
+                        <img src="${thumbUrl}" loading="lazy">
+                    </div>
+                    <span class="app-label">${item.title}</span>
+                `;
+            } else if (currentTheme === 'win11') {
+                wrapper.innerHTML = `
+                    ${pinBtnHtml}
+                    <div class="game-card" onclick="${clickAction}">
+                        <img src="${thumbUrl}" loading="lazy">
+                    </div>
+                    <span class="app-label">${item.title}</span>
+                `;
+            } else if (currentTheme === 'educational') {
+                const eduMainText = isBackup ? item.title : moduleLabel;
+                const eduSubText = isBackup ? "External Mirror Link" : "Curriculum Study Block";
+                wrapper.innerHTML = `
+                    ${pinBtnHtml}
+                    <div class="game-card" onclick="${clickAction}">
+                        <div class="edu-module-badge">${eduMainText}</div>
+                        <div class="edu-module-title">${eduSubText}</div>
                     </div>
                 `;
             } else {
-                const isPinned = pinnedGameIds.includes(item.id);
-                const pinIconClass = isPinned ? 'fa-thumbtack text-purple-400' : 'fa-thumbtack opacity-60';
-                const pinBtnHtml = `<button class="pin-btn" onclick="togglePinGame('${item.id}', event)" title="${isPinned ? 'Unpin' : 'Pin to Island Header'}"><i class="fas ${pinIconClass}"></i></button>`;
-
-                if (currentTheme === 'ios') {
-                    wrapper.innerHTML = `
-                        ${pinBtnHtml}
-                        <div class="game-card" onclick="openGame('${item.id}', '${item.title}')">
-                            <img src="${item.thumb}" loading="lazy">
-                        </div>
-                        <span class="ios-label">${item.title}</span>
-                    `;
-                } else if (currentTheme === 'win11') {
-                    wrapper.innerHTML = `
-                        ${pinBtnHtml}
-                        <div class="game-card" onclick="openGame('${item.id}', '${item.title}')">
-                            <img src="${item.thumb}" loading="lazy">
-                        </div>
-                        <span class="win11-label">${item.title}</span>
-                    `;
-                } else if (currentTheme === 'poki') {
-                    let pokiClass = '';
-                    if (index % 7 === 0) pokiClass = 'poki-large';
-                    else if (index % 5 === 0) pokiClass = 'poki-wide';
-                    else if (index % 3 === 0) pokiClass = 'poki-tall';
-
-                    wrapper.className = `game-card-wrapper ${pokiClass}`;
-                    wrapper.innerHTML = `
-                        ${pinBtnHtml}
-                        <div class="game-card" onclick="openGame('${item.id}', '${item.title}')">
-                            <img src="${item.thumb}" loading="lazy">
-                            <div class="card-title">${item.title}</div>
-                        </div>
-                    `;
-                } else if (currentTheme === 'educational') {
-                    wrapper.innerHTML = `
-                        ${pinBtnHtml}
-                        <div class="game-card edu-text-card" onclick="openGame('${item.id}', '${moduleLabel}')">
-                            <div class="edu-module-badge">${moduleLabel}</div>
-                            <div class="edu-module-title">Curriculum Study Block</div>
-                        </div>
-                    `;
-                } else {
-                    wrapper.innerHTML = `
-                        ${pinBtnHtml}
-                        <div class="game-card" onclick="openGame('${item.id}', '${item.title}')">
-                            <img src="${item.thumb}" loading="lazy">
-                            <div class="card-title">${item.title}</div>
-                        </div>
-                    `;
-                }
+                wrapper.innerHTML = `
+                    ${pinBtnHtml}
+                    <div class="game-card" onclick="${clickAction}">
+                        <img src="${thumbUrl}" loading="lazy">
+                        <div class="card-title">${item.title}</div>
+                    </div>
+                `;
             }
+
             grid.appendChild(wrapper);
             if (filter !== 'backups') validItemIndex++;
         });
@@ -843,11 +797,11 @@
             const fakeModuleLabel = generateModuleString(idx + 15);
             const scard = document.createElement('div');
             if (isEdu) {
-                scard.className = 'sidebar-card edu-text-card';
+                scard.className = 'game-card';
                 scard.onclick = () => openGame(g.id, fakeModuleLabel);
-                scard.innerHTML = `<div class="edu-module-badge" style="font-size: 1.1rem;">${fakeModuleLabel}</div>`;
+                scard.innerHTML = `<div class="edu-module-badge" style="font-size: 0.95rem;">${fakeModuleLabel}</div>`;
             } else {
-                scard.className = 'sidebar-card';
+                scard.className = 'game-card';
                 scard.onclick = () => openGame(g.id, g.title);
                 scard.innerHTML = `<img src="${g.thumb}"><div class="card-title">${g.title}</div>`;
             }
@@ -996,7 +950,6 @@
         document.getElementById('infoTab').classList.toggle('hidden');
     }
 
-    // Windows 11 Live Clock
     function updateWinClock() {
         const now = new Date();
         const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -1058,7 +1011,7 @@
         initPts(); draw();
     };
 
-    document.getElementById('searchInput').oninput = (e) => renderGames('games', e.target.value);
+    document.getElementById('searchInput').oninput = (e) => renderGames(currentFilter, e.target.value);
     window.onresize = initPts;
 </script>
 </body>
