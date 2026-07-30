@@ -101,6 +101,7 @@
             position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: var(--radius);
             border: 2px solid var(--card-border); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: var(--card); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
         }
         .game-card:hover { 
             border-color: var(--primary); 
@@ -126,6 +127,26 @@
         }
         .game-card-wrapper:hover .pin-btn { opacity: 1; }
         .pin-btn:hover { transform: scale(1.15); background: var(--primary); }
+
+        /* Links/Backups Icon Container */
+        .link-icon-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            gap: 8px;
+            text-align: center;
+            padding: 10px;
+        }
+        .link-icon-card i {
+            font-size: 2.2rem;
+            transition: transform 0.2s ease;
+        }
+        .game-card:hover .link-icon-card i {
+            transform: scale(1.15);
+        }
 
         /* Universal Dynamic Dock Items */
         #pinnedItemsContainer {
@@ -175,12 +196,12 @@
 
         .download-here-link { color: #3b82f6; font-weight: bold; cursor: pointer; text-decoration: underline; }
 
-        /* ==================== 4 CLEAN PRESETS ==================== */
+        /* ==================== PRESET THEMES ==================== */
 
         /* 1. DEFAULT DARK GLASS */
         body[data-theme="default"] { --bg: #020617; --primary: #a855f7; --text: #ffffff; --card: rgba(30, 41, 59, 0.5); }
 
-        /* 2. FIXED EDUCATIONAL CURRICULUM */
+        /* 2. EDUCATIONAL CURRICULUM */
         body[data-theme="educational"] { 
             --bg: #0f172a; 
             --primary: #22c55e; 
@@ -723,42 +744,77 @@
 
             const isBackup = filter === 'backups';
             const clickAction = isBackup ? `window.open('${item.url}', '_blank')` : `openGame('${item.id}', '${item.title}')`;
-            const thumbUrl = isBackup ? 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=300&auto=format&fit=crop' : item.thumb;
+            
+            // Icon handling for Links/Backups (Shield for Blocked, Link for Up/Active)
+            const isBlocked = item.status === 'blocked' || item.blocked === true;
+            const linkIconClass = isBlocked ? 'fa-shield-halved text-red-400' : 'fa-link text-emerald-400';
+            const linkStatusText = isBlocked ? 'Blocked Link' : 'Active Link';
 
-            if (currentTheme === 'ios') {
-                wrapper.innerHTML = `
-                    ${pinBtnHtml}
-                    <div class="game-card" onclick="${clickAction}">
-                        <img src="${thumbUrl}" loading="lazy">
-                    </div>
-                    <span class="app-label">${item.title}</span>
-                `;
-            } else if (currentTheme === 'win11') {
-                wrapper.innerHTML = `
-                    ${pinBtnHtml}
-                    <div class="game-card" onclick="${clickAction}">
-                        <img src="${thumbUrl}" loading="lazy">
-                    </div>
-                    <span class="app-label">${item.title}</span>
-                `;
-            } else if (currentTheme === 'educational') {
-                const eduMainText = isBackup ? item.title : moduleLabel;
-                const eduSubText = isBackup ? "External Mirror Link" : "Curriculum Study Block";
-                wrapper.innerHTML = `
-                    ${pinBtnHtml}
-                    <div class="game-card" onclick="${clickAction}">
-                        <div class="edu-module-badge">${eduMainText}</div>
-                        <div class="edu-module-title">${eduSubText}</div>
-                    </div>
-                `;
+            if (isBackup) {
+                if (currentTheme === 'educational') {
+                    wrapper.innerHTML = `
+                        <div class="game-card" onclick="${clickAction}">
+                            <i class="fas ${linkIconClass} text-xl mb-1"></i>
+                            <div class="edu-module-badge">${item.title}</div>
+                            <div class="edu-module-title">${linkStatusText}</div>
+                        </div>
+                    `;
+                } else if (currentTheme === 'ios' || currentTheme === 'win11') {
+                    wrapper.innerHTML = `
+                        <div class="game-card" onclick="${clickAction}">
+                            <div class="link-icon-card">
+                                <i class="fas ${linkIconClass}"></i>
+                            </div>
+                        </div>
+                        <span class="app-label">${item.title}</span>
+                    `;
+                } else {
+                    wrapper.innerHTML = `
+                        <div class="game-card" onclick="${clickAction}">
+                            <div class="link-icon-card">
+                                <i class="fas ${linkIconClass}"></i>
+                                <span class="text-xs font-semibold px-2 py-1 rounded bg-black/40 border border-white/10">${item.title}</span>
+                            </div>
+                            <div class="card-title">${item.title} (${linkStatusText})</div>
+                        </div>
+                    `;
+                }
             } else {
-                wrapper.innerHTML = `
-                    ${pinBtnHtml}
-                    <div class="game-card" onclick="${clickAction}">
-                        <img src="${thumbUrl}" loading="lazy">
-                        <div class="card-title">${item.title}</div>
-                    </div>
-                `;
+                // Standard Games & Apps Rendering
+                const thumbUrl = item.thumb;
+                if (currentTheme === 'ios') {
+                    wrapper.innerHTML = `
+                        ${pinBtnHtml}
+                        <div class="game-card" onclick="${clickAction}">
+                            <img src="${thumbUrl}" loading="lazy">
+                        </div>
+                        <span class="app-label">${item.title}</span>
+                    `;
+                } else if (currentTheme === 'win11') {
+                    wrapper.innerHTML = `
+                        ${pinBtnHtml}
+                        <div class="game-card" onclick="${clickAction}">
+                            <img src="${thumbUrl}" loading="lazy">
+                        </div>
+                        <span class="app-label">${item.title}</span>
+                    `;
+                } else if (currentTheme === 'educational') {
+                    wrapper.innerHTML = `
+                        ${pinBtnHtml}
+                        <div class="game-card" onclick="${clickAction}">
+                            <div class="edu-module-badge">${moduleLabel}</div>
+                            <div class="edu-module-title">Curriculum Study Block</div>
+                        </div>
+                    `;
+                } else {
+                    wrapper.innerHTML = `
+                        ${pinBtnHtml}
+                        <div class="game-card" onclick="${clickAction}">
+                            <img src="${thumbUrl}" loading="lazy">
+                            <div class="card-title">${item.title}</div>
+                        </div>
+                    `;
+                }
             }
 
             grid.appendChild(wrapper);
