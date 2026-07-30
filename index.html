@@ -5,84 +5,273 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algebra Practice - Study Module</title>
     <link id="favicon" rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/0/01/El_Sato_Tux_The_penguin_in_sonic_style.png">
-    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Inter:wght@400;500;600;700&family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root { --primary: #a855f7; --accent: #22c55e; --bg: #020617; --text: #ffffff; --card: rgba(30, 41, 59, 0.5); }
+        :root { 
+            --primary: #a855f7; 
+            --accent: #22c55e; 
+            --bg: #020617; 
+            --text: #ffffff; 
+            --card: rgba(30, 41, 59, 0.5); 
+            --card-border: rgba(255, 255, 255, 0.1);
+            --radius: 1.2rem;
+            --font-main: 'Chewy', cursive;
+            --grid-cols: 6;
+        }
+
         body { 
-            background-color: var(--bg); color: var(--text); font-family: 'Chewy', cursive;
-            transition: all 0.3s ease; overflow-x: hidden; min-height: 100vh;
-            background-size: cover; background-position: center; background-attachment: fixed;
+            background-color: var(--bg); 
+            color: var(--text); 
+            font-family: var(--font-main);
+            transition: background 0.3s ease, color 0.3s ease; 
+            overflow-x: hidden; 
+            min-height: 100vh;
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed;
+            padding-bottom: 70px;
         }
-        body.edu-mode {
-            font-family: 'Inter', sans-serif !important;
-        }
+
         #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
         
-        .main-logo-container { display: flex; justify-content: center; padding-top: 40px; margin-bottom: -10px; }
-        .main-logo { width: 350px; height: auto; filter: drop-shadow(0 0 15px var(--primary)); cursor: pointer; transition: transform 0.3s ease, filter 0.3s ease; }
+        .main-logo-container { display: flex; justify-content: center; align-items: center; padding-top: 20px; margin-bottom: 10px; }
+        .main-logo { width: 320px; height: auto; filter: drop-shadow(0 0 15px var(--primary)); cursor: pointer; transition: transform 0.3s ease; }
         .main-logo:hover { transform: scale(1.05); }
 
+        .custom-logo-text {
+            font-family: 'Fredoka', 'Chewy', cursive;
+            font-weight: 700;
+            font-size: 3.5rem;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 50%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 18px var(--primary)) drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            user-select: none;
+            text-align: center;
+        }
+        .custom-logo-text:hover { transform: scale(1.04); }
+
+        /* Dynamic Responsive Island Header */
         .island-header {
-            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 99px;
-            padding: 10px 28px; display: flex; align-items: center; gap: 20px;
-            margin: 20px auto 40px; width: fit-content; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--card-border); 
+            border-radius: 99px;
+            padding: 10px 24px; 
+            display: flex; 
+            align-items: center; 
+            gap: 16px;
+            margin: 10px auto 30px; 
+            width: fit-content;
+            max-width: 95vw;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 40;
         }
 
-        .nav-icon { font-size: 1.5rem; cursor: pointer; transition: color 0.2s; opacity: 0.7; }
-        .nav-icon:hover { color: var(--primary) !important; opacity: 1; }
+        .nav-icon { 
+            font-size: 1.3rem; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            opacity: 0.9;
+            color: var(--text);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .nav-icon:hover { color: var(--primary) !important; opacity: 1; transform: scale(1.1); }
         
-        .penguin-nav-btn { height: 40px; width: 40px; object-fit: contain; cursor: pointer; transition: filter 0.3s; }
+        .penguin-nav-btn { height: 38px; width: 38px; object-fit: contain; cursor: pointer; transition: filter 0.3s; }
         .penguin-nav-btn:hover { filter: drop-shadow(0 0 8px var(--primary)); }
 
-        .game-card, .sidebar-card, .backup-card {
-            position: relative; aspect-ratio: 1/1; overflow: hidden; border-radius: 1.2rem;
-            border: 2px solid transparent; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: var(--card); cursor: pointer;
+        #gameGrid {
+            display: grid;
+            grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+            gap: 1.25rem;
         }
-        .game-card:hover, .sidebar-card:hover, .backup-card:hover { border-color: var(--primary); transform: scale(1.03); box-shadow: 0 0 15px var(--primary); }
-        .game-card img, .sidebar-card img { width: 100%; height: 100%; object-fit: cover; }
+
+        .game-card-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; width: 100%; }
         
-        /* Educational text-only fallback card styles */
-        .edu-text-card {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 20px; text-align: center; background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .game-card {
+            position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: var(--radius);
+            border: 2px solid var(--card-border); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--card); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
         }
-        .edu-module-badge {
-            font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 8px;
+        .game-card:hover { 
+            border-color: var(--primary) !important; 
+            transform: translateY(-4px) scale(1.02); 
+            box-shadow: 0 0 20px 2px var(--primary) !important; 
         }
-        .edu-module-title {
-            font-size: 0.9rem; color: #94a3b8; font-weight: 500;
-        }
-
-        /* Centered Backups */
-        .backup-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; text-align: center; padding: 20px; }
-        .backup-card i { font-size: 3.5rem; color: var(--primary); transition: color 0.3s ease; }
-        .backup-label { color: #fff; font-size: 1.1rem; width: 100%; text-align: center; display: block; }
-
+        .game-card img { width: 100%; height: 100%; object-fit: cover; }
+        
         .card-title {
             position: absolute; bottom: -100%; left: 0; width: 100%;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            padding: 20px 5px 10px; text-align: center; transition: bottom 0.3s ease; font-size: 0.8rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.95));
+            color: #ffffff !important;
+            padding: 20px 8px 10px; text-align: center; transition: bottom 0.3s ease; font-size: 0.85rem;
         }
-        .game-card:hover .card-title, .sidebar-card:hover .card-title, .backup-card:hover .card-title { bottom: 0; }
+        .game-card:hover .card-title { bottom: 0; }
+
+        .pin-btn {
+            position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.8);
+            color: #fff; border-radius: 50%; width: 28px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; z-index: 10; opacity: 0; transition: opacity 0.2s, transform 0.2s;
+            border: 1px solid rgba(255,255,255,0.2); cursor: pointer;
+        }
+        .game-card-wrapper:hover .pin-btn { opacity: 1; }
+        .pin-btn:hover { transform: scale(1.15); background: var(--primary); }
+
+        /* Links/Backups Icon Container */
+        .link-icon-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            gap: 8px;
+            text-align: center;
+            padding: 10px;
+        }
+        .link-icon-card i {
+            font-size: 2.2rem;
+            transition: transform 0.2s ease;
+        }
+        .game-card:hover .link-icon-card i {
+            transform: scale(1.15);
+        }
+
+        /* Universal Dynamic Dock Items */
+        #pinnedItemsContainer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            overflow-x: auto;
+            max-width: 300px;
+            padding: 2px 4px;
+        }
+        #pinnedItemsContainer::-webkit-scrollbar { display: none; }
+
+        .os-pinned-item {
+            width: 36px; height: 36px; border-radius: 10px; overflow: hidden;
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; position: relative;
+            flex-shrink: 0; border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.4);
+        }
+        .os-pinned-item:hover { transform: scale(1.15) translateY(-2px); box-shadow: 0 4px 12px var(--primary); }
+        .os-pinned-item img { width: 100%; height: 100%; object-fit: cover; }
+        .os-pinned-item .unpin-icon {
+            position: absolute; top: -2px; right: -2px; background: rgba(239, 68, 68, 0.9);
+            border-radius: 50%; width: 16px; height: 16px;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.2s; color: white; font-size: 0.6rem; z-index: 12;
+        }
+        .os-pinned-item:hover .unpin-icon { opacity: 1; }
+
+        #settingsPanel, #infoTabContent {
+            background-color: #0f172a !important;
+            color: #f8fafc !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+        #settingsPanel *, #infoTabContent * { color: #f8fafc; }
+        #settingsPanel input[type="text"], #settingsPanel select {
+            background-color: #1e293b !important;
+            color: #ffffff !important;
+            border-color: #334155 !important;
+        }
 
         #settingsPanel { z-index: 100; transition: transform 0.4s ease; }
         .game-container { display: grid; grid-template-columns: 1fr 300px; gap: 20px; height: calc(100vh - 100px); padding: 20px; }
         
-        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; border: 2px solid var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
         .download-here-link { color: #3b82f6; font-weight: bold; cursor: pointer; text-decoration: underline; }
-        .download-here-link:hover { color: #60a5fa; }
+
+        /* ==================== PRESET THEMES ==================== */
+
+        /* 1. DEFAULT DARK GLASS */
+        body[data-theme="default"] { --bg: #020617; --text: #ffffff; --card: rgba(30, 41, 59, 0.5); }
+
+        /* 2. EDUCATIONAL CURRICULUM */
+        body[data-theme="educational"] { 
+            --bg: #0f172a; 
+            --font-main: 'Inter', sans-serif; 
+            --radius: 0.75rem; 
+            --card: #1e293b;
+        }
+        body[data-theme="educational"] .game-card { 
+            aspect-ratio: 16/9; 
+            border: 1px solid #334155; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 1rem;
+            text-align: center;
+        }
+        body[data-theme="educational"] .edu-module-badge { 
+            font-size: 1.1rem; 
+            font-weight: 700; 
+            color: var(--primary); 
+            margin-bottom: 4px;
+        }
+        body[data-theme="educational"] .edu-module-title { 
+            font-size: 0.85rem; 
+            color: #94a3b8; 
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        /* 3. iOS IPAD OS SCREEN */
+        body[data-theme="ios"] {
+            --bg: url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=2070&auto=format&fit=crop');
+            --text: #ffffff; --font-main: 'Inter', sans-serif;
+            padding-bottom: 100px;
+        }
+        body[data-theme="ios"] .main-logo-container { display: none; }
+        body[data-theme="ios"] #gameGrid { gap: 2rem 1.5rem; padding: 20px; max-width: 1100px; margin: 0 auto; }
+        body[data-theme="ios"] .game-card { aspect-ratio: 1/1; border-radius: 22%; border: none; box-shadow: 0 8px 20px rgba(0,0,0,0.3); background: rgba(255,255,255,0.18); }
+        body[data-theme="ios"] .game-card:hover { border: 2px solid var(--primary) !important; box-shadow: 0 0 20px 2px var(--primary) !important; }
+        body[data-theme="ios"] .game-card .card-title { display: none; }
+        body[data-theme="ios"] .app-label {
+            display: block !important; margin-top: 8px; font-size: 0.8rem; font-weight: 500; text-align: center; color: #ffffff; text-shadow: 0 1px 4px rgba(0,0,0,0.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;
+        }
+        body[data-theme="ios"] .island-header { 
+            position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); margin: 0; background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(35px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 32px; padding: 10px 20px; z-index: 100; box-shadow: 0 20px 50px rgba(0,0,0,0.4); gap: 14px;
+        }
+        body[data-theme="ios"] .island-header .nav-icon { color: #1c1c1e !important; text-shadow: none; font-size: 1.3rem; }
+
+        /* 4. WINDOWS 11 DESKTOP */
+        body[data-theme="win11"] {
+            --bg: url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1974&auto=format&fit=crop');
+            --text: #ffffff; --font-main: 'Inter', sans-serif;
+            padding-bottom: 60px;
+        }
+        body[data-theme="win11"] .main-logo-container { display: none; }
+        body[data-theme="win11"] #gameGrid { grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); gap: 1.2rem; padding: 20px; }
+        body[data-theme="win11"] .game-card { aspect-ratio: 1/1; border-radius: 8px; border: 1px solid transparent; background: transparent; box-shadow: none; padding: 6px; }
+        body[data-theme="win11"] .game-card img { border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        body[data-theme="win11"] .game-card:hover { background: rgba(255, 255, 255, 0.15); border: 1px solid var(--primary) !important; box-shadow: 0 0 15px 1px var(--primary) !important; transform: none; }
+        body[data-theme="win11"] .game-card .card-title { display: none; }
+        body[data-theme="win11"] .app-label {
+            display: block !important; margin-top: 4px; font-size: 0.72rem; font-weight: 400; text-align: center; color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.9); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.1;
+        }
+        body[data-theme="win11"] .island-header { 
+            position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-width: 100%; margin: 0; border-radius: 0; background: rgba(32, 43, 54, 0.75); backdrop-filter: blur(25px); border: none; border-top: 1px solid rgba(255,255,255,0.15); justify-content: center; padding: 6px 16px; z-index: 100; box-shadow: 0 -4px 20px rgba(0,0,0,0.5); gap: 12px;
+        }
+        body[data-theme="win11"] .win11-taskbar-extra { display: flex !important; align-items: center; gap: 12px; margin-left: auto; font-size: 0.75rem; color: #ffffff; opacity: 0.9; }
     </style>
 </head>
-<body class="p-4">
+<body class="p-4" data-theme="default">
 
     <canvas id="particle-canvas"></canvas>
 
@@ -100,11 +289,12 @@
         </div>
     </div>
 
-    <div class="main-logo-container">
+    <div class="main-logo-container" id="logoContainer">
         <img id="mainLogoImg" src="" alt="Logo" class="main-logo" onclick="location.reload()">
+        <h1 id="customLogoText" class="custom-logo-text hidden" onclick="location.reload()">algebra practise</h1>
     </div>
 
-    <header class="island-header">
+    <header class="island-header" id="mainHeader">
         <img id="penguinHeadImg" src="" onclick="location.reload()" class="penguin-nav-btn" title="Home">
         <div class="h-6 w-[1px] bg-white/20"></div>
         <i class="fas fa-gamepad nav-icon" onclick="renderGames('games')" title="Games"></i>
@@ -112,72 +302,137 @@
         <i class="fas fa-dice nav-icon" onclick="openRandomGame()" title="Random Game"></i>
         <i class="fas fa-link nav-icon" onclick="renderGames('backups')" title="Backups"></i>
         <i class="fas fa-circle-info nav-icon" onclick="toggleInfo()" title="Info"></i>
+        
+        <div id="pinnedDockWrapper" class="flex items-center gap-2 border-l border-white/20 pl-3 hidden">
+            <div id="pinnedItemsContainer"></div>
+        </div>
+
         <div class="relative">
             <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-sm opacity-50"></i>
             <input type="text" id="searchInput" placeholder="Search..." 
-                   class="bg-white/5 border border-white/10 py-1 pl-9 pr-4 rounded-full focus:outline-none focus:ring-1 focus:ring-primary text-sm w-32 md:w-48">
+                   class="bg-white/10 border border-white/20 py-1 pl-9 pr-4 rounded-full focus:outline-none focus:ring-1 focus:ring-primary text-sm w-28 md:w-40 text-white">
         </div>
-        <i class="fas fa-sliders nav-icon" onclick="toggleSettings()"></i>
+        <i class="fas fa-sliders nav-icon" onclick="toggleSettings()" title="Settings"></i>
+
+        <div class="win11-taskbar-extra hidden">
+            <div id="win11Clock" class="text-right leading-tight text-xs font-sans">
+                <div id="winTime" class="font-semibold">12:00 PM</div>
+                <div id="winDate" class="text-[10px] opacity-75">10/14/2026</div>
+            </div>
+        </div>
     </header>
 
     <main class="max-w-7xl mx-auto">
-        <div id="gameGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5"></div>
+        <div id="gameGrid"></div>
     </main>
 
     <div id="infoTab" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[200] hidden flex items-center justify-center" onclick="toggleInfo()">
-        <div class="bg-slate-900 border border-white/10 p-8 rounded-3xl max-w-md text-center shadow-2xl" onclick="event.stopPropagation()">
-            <h2 class="text-3xl mb-4" style="color: var(--primary);">About Algebra Practice</h2>
-            <p class="text-lg leading-relaxed mb-4">Algebra Practise was created by hazza in 2025 and updated in 2026. i dont own any of the games here apart from the ones i made.</p>
-            <p class="text-lg mb-6">Request games <a href="https://docs.google.com/forms/d/e/1FAIpQLScww3MHYoLogsOX5WcBctTbzVTUkXwoEeiOxenN0i8gxiOtpg/viewform?usp=header" target="_blank" class="text-blue-500 underline">here</a></p>
+        <div id="infoTabContent" class="border border-white/10 p-8 rounded-3xl max-w-md text-center shadow-2xl" onclick="event.stopPropagation()">
+            <h2 class="text-3xl mb-4 font-bold" style="color: var(--primary) !important;">About Algebra Practice</h2>
+            <p class="text-base leading-relaxed mb-4">Algebra Practise was created by hazza in 2025 and updated in 2026. i dont own any of the games here apart from the ones i made.</p>
+            <p class="text-base mb-6">Request games <a href="https://docs.google.com/forms/d/e/1FAIpQLScww3MHYoLogsOX5WcBctTbzVTUkXwoEeiOxenN0i8gxiOtpg/viewform?usp=header" target="_blank" class="text-blue-400 underline">here</a></p>
             
             <div class="flex flex-col gap-3">
-                <button onclick="downloadFile()" class="flex items-center justify-center gap-2 py-3 rounded-xl text-white font-bold transition-all hover:scale-105 active:scale-95" style="background-color: var(--primary);">
+                <button onclick="downloadFile()" class="flex items-center justify-center gap-2 py-3 rounded-xl text-white font-bold transition-all hover:scale-105" style="background-color: var(--primary) !important;">
                     <i class="fas fa-download"></i> Download Offline File
                 </button>
-                <button onclick="toggleInfo()" class="bg-white/10 px-6 py-2 rounded-full hover:bg-white/20 transition-all">Close</button>
+                <button onclick="toggleInfo()" class="bg-white/10 px-6 py-2 rounded-full hover:bg-white/20 transition-all text-white">Close</button>
             </div>
         </div>
     </div>
 
-    <div id="settingsPanel" class="fixed top-0 right-0 h-full w-80 bg-slate-900 border-l border-white/10 p-8 transform translate-x-full shadow-2xl overflow-y-auto">
+    <div id="settingsPanel" class="fixed top-0 right-0 h-full w-80 border-l border-slate-700 p-8 transform translate-x-full shadow-2xl overflow-y-auto">
         <div class="flex justify-between items-center mb-8">
-            <h2 class="text-3xl">Settings</h2>
-            <button onclick="toggleSettings()"><i class="fas fa-times text-xl"></i></button>
+            <h2 class="text-2xl font-bold text-white">Settings</h2>
+            <button onclick="toggleSettings()"><i class="fas fa-times text-xl text-white"></i></button>
         </div>
         <div class="space-y-6">
-            <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/10">
-                <span class="font-semibold text-sm">Educational Theme</span>
-                <button id="eduToggle" onclick="toggleEduMode()" class="font-bold transition-colors">OFF</button>
-            </div>
-            <div>
-                <label class="block text-xs opacity-50 mb-2 uppercase">Theme Color</label>
-                <input type="color" id="primaryPicker" value="#a855f7" oninput="updatePrimary(this.value)" class="w-full h-10 rounded-lg cursor-pointer bg-transparent border-none">
-            </div>
-            <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl">
-                <span>Particles</span>
-                <button id="partToggle" onclick="toggleParticles()" style="color: var(--primary);">ON</button>
-            </div>
-            <button onclick="setBg()" class="w-full bg-white/10 py-3 rounded-xl text-sm">Set Background Image</button>
-            <button onclick="resetBg()" class="w-full bg-red-500/10 text-red-400 py-2 rounded-xl text-xs">Reset Background</button>
-            <button onclick="openAboutBlank()" class="w-full bg-white/10 py-3 rounded-xl text-sm">Open in About:Blank</button>
             
-            <div class="space-y-3 pt-4 border-t border-white/10 flex flex-col">
-                <span class="block text-xs opacity-50 uppercase font-semibold">Emergency Settings</span>
-                <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/10">
-                    <span class="text-sm">Panic Key Switch</span>
-                    <button id="panicToggle" onclick="togglePanicMode()" class="font-bold transition-colors text-red-500">OFF</button>
-                </div>
-                <button id="panicKeyBtn" onclick="startPanicKeyCapture()" class="w-full bg-white/5 border border-white/10 text-left py-2 px-3 rounded-lg text-sm truncate">
-                    Key Bind: <span class="text-gray-400">None</span>
-                </button>
-                <input type="text" id="panicUrl" placeholder="Emergency Redirect URL" oninput="savePanicUrl(this.value)" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
+            <div>
+                <label class="block text-xs uppercase font-semibold mb-2">Layout & Theme Preset</label>
+                <select id="themeSelector" onchange="changeThemePreset(this.value)" class="w-full p-2.5 rounded-xl text-sm focus:outline-none">
+                    <option value="default">1. Default Dark Glass</option>
+                    <option value="educational">2. Educational Curriculum</option>
+                    <option value="win11">3. Windows 11 Desktop</option>
+                    <option value="ios">4. iOS iPad OS Screen</option>
+                </select>
             </div>
 
-            <div class="space-y-3 pt-4 border-t border-white/10 flex flex-col">
-                <span class="block text-xs opacity-50 uppercase font-semibold">Tab Cloaking</span>
-                <input type="text" id="cloakTitle" placeholder="Tab Title" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
-                <input type="text" id="cloakFavicon" placeholder="Favicon URL" class="w-full bg-white/5 border border-white/10 p-2 rounded-lg text-sm">
-                <button onclick="applyCloak()" id="applyBtn" class="w-full text-black py-3 px-4 rounded-xl text-sm font-bold shadow-lg hover:brightness-110 transition-all mt-2" style="background-color: var(--primary);">Apply Cloak</button>
+            <div class="space-y-2 pt-2">
+                <div class="flex justify-between items-center">
+                    <label class="text-xs uppercase font-semibold">Grid Columns per Row</label>
+                    <span id="colVal" class="text-xs font-bold text-blue-400">6</span>
+                </div>
+                <input type="range" id="colSlider" min="2" max="12" value="6" oninput="updateColumns(this.value)" class="w-full accent-purple-500 cursor-pointer">
+            </div>
+
+            <div class="space-y-3 pt-4 border-t border-slate-700 flex flex-col">
+                <span class="block text-xs uppercase font-semibold">Background Settings</span>
+                
+                <div>
+                    <label class="block text-xs font-medium mb-1">Background Type</label>
+                    <select id="bgTypeSelector" onchange="changeBgType(this.value)" class="w-full p-2 rounded-lg text-sm focus:outline-none">
+                        <option value="preset">Theme Default</option>
+                        <option value="image">Custom Image URL</option>
+                        <option value="color">Solid Custom Color</option>
+                    </select>
+                </div>
+
+                <div id="bgImageControls" class="space-y-2 hidden">
+                    <button onclick="setBg()" class="w-full bg-slate-800 hover:bg-slate-700 text-white py-2.5 rounded-xl text-xs border border-slate-700">Set Image URL</button>
+                </div>
+
+                <div id="bgColorControls" class="space-y-2 hidden">
+                    <label class="block text-xs font-medium">Select Solid Color</label>
+                    <input type="color" id="bgColorPicker" value="#020617" oninput="setBgColor(this.value)" class="w-full h-10 rounded-lg cursor-pointer bg-transparent border-none">
+                </div>
+
+                <button onclick="resetBg()" class="w-full bg-red-500/10 text-red-400 py-2 rounded-xl text-xs border border-red-500/20">Reset Background</button>
+            </div>
+
+            <div class="space-y-3 pt-4 border-t border-slate-700 flex flex-col">
+                <span class="block text-xs uppercase font-semibold">Header Logo Options</span>
+                <div class="flex items-center justify-between bg-slate-800 p-3 rounded-xl border border-slate-700">
+                    <span class="text-sm">Use Custom Text Logo</span>
+                    <button id="logoTypeToggle" onclick="toggleLogoType()" class="font-bold text-red-500">OFF</button>
+                </div>
+                <input type="text" id="logoTextInput" placeholder="Custom Logo Text..." oninput="updateLogoText(this.value)" class="w-full p-2 rounded-lg text-sm hidden">
+            </div>
+
+            <div>
+                <label class="block text-xs uppercase font-semibold mb-2">Custom Primary Accent Color</label>
+                <input type="color" id="primaryPicker" value="#a855f7" oninput="updatePrimary(this.value)" class="w-full h-10 rounded-lg cursor-pointer bg-transparent border-none">
+            </div>
+            
+            <div class="flex items-center justify-between bg-slate-800 p-3 rounded-xl border border-slate-700">
+                <span class="text-sm">Particles</span>
+                <button id="partToggle" onclick="toggleParticles()" style="color: var(--primary) !important;">ON</button>
+            </div>
+            
+            <button onclick="openAboutBlank()" class="w-full bg-slate-800 hover:bg-slate-700 text-white py-3 rounded-xl text-sm border border-slate-700">Open in About:Blank</button>
+            
+            <div class="space-y-3 pt-4 border-t border-slate-700 flex flex-col">
+                <span class="block text-xs uppercase font-semibold">Emergency Panic Switch</span>
+                <div class="flex items-center justify-between bg-slate-800 p-3 rounded-xl border border-slate-700">
+                    <span class="text-sm">Panic Mode Switch</span>
+                    <button id="panicToggle" onclick="togglePanicMode()" class="font-bold text-red-500">OFF</button>
+                </div>
+                <button id="panicKeyBtn" onclick="startPanicKeyCapture()" class="w-full bg-slate-800 border border-slate-700 text-left py-2 px-3 rounded-lg text-sm truncate">
+                    Key Bind: <span class="text-gray-400">None</span>
+                </button>
+                <input type="text" id="panicUrl" placeholder="Emergency Redirect URL" oninput="savePanicUrl(this.value)" class="w-full p-2 rounded-lg text-sm">
+            </div>
+
+            <div class="space-y-3 pt-4 border-t border-slate-700 flex flex-col">
+                <span class="block text-xs uppercase font-semibold">Tab Cloaking</span>
+                <input type="text" id="cloakTitle" placeholder="Tab Title" class="w-full p-2 rounded-lg text-sm">
+                <input type="text" id="cloakFavicon" placeholder="Favicon URL" class="w-full p-2 rounded-lg text-sm">
+                <button onclick="applyCloak()" id="applyBtn" class="w-full text-black py-3 px-4 rounded-xl text-sm font-bold shadow-lg hover:brightness-110 transition-all" style="background-color: var(--primary) !important;">Apply Cloak</button>
+                
+                <div class="flex gap-2 mt-2">
+                    <button onclick="resetTitleCloak()" class="w-1/2 bg-slate-800 text-xs py-2 rounded-lg hover:bg-slate-700">Reset Title</button>
+                    <button onclick="resetFaviconCloak()" class="w-1/2 bg-slate-800 text-xs py-2 rounded-lg hover:bg-slate-700">Reset Favicon</button>
+                </div>
             </div>
         </div>
     </div>
@@ -188,7 +443,7 @@
                 <div id="iframeContainer" class="w-full h-full"></div>
             </div>
             <div class="sidebar hidden lg:flex flex-col gap-4 overflow-y-auto pr-2">
-                <h3 class="text-xl id-more-like-this" style="color: var(--primary);">More Like This</h3>
+                <h3 class="text-xl font-bold" style="color: var(--primary);">More Like This</h3>
                 <div id="suggestedGames" class="grid grid-cols-2 gap-3"></div>
             </div>
         </div>
@@ -196,11 +451,11 @@
             <div class="flex items-center gap-4">
                 <div id="modalIconContainer" class="h-10 w-10 rounded-lg flex items-center justify-center bg-white/10 text-xs font-bold text-white hidden"></div>
                 <img id="modalIcon" src="" class="h-10 w-10 rounded-lg object-cover">
-                <h3 id="modalTitle" class="text-xl">Game Title</h3>
+                <h3 id="modalTitle" class="text-xl text-white">Game Title</h3>
             </div>
             <div class="flex items-center gap-8">
-                <button onclick="openAboutBlank()" class="nav-icon" title="Open in About:Blank"><i class="fas fa-mask text-xl"></i></button>
-                <button onclick="toggleFullscreen()" class="nav-icon"><i class="fas fa-expand text-xl"></i></button>
+                <button onclick="openAboutBlank()" class="nav-icon" title="Open in About:Blank"><i class="fas fa-mask text-xl text-white"></i></button>
+                <button onclick="toggleFullscreen()" class="nav-icon"><i class="fas fa-expand text-xl text-white"></i></button>
                 <button onclick="closeGame()" class="text-red-500 text-2xl"><i class="fas fa-times"></i></button>
             </div>
         </div>
@@ -209,14 +464,220 @@
 <script>
     let games = []; 
     let backups = []; 
+    let currentFilter = 'games';
+    let currentTheme = localStorage.getItem('user_theme_preset') || 'default';
 
-    let eduModeEnabled = localStorage.getItem('eduMode') === 'true';
+    let useCustomLogo = localStorage.getItem('useCustomLogo') === 'true';
+    let customLogoTextValue = localStorage.getItem('customLogoTextValue') || 'algebra practise';
 
-    // Emergency Panic Configuration Variables
     let panicEnabled = localStorage.getItem('panicEnabled') === 'true';
     let panicBind = JSON.parse(localStorage.getItem('panicBind')) || null; 
     let targetPanicUrl = localStorage.getItem('targetPanicUrl') || 'https://www.google.com';
     let isCapturingKey = false;
+
+    let pinnedGameIds = JSON.parse(localStorage.getItem('user_pinned_games')) || [];
+
+    const themeDefaultColors = {
+        default: '#a855f7',
+        educational: '#22c55e',
+        ios: '#0a84ff',
+        win11: '#0078d4'
+    };
+
+    function changeBgType(type) {
+        localStorage.setItem('user_bg_type', type);
+        document.getElementById('bgImageControls').classList.toggle('hidden', type !== 'image');
+        document.getElementById('bgColorControls').classList.toggle('hidden', type !== 'color');
+        
+        if (type === 'preset') {
+            if (currentTheme === 'ios') {
+                document.body.style.backgroundImage = "url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=2070&auto=format&fit=crop')";
+            } else if (currentTheme === 'win11') {
+                document.body.style.backgroundImage = "url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1974&auto=format&fit=crop')";
+            } else {
+                document.body.style.backgroundImage = 'none';
+                document.body.style.backgroundColor = 'var(--bg)';
+            }
+        } else if (type === 'image') {
+            const url = localStorage.getItem('user_bg');
+            if (url) {
+                document.body.style.backgroundImage = `url('${url}')`;
+            } else {
+                setBg();
+            }
+        } else if (type === 'color') {
+            const color = localStorage.getItem('user_bg_color') || '#020617';
+            document.body.style.backgroundImage = 'none';
+            document.body.style.backgroundColor = color;
+        }
+    }
+
+    function setBg() {
+        const url = prompt("Enter Background Image URL:");
+        if(url) {
+            document.body.style.backgroundImage = `url('${url}')`;
+            localStorage.setItem('user_bg', url);
+            localStorage.setItem('user_bg_type', 'image');
+            document.getElementById('bgTypeSelector').value = 'image';
+            changeBgType('image');
+        }
+    }
+
+    function setBgColor(color) {
+        document.body.style.backgroundImage = 'none';
+        document.body.style.backgroundColor = color;
+        localStorage.setItem('user_bg_color', color);
+        localStorage.setItem('user_bg_type', 'color');
+    }
+
+    function resetBg() {
+        document.body.style.backgroundImage = 'none';
+        document.body.style.backgroundColor = 'var(--bg)';
+        localStorage.removeItem('user_bg');
+        localStorage.removeItem('user_bg_color');
+        localStorage.setItem('user_bg_type', 'preset');
+        document.getElementById('bgTypeSelector').value = 'preset';
+        changeBgType('preset');
+    }
+
+    function updateColumns(val) {
+        document.documentElement.style.setProperty('--grid-cols', val);
+        document.getElementById('colVal').textContent = val;
+        localStorage.setItem('user_grid_cols', val);
+    }
+
+    function changeThemePreset(themeName) {
+        currentTheme = themeName;
+        document.body.setAttribute('data-theme', themeName);
+        localStorage.setItem('user_theme_preset', themeName);
+        
+        const savedColor = localStorage.getItem('user_p_color') || themeDefaultColors[themeName] || '#a855f7';
+        updatePrimary(savedColor);
+
+        const bgType = localStorage.getItem('user_bg_type') || 'preset';
+        changeBgType(bgType);
+
+        updatePinnedDock();
+        renderGames(currentFilter);
+    }
+
+    function updatePrimary(color) {
+        document.documentElement.style.setProperty('--primary', color);
+        document.body.style.setProperty('--primary', color);
+        
+        const applyBtn = document.getElementById('applyBtn');
+        if(applyBtn) applyBtn.style.backgroundColor = color;
+        
+        const primaryPicker = document.getElementById('primaryPicker');
+        if(primaryPicker) primaryPicker.value = color;
+
+        localStorage.setItem('user_p_color', color);
+    }
+
+    /* Functional Pin & Interactive Dynamic Dock */
+    function togglePinGame(gameId, e) {
+        if(e) e.stopPropagation();
+        if (pinnedGameIds.includes(gameId)) {
+            pinnedGameIds = pinnedGameIds.filter(id => id !== gameId);
+        } else {
+            pinnedGameIds.push(gameId);
+        }
+        localStorage.setItem('user_pinned_games', JSON.stringify(pinnedGameIds));
+        updatePinnedDock();
+        renderGames(currentFilter);
+    }
+
+    function updatePinnedDock() {
+        const wrapper = document.getElementById('pinnedDockWrapper');
+        const container = document.getElementById('pinnedItemsContainer');
+        if (!container || !wrapper) return;
+        
+        container.innerHTML = '';
+        if (pinnedGameIds.length === 0) {
+            wrapper.classList.add('hidden');
+            return;
+        }
+
+        wrapper.classList.remove('hidden');
+        pinnedGameIds.forEach(id => {
+            const game = games.find(g => g.id === id);
+            if (!game) return;
+            
+            const item = document.createElement('div');
+            item.className = 'os-pinned-item';
+            item.title = `Launch ${game.title}`;
+            item.onclick = () => openGame(game.id, game.title);
+            
+            item.innerHTML = `
+                <img src="${game.thumb}" alt="${game.title}">
+                <div class="unpin-icon" onclick="togglePinGame('${game.id}', event)" title="Unpin">
+                    <i class="fas fa-times"></i>
+                </div>
+            `;
+            container.appendChild(item);
+        });
+    }
+
+    function toggleLogoType() {
+        useCustomLogo = !useCustomLogo;
+        localStorage.setItem('useCustomLogo', useCustomLogo);
+        applyLogoSettings();
+    }
+
+    function updateLogoText(text) {
+        customLogoTextValue = text || 'algebra practise';
+        localStorage.setItem('customLogoTextValue', customLogoTextValue);
+        document.getElementById('customLogoText').textContent = customLogoTextValue;
+    }
+
+    function applyLogoSettings() {
+        const toggleBtn = document.getElementById('logoTypeToggle');
+        const imgElement = document.getElementById('mainLogoImg');
+        const textElement = document.getElementById('customLogoText');
+        const inputElement = document.getElementById('logoTextInput');
+
+        if (useCustomLogo) {
+            toggleBtn.textContent = 'ON';
+            toggleBtn.style.color = '#22c55e';
+            imgElement.classList.add('hidden');
+            textElement.classList.remove('hidden');
+            inputElement.classList.remove('hidden');
+            textElement.textContent = customLogoTextValue;
+            inputElement.value = customLogoTextValue;
+        } else {
+            toggleBtn.textContent = 'OFF';
+            toggleBtn.style.color = '#ef4444';
+            imgElement.classList.remove('hidden');
+            textElement.classList.add('hidden');
+            inputElement.classList.add('hidden');
+        }
+    }
+
+    function applyCloak() {
+        const title = document.getElementById('cloakTitle').value;
+        const icon = document.getElementById('cloakFavicon').value;
+        if(title) {
+            document.title = title;
+            localStorage.setItem('user_cloak_title', title);
+        }
+        if(icon) {
+            document.getElementById('favicon').href = icon;
+            localStorage.setItem('user_cloak_icon', icon);
+        }
+    }
+
+    function resetTitleCloak() {
+        document.title = "Algebra Practice - Study Module";
+        localStorage.removeItem('user_cloak_title');
+        document.getElementById('cloakTitle').value = '';
+    }
+
+    function resetFaviconCloak() {
+        const defaultIcon = "https://upload.wikimedia.org/wikipedia/commons/0/01/El_Sato_Tux_The_penguin_in_sonic_style.png";
+        document.getElementById('favicon').href = defaultIcon;
+        localStorage.removeItem('user_cloak_icon');
+        document.getElementById('cloakFavicon').value = '';
+    }
 
     function closePopup() {
         if (document.getElementById('dontShowAgain').checked) {
@@ -249,7 +710,7 @@
     function generateModuleString(index) {
         const major = Math.floor(index / 10) + 1;
         const minor = index % 10;
-        return minor === 0 ? `Module ${major}` : `Module ${major}.${minor}`;
+        return minor === 0 ? `Module ${major}.0` : `Module ${major}.${minor}`;
     }
 
     async function loadData() {
@@ -263,26 +724,29 @@
             const linksResponse = await fetch('links.json');
             backups = await linksResponse.json();
             
+            updatePinnedDock();
             renderGames('games');
         } catch (error) { 
             console.error("Error loading data locally:", error); 
         }
     }
 
+    /* Universal Rendering Engine for Games & Links/Backups Across All 4 Themes */
     function renderGames(filter = 'games', search = '') {
+        currentFilter = filter;
         const grid = document.getElementById('gameGrid');
         grid.innerHTML = '';
         let items = filter === 'backups' ? backups : games;
         
         let validItemIndex = 0; 
-        items.forEach((item) => {
+        items.forEach((item, index) => {
             if (filter === 'apps' && item.type !== 'app') return;
             if (filter === 'games' && item.type === 'app') return;
             
             let displayTitle = item.title;
             let moduleLabel = generateModuleString(validItemIndex);
             
-            if (eduModeEnabled && filter !== 'backups') {
+            if (currentTheme === 'educational' && filter !== 'backups') {
                 displayTitle = moduleLabel;
             }
             
@@ -291,26 +755,89 @@
                 return;
             }
             
-            const card = document.createElement('div');
-            if(filter === 'backups') {
-                card.className = 'backup-card';
-                card.onclick = () => window.open(item.url, '_blank');
-                card.innerHTML = `<i class="fas ${item.icon}"></i><div class="backup-label">${item.title}</div>`;
-            } else {
-                if (eduModeEnabled) {
-                    card.className = 'game-card edu-text-card';
-                    card.onclick = () => openGame(item.id, moduleLabel);
-                    card.innerHTML = `
-                        <div class="edu-module-badge">${moduleLabel}</div>
-                        <div class="edu-module-title">Curriculum Study Block</div>
+            const wrapper = document.createElement('div');
+            wrapper.className = 'game-card-wrapper';
+
+            const isPinned = pinnedGameIds.includes(item.id);
+            const pinIconClass = isPinned ? 'fa-thumbtack text-purple-400' : 'fa-thumbtack opacity-60';
+            const pinBtnHtml = filter !== 'backups' ? `<button class="pin-btn" onclick="togglePinGame('${item.id}', event)" title="${isPinned ? 'Unpin' : 'Pin to Dynamic Header'}"><i class="fas ${pinIconClass}"></i></button>` : '';
+
+            const isBackup = filter === 'backups';
+            const clickAction = isBackup ? `window.open('${item.url}', '_blank')` : `openGame('${item.id}', '${item.title}')`;
+            
+            // Icon handling for Links/Backups (Shield for Blocked, Link for Up/Active)
+            const isBlocked = item.status === 'blocked' || item.blocked === true;
+            const linkIconClass = isBlocked ? 'fa-shield-halved text-red-400' : 'fa-link text-emerald-400';
+            const linkStatusText = isBlocked ? 'Blocked Link' : 'Active Link';
+
+            if (isBackup) {
+                if (currentTheme === 'educational') {
+                    wrapper.innerHTML = `
+                        <div class="game-card" onclick="${clickAction}">
+                            <i class="fas ${linkIconClass} text-xl mb-1"></i>
+                            <div class="edu-module-badge">${item.title}</div>
+                            <div class="edu-module-title">${linkStatusText}</div>
+                        </div>
+                    `;
+                } else if (currentTheme === 'ios' || currentTheme === 'win11') {
+                    wrapper.innerHTML = `
+                        <div class="game-card" onclick="${clickAction}">
+                            <div class="link-icon-card">
+                                <i class="fas ${linkIconClass}"></i>
+                            </div>
+                        </div>
+                        <span class="app-label">${item.title}</span>
                     `;
                 } else {
-                    card.className = 'game-card';
-                    card.onclick = () => openGame(item.id, item.title);
-                    card.innerHTML = `<img src="${item.thumb}" loading="lazy"><div class="card-title">${item.title}</div>`;
+                    wrapper.innerHTML = `
+                        <div class="game-card" onclick="${clickAction}">
+                            <div class="link-icon-card">
+                                <i class="fas ${linkIconClass}"></i>
+                                <span class="text-xs font-semibold px-2 py-1 rounded bg-black/40 border border-white/10">${item.title}</span>
+                            </div>
+                            <div class="card-title">${item.title} (${linkStatusText})</div>
+                        </div>
+                    `;
+                }
+            } else {
+                // Standard Games & Apps Rendering
+                const thumbUrl = item.thumb;
+                if (currentTheme === 'ios') {
+                    wrapper.innerHTML = `
+                        ${pinBtnHtml}
+                        <div class="game-card" onclick="${clickAction}">
+                            <img src="${thumbUrl}" loading="lazy">
+                        </div>
+                        <span class="app-label">${item.title}</span>
+                    `;
+                } else if (currentTheme === 'win11') {
+                    wrapper.innerHTML = `
+                        ${pinBtnHtml}
+                        <div class="game-card" onclick="${clickAction}">
+                            <img src="${thumbUrl}" loading="lazy">
+                        </div>
+                        <span class="app-label">${item.title}</span>
+                    `;
+                } else if (currentTheme === 'educational') {
+                    wrapper.innerHTML = `
+                        ${pinBtnHtml}
+                        <div class="game-card" onclick="${clickAction}">
+                            <div class="edu-module-badge">${moduleLabel}</div>
+                            <div class="edu-module-title">Curriculum Study Block</div>
+                        </div>
+                    `;
+                } else {
+                    wrapper.innerHTML = `
+                        ${pinBtnHtml}
+                        <div class="game-card" onclick="${clickAction}">
+                            <img src="${thumbUrl}" loading="lazy">
+                            <div class="card-title">${item.title}</div>
+                        </div>
+                    `;
                 }
             }
-            grid.appendChild(card);
+
+            grid.appendChild(wrapper);
             if (filter !== 'backups') validItemIndex++;
         });
     }
@@ -319,10 +846,11 @@
         const game = games.find(g => g.id === id);
         if(!game) return;
         
-        const titleText = eduModeEnabled ? forcedTitle : game.title;
+        const isEdu = currentTheme === 'educational';
+        const titleText = isEdu ? forcedTitle : game.title;
         document.getElementById('modalTitle').textContent = titleText;
         
-        if (eduModeEnabled) {
+        if (isEdu) {
             document.getElementById('modalIcon').classList.add('hidden');
             const iconContainer = document.getElementById('modalIconContainer');
             iconContainer.classList.remove('hidden');
@@ -344,12 +872,12 @@
         suggested.forEach((g, idx) => {
             const fakeModuleLabel = generateModuleString(idx + 15);
             const scard = document.createElement('div');
-            if (eduModeEnabled) {
-                scard.className = 'sidebar-card edu-text-card';
+            if (isEdu) {
+                scard.className = 'game-card';
                 scard.onclick = () => openGame(g.id, fakeModuleLabel);
-                scard.innerHTML = `<div class="edu-module-badge" style="font-size: 1.1rem;">${fakeModuleLabel}</div>`;
+                scard.innerHTML = `<div class="edu-module-badge" style="font-size: 0.95rem;">${fakeModuleLabel}</div>`;
             } else {
-                scard.className = 'sidebar-card';
+                scard.className = 'game-card';
                 scard.onclick = () => openGame(g.id, g.title);
                 scard.innerHTML = `<img src="${g.thumb}"><div class="card-title">${g.title}</div>`;
             }
@@ -357,34 +885,6 @@
         });
     }
 
-    function toggleEduMode() {
-        eduModeEnabled = !eduModeEnabled;
-        localStorage.setItem('eduMode', eduModeEnabled);
-        applyEduThemeSettings();
-        renderGames('games');
-    }
-
-    function applyEduThemeSettings() {
-        const btn = document.getElementById('eduToggle');
-        const headerTitle = document.querySelector('.id-more-like-this');
-        
-        if (eduModeEnabled) {
-            document.body.classList.add('edu-mode');
-            btn.textContent = 'ON';
-            btn.style.color = '#22c55e';
-            updatePrimary('#22c55e');
-            if(headerTitle) headerTitle.textContent = "Related Curriculum Modules";
-        } else {
-            document.body.classList.remove('edu-mode');
-            btn.textContent = 'OFF';
-            btn.style.color = '#ef4444';
-            const savedColor = localStorage.getItem('user_p_color') || '#a855f7';
-            updatePrimary(savedColor);
-            if(headerTitle) headerTitle.textContent = "More Like This";
-        }
-    }
-
-    // EMERGENCY KEY (PANIC MOD) LOGIC FUNCTIONS
     function togglePanicMode() {
         panicEnabled = !panicEnabled;
         localStorage.setItem('panicEnabled', panicEnabled);
@@ -429,7 +929,6 @@
         localStorage.setItem('targetPanicUrl', targetPanicUrl);
     }
 
-    // Global Event Listener for Keyboard Input Setup/Triggering
     window.addEventListener('keydown', (e) => {
         if (isCapturingKey) {
             e.preventDefault();
@@ -469,7 +968,7 @@
     function openRandomGame() {
         if(games.length > 0) {
             const randGame = games[Math.floor(Math.random() * games.length)];
-            openGame(randGame.id, eduModeEnabled ? "Module 1.0" : randGame.title);
+            openGame(randGame.id, currentTheme === 'educational' ? "Module 1.0" : randGame.title);
         }
     }
 
@@ -503,28 +1002,12 @@
         body.style.padding = "0";
     }
 
-    function applyCloak() {
-        const title = document.getElementById('cloakTitle').value;
-        const icon = document.getElementById('cloakFavicon').value;
-        if(title) document.title = title;
-        if(icon) document.getElementById('favicon').href = icon;
-        localStorage.setItem('user_cloak_title', title);
-        localStorage.setItem('user_cloak_icon', icon);
-    }
-
-    function updatePrimary(color) {
-        document.documentElement.style.setProperty('--primary', color);
-        const applyBtn = document.getElementById('applyBtn');
-        if(applyBtn) applyBtn.style.backgroundColor = color;
-        if(!eduModeEnabled) localStorage.setItem('user_p_color', color);
-    }
-
     let particlesEnabled = localStorage.getItem('particles') !== 'false';
     function toggleParticles() {
         particlesEnabled = !particlesEnabled;
         localStorage.setItem('particles', particlesEnabled);
         document.getElementById('partToggle').textContent = particlesEnabled ? 'ON' : 'OFF';
-        document.getElementById('partToggle').style.color = particlesEnabled ? getComputedStyle(document.documentElement).getPropertyValue('--primary') : '#ef4444';
+        document.getElementById('partToggle').style.color = particlesEnabled ? getComputedStyle(document.body).getPropertyValue('--primary') : '#ef4444';
     }
 
     function toggleSettings() {
@@ -536,17 +1019,16 @@
         document.getElementById('infoTab').classList.toggle('hidden');
     }
 
-    function setBg() {
-        const url = prompt("Enter Image URL:");
-        if(url) {
-            document.body.style.backgroundImage = `url('${url}')`;
-            localStorage.setItem('user_bg', url);
-        }
+    function updateWinClock() {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const dateStr = now.toLocaleDateString([], { month: 'numeric', day: 'numeric', year: 'numeric' });
+        const timeEl = document.getElementById('winTime');
+        const dateEl = document.getElementById('winDate');
+        if (timeEl) timeEl.textContent = timeStr;
+        if (dateEl) dateEl.textContent = dateStr;
     }
-    function resetBg() {
-        document.body.style.backgroundImage = 'none';
-        localStorage.removeItem('user_bg');
-    }
+    setInterval(updateWinClock, 1000);
 
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
@@ -555,7 +1037,7 @@
     function draw() {
         if(!particlesEnabled) { ctx.clearRect(0,0,canvas.width,canvas.height); return requestAnimationFrame(draw); }
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary');
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--primary');
         pts.forEach(p => { p.y -= p.v; if(p.y<0) p.y=canvas.height; ctx.beginPath(); ctx.arc(p.x,p.y,p.s,0,7); ctx.fill(); });
         requestAnimationFrame(draw);
     }
@@ -565,26 +1047,39 @@
             document.getElementById('downloadPopup').classList.remove('hidden');
         }
 
-        const savedColor = localStorage.getItem('user_p_color') || '#a855f7';
-        updatePrimary(savedColor); 
-        document.getElementById('primaryPicker').value = savedColor;
-        const sBg = localStorage.getItem('user_bg');
-        if(sBg) document.body.style.backgroundImage = `url('${sBg}')`;
+        const savedCols = localStorage.getItem('user_grid_cols') || '6';
+        document.getElementById('colSlider').value = savedCols;
+        updateColumns(savedCols);
+
+        const savedTheme = localStorage.getItem('user_theme_preset') || 'default';
+        document.getElementById('themeSelector').value = savedTheme;
+        changeThemePreset(savedTheme);
+
+        const savedColor = localStorage.getItem('user_p_color') || themeDefaultColors[savedTheme] || '#a855f7';
+        updatePrimary(savedColor);
+
+        const savedBgType = localStorage.getItem('user_bg_type') || 'preset';
+        const savedBgColor = localStorage.getItem('user_bg_color') || '#020617';
+        document.getElementById('bgTypeSelector').value = savedBgType;
+        document.getElementById('bgColorPicker').value = savedBgColor;
+        changeBgType(savedBgType);
+
         const sTitle = localStorage.getItem('user_cloak_title');
         const sIcon = localStorage.getItem('user_cloak_icon');
         if(sTitle) document.title = sTitle;
         if(sIcon) document.getElementById('favicon').href = sIcon;
         
-        // Initialize Panic Input fields
         document.getElementById('panicUrl').value = localStorage.getItem('targetPanicUrl') || '';
         updatePanicUI();
 
-        applyEduThemeSettings();
+        applyLogoSettings();
+        updateWinClock();
+
         loadData();
         initPts(); draw();
     };
 
-    document.getElementById('searchInput').oninput = (e) => renderGames('games', e.target.value);
+    document.getElementById('searchInput').oninput = (e) => renderGames(currentFilter, e.target.value);
     window.onresize = initPts;
 </script>
 </body>
