@@ -46,7 +46,7 @@
             font-weight: 700;
             font-size: 3.5rem;
             letter-spacing: -1px;
-            background: linear-gradient(135deg, #a855f7 0%, #3b82f6 50%, #22c55e 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 50%, #22c55e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 0 18px var(--primary)) drop-shadow(0 4px 10px rgba(0,0,0,0.5));
@@ -104,9 +104,9 @@
             display: flex; align-items: center; justify-content: center;
         }
         .game-card:hover { 
-            border-color: var(--primary); 
+            border-color: var(--primary) !important; 
             transform: translateY(-4px) scale(1.02); 
-            box-shadow: 0 10px 25px -5px var(--primary); 
+            box-shadow: 0 0 20px 2px var(--primary) !important; 
         }
         .game-card img { width: 100%; height: 100%; object-fit: cover; }
         
@@ -199,12 +199,11 @@
         /* ==================== PRESET THEMES ==================== */
 
         /* 1. DEFAULT DARK GLASS */
-        body[data-theme="default"] { --bg: #020617; --primary: #a855f7; --text: #ffffff; --card: rgba(30, 41, 59, 0.5); }
+        body[data-theme="default"] { --bg: #020617; --text: #ffffff; --card: rgba(30, 41, 59, 0.5); }
 
         /* 2. EDUCATIONAL CURRICULUM */
         body[data-theme="educational"] { 
             --bg: #0f172a; 
-            --primary: #22c55e; 
             --font-main: 'Inter', sans-serif; 
             --radius: 0.75rem; 
             --card: #1e293b;
@@ -235,12 +234,13 @@
         /* 3. iOS IPAD OS SCREEN */
         body[data-theme="ios"] {
             --bg: url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=2070&auto=format&fit=crop');
-            --primary: #0a84ff; --text: #ffffff; --font-main: 'Inter', sans-serif;
+            --text: #ffffff; --font-main: 'Inter', sans-serif;
             padding-bottom: 100px;
         }
         body[data-theme="ios"] .main-logo-container { display: none; }
         body[data-theme="ios"] #gameGrid { gap: 2rem 1.5rem; padding: 20px; max-width: 1100px; margin: 0 auto; }
         body[data-theme="ios"] .game-card { aspect-ratio: 1/1; border-radius: 22%; border: none; box-shadow: 0 8px 20px rgba(0,0,0,0.3); background: rgba(255,255,255,0.18); }
+        body[data-theme="ios"] .game-card:hover { border: 2px solid var(--primary) !important; box-shadow: 0 0 20px 2px var(--primary) !important; }
         body[data-theme="ios"] .game-card .card-title { display: none; }
         body[data-theme="ios"] .app-label {
             display: block !important; margin-top: 8px; font-size: 0.8rem; font-weight: 500; text-align: center; color: #ffffff; text-shadow: 0 1px 4px rgba(0,0,0,0.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;
@@ -253,14 +253,14 @@
         /* 4. WINDOWS 11 DESKTOP */
         body[data-theme="win11"] {
             --bg: url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1974&auto=format&fit=crop');
-            --primary: #0078d4; --text: #ffffff; --font-main: 'Inter', sans-serif;
+            --text: #ffffff; --font-main: 'Inter', sans-serif;
             padding-bottom: 60px;
         }
         body[data-theme="win11"] .main-logo-container { display: none; }
         body[data-theme="win11"] #gameGrid { grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); gap: 1.2rem; padding: 20px; }
         body[data-theme="win11"] .game-card { aspect-ratio: 1/1; border-radius: 8px; border: 1px solid transparent; background: transparent; box-shadow: none; padding: 6px; }
         body[data-theme="win11"] .game-card img { border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        body[data-theme="win11"] .game-card:hover { background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.2); transform: none; box-shadow: none; }
+        body[data-theme="win11"] .game-card:hover { background: rgba(255, 255, 255, 0.15); border: 1px solid var(--primary) !important; box-shadow: 0 0 15px 1px var(--primary) !important; transform: none; }
         body[data-theme="win11"] .game-card .card-title { display: none; }
         body[data-theme="win11"] .app-label {
             display: block !important; margin-top: 4px; font-size: 0.72rem; font-weight: 400; text-align: center; color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.9); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.1;
@@ -477,6 +477,13 @@
 
     let pinnedGameIds = JSON.parse(localStorage.getItem('user_pinned_games')) || [];
 
+    const themeDefaultColors = {
+        default: '#a855f7',
+        educational: '#22c55e',
+        ios: '#0a84ff',
+        win11: '#0078d4'
+    };
+
     function changeBgType(type) {
         localStorage.setItem('user_bg_type', type);
         document.getElementById('bgImageControls').classList.toggle('hidden', type !== 'image');
@@ -544,7 +551,7 @@
         document.body.setAttribute('data-theme', themeName);
         localStorage.setItem('user_theme_preset', themeName);
         
-        const savedColor = localStorage.getItem('user_p_color') || '#a855f7';
+        const savedColor = localStorage.getItem('user_p_color') || themeDefaultColors[themeName] || '#a855f7';
         updatePrimary(savedColor);
 
         const bgType = localStorage.getItem('user_bg_type') || 'preset';
@@ -552,6 +559,19 @@
 
         updatePinnedDock();
         renderGames(currentFilter);
+    }
+
+    function updatePrimary(color) {
+        document.documentElement.style.setProperty('--primary', color);
+        document.body.style.setProperty('--primary', color);
+        
+        const applyBtn = document.getElementById('applyBtn');
+        if(applyBtn) applyBtn.style.backgroundColor = color;
+        
+        const primaryPicker = document.getElementById('primaryPicker');
+        if(primaryPicker) primaryPicker.value = color;
+
+        localStorage.setItem('user_p_color', color);
     }
 
     /* Functional Pin & Interactive Dynamic Dock */
@@ -982,19 +1002,12 @@
         body.style.padding = "0";
     }
 
-    function updatePrimary(color) {
-        document.documentElement.style.setProperty('--primary', color);
-        const applyBtn = document.getElementById('applyBtn');
-        if(applyBtn) applyBtn.style.backgroundColor = color;
-        localStorage.setItem('user_p_color', color);
-    }
-
     let particlesEnabled = localStorage.getItem('particles') !== 'false';
     function toggleParticles() {
         particlesEnabled = !particlesEnabled;
         localStorage.setItem('particles', particlesEnabled);
         document.getElementById('partToggle').textContent = particlesEnabled ? 'ON' : 'OFF';
-        document.getElementById('partToggle').style.color = particlesEnabled ? getComputedStyle(document.documentElement).getPropertyValue('--primary') : '#ef4444';
+        document.getElementById('partToggle').style.color = particlesEnabled ? getComputedStyle(document.body).getPropertyValue('--primary') : '#ef4444';
     }
 
     function toggleSettings() {
@@ -1024,7 +1037,7 @@
     function draw() {
         if(!particlesEnabled) { ctx.clearRect(0,0,canvas.width,canvas.height); return requestAnimationFrame(draw); }
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary');
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--primary');
         pts.forEach(p => { p.y -= p.v; if(p.y<0) p.y=canvas.height; ctx.beginPath(); ctx.arc(p.x,p.y,p.s,0,7); ctx.fill(); });
         requestAnimationFrame(draw);
     }
@@ -1042,9 +1055,8 @@
         document.getElementById('themeSelector').value = savedTheme;
         changeThemePreset(savedTheme);
 
-        const savedColor = localStorage.getItem('user_p_color') || '#a855f7';
-        updatePrimary(savedColor); 
-        document.getElementById('primaryPicker').value = savedColor;
+        const savedColor = localStorage.getItem('user_p_color') || themeDefaultColors[savedTheme] || '#a855f7';
+        updatePrimary(savedColor);
 
         const savedBgType = localStorage.getItem('user_bg_type') || 'preset';
         const savedBgColor = localStorage.getItem('user_bg_color') || '#020617';
