@@ -194,8 +194,6 @@
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
-        .download-here-link { color: #3b82f6; font-weight: bold; cursor: pointer; text-decoration: underline; }
-
         /* ==================== PRESET THEMES ==================== */
 
         /* 1. DEFAULT DARK GLASS */
@@ -274,20 +272,6 @@
 <body class="p-4" data-theme="default">
 
     <canvas id="particle-canvas"></canvas>
-
-    <div id="downloadPopup" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[300] hidden flex items-center justify-center">
-        <div class="bg-slate-900 border border-white/10 p-8 rounded-3xl max-w-md text-center shadow-2xl">
-            <h2 class="text-2xl mb-4 text-white">Algebra Practise Downloadable File</h2>
-            <p class="text-lg mb-6">You can now download the site as a file on your computer! <br> 
-               Download it <span class="download-here-link" onclick="downloadFile()">here</span>.
-            </p>
-            <div class="flex items-center justify-center gap-3 mb-6">
-                <input type="checkbox" id="dontShowAgain" class="w-4 h-4 cursor-pointer">
-                <label for="dontShowAgain" class="text-sm opacity-80 cursor-pointer">Do not show again</label>
-            </div>
-            <button onclick="closePopup()" class="bg-white/10 px-8 py-2 rounded-full hover:bg-white/20 transition-all">Close</button>
-        </div>
-    </div>
 
     <div class="main-logo-container" id="logoContainer">
         <img id="mainLogoImg" src="" alt="Logo" class="main-logo" onclick="location.reload()">
@@ -683,13 +667,6 @@
         document.getElementById('cloakFavicon').value = '';
     }
 
-    function closePopup() {
-        if (document.getElementById('dontShowAgain').checked) {
-            localStorage.setItem('hideDownloadPopup', 'true');
-        }
-        document.getElementById('downloadPopup').classList.add('hidden');
-    }
-
     async function downloadFile() {
         try {
             const fileUrl = 'algebraofficialfile.html';
@@ -1050,10 +1027,6 @@
     }
 
     window.onload = () => {
-        if (localStorage.getItem('hideDownloadPopup') !== 'true') {
-            document.getElementById('downloadPopup').classList.remove('hidden');
-        }
-
         const savedCols = localStorage.getItem('user_grid_cols') || '6';
         document.getElementById('colSlider').value = savedCols;
         updateColumns(savedCols);
