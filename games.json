@@ -308,14 +308,14 @@
         "thumb": "shortride.png"
     },
     {
-        "id": "pt",
-        "title": "Poly Track",
+        "id": "ptold",
+        "title": "Poly Track Old",
         "url": "https://polytrack-3.pages.dev/",
         "thumb": "polytrackold.png"
     },
     {
-        "id": "pt52",
-        "title": "Poly Track .5.2",
+        "id": "pt",
+        "title": "Poly Track",
         "url": "https://raw.githack.com/CoolDude2349/Offline-HTML-Games-Pack/master/offline/polytrack.html",
         "thumb": "polytracknew.png"
     },
