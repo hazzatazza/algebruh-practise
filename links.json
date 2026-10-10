@@ -100,5 +100,11 @@
         "title": "67 Gaming",
         "url": "https://67gaming.pages.dev/",
         "icon": "fa-link"
+    },
+    {
+        "id": "practicealgebra",
+        "title": "Practice Algebra",
+        "url": "https://practicealgebra.pages.dev/",
+        "icon": "fa-link"
     }
 ]
