@@ -1711,5 +1711,11 @@
         "title": "Ragdoll Soccer",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/ragdoll-soccer.html",
         "thumb": "ragdollsoccer.png"
+    },
+    {
+        "id": "soflo",
+        "title": "Soflo Wheelie Life",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/scratch/Soflo%20Wheelie%20Life.html",
+        "thumb": "soflo.png"
     }
 ]
