@@ -1747,6 +1747,25 @@
         "title": "Osu",
         "url": "https://raw.githack.com/MartinMMCyt/osu/master/index.html",
         "thumb": "osu.png"
+    },
+    {
+        "id": "paperminecraft",
+        "title": "Paper Minecraft",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/scratch/2D%20Minecraft%20Updated%20(1.22)%20v42%20(2).html",
+        "thumb": "paperminecraft.png"
+    },
+    {
+        "id": "paperminecraftclassic",
+        "title": "Paper Minecraft Classic",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/scratch/Paper%20Minecraft%20v11%20(1).html",
+        "thumb": "paperminecraftclassic.png"
+    },
+    {
+        "id": "wwrevamped",
+        "title": "Wave Wave Revamped",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/scratch/Wave%20Wave%20Revamped.html",
+        "thumb": "wwrevamped.png"
     }
+    
 ]
 
