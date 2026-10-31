@@ -1765,6 +1765,18 @@
         "title": "Wave Wave Revamped",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/scratch/Wave%20Wave%20Revamped.html",
         "thumb": "wwrevamped.png"
+    },
+    {
+        "id": "poker",
+        "title": "Poker",
+        "url": "https://raw.githack.com/Tehes/poker/master/index.html",
+        "thumb": "poker.png"
+    },
+    {
+        "id": "plinko",
+        "title": "Plinko",
+        "url": "https://raw.githack.com/hazzatazza/plinko/main/free-plinko-game.github.io/index.html",
+        "thumb": "plinko.png"
     }
     
 ]
