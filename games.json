@@ -1777,6 +1777,24 @@
         "title": "Plinko",
         "url": "https://raw.githack.com/hazzatazza/plinko/main/free-plinko-game.github.io/index.html",
         "thumb": "plinko.png"
+    },
+    {
+        "id": "tboi",
+        "title": "The Binding Of Isaac",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/tboivanilla.html",
+        "thumb": "tboi.png"
+    },
+    {
+        "id": "tboiwotl",
+        "title": "The Binding Of Isaac: Wrath Of The Lamb",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/tboiwotl.html",
+        "thumb": "wrathofthelamb.png"
+    },
+    {
+        "id": "tboiwotleternal",
+        "title": "The Binding Of Isaac: Wrath Of The Lamb Eternal Edition",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/tboieternal.html",
+        "thumb": "eternaledition.png"
     }
     
 ]
