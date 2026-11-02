@@ -1851,10 +1851,16 @@
         "thumb": "bloonstd5.png"
     },
     {
-        "id": "supersmahsflash",
+        "id": "supersmashflash",
         "title": "Super Smash Flash",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/supersmashflash.html",
         "thumb": "supersmashflash.png"
+    },
+    {
+        "id": "cookieclickerclassic",
+        "title": "Cookie Clicker Classic",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/cookieclickerclassic/orteil.dashnet.org/experiments/cookie/index.html",
+        "thumb": "cookieclickerclassic.png"
     }
     
 ]
