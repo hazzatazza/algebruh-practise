@@ -1819,6 +1819,42 @@
         "title": "Red Ball 4",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/red-ball-4-main/index.html",
         "thumb": "redball4.png"
+    },
+    {
+        "id": "bloonstd",
+        "title": "Bloons TD",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/bloonstd.html",
+        "thumb": "bloonstd.png"
+    },
+    {
+        "id": "bloonstd2",
+        "title": "Bloons TD 2",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/bloonstd2.html",
+        "thumb": "bloonstd2.png"
+    },
+    {
+        "id": "bloonstd3",
+        "title": "Bloons TD 3",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/bloonstd3.html",
+        "thumb": "bloonstd3.png"
+    },
+    {
+        "id": "bloonstd4",
+        "title": "Bloons TD 4",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/bloonstd4.html",
+        "thumb": "bloonstd4.png"
+    },
+    {
+        "id": "bloonstd5",
+        "title": "Bloons TD 5",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/bloonstd5.html",
+        "thumb": "bloonstd5.png"
+    },
+    {
+        "id": "supersmahsflash",
+        "title": "Super Smash Flash",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/supersmashflash.html",
+        "thumb": "supersmashflash.png"
     }
     
 ]
