@@ -1795,6 +1795,30 @@
         "title": "The Binding Of Isaac: Wrath Of The Lamb Eternal Edition",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/tboieternal.html",
         "thumb": "eternaledition.png"
+    },
+    {
+        "id": "redball",
+        "title": "Red Ball",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/redball.html",
+        "thumb": "redball.png"
+    },
+    {
+        "id": "redball2",
+        "title": "Red Ball 2",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/redball2.html",
+        "thumb": "redball2.png"
+    },
+    {
+        "id": "redball3",
+        "title": "Red Ball 3",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/redball3.html",
+        "thumb": "redball3.png"
+    },
+    {
+        "id": "redball4",
+        "title": "Red Ball 4",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/red-ball-4-main/index.html",
+        "thumb": "redball4.png"
     }
     
 ]
