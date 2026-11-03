@@ -1861,6 +1861,72 @@
         "title": "Cookie Clicker Classic",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/cookieclickerclassic/orteil.dashnet.org/experiments/cookie/index.html",
         "thumb": "cookieclickerclassic.png"
+    },
+    {
+        "id": "vex",
+        "title": "Vex",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/vex1.html",
+        "thumb": "vex.png"
+    },
+    {
+        "id": "vex2",
+        "title": "Vex 2",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/vex2.html",
+        "thumb": "vex2.png"
+    },
+    {
+        "id": "vex3",
+        "title": "Vex 3",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/Vex3-gh-pages/index.html",
+        "thumb": "vex3.png"
+    },
+    {
+        "id": "vex3xmas",
+        "title": "Vex 3 XMAS",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/vex-3-xmas/index.html",
+        "thumb": "vex3xmas.png"
+    },
+    {
+        "id": "vex4",
+        "title": "Vex 4",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/vex-4.html",
+        "thumb": "vex4.png"
+    },
+    {
+        "id": "vex5",
+        "title": "Vex 5",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/vex-5.html",
+        "thumb": "vex5.png"
+    },
+    {
+        "id": "vex6",
+        "title": "Vex 6",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/vex-6.html",
+        "thumb": "vex6.png"
+    },
+    {
+        "id": "vex7",
+        "title": "Vex 7",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/vex-7.html",
+        "thumb": "vex7.png"
+    },
+    {
+        "id": "vex8",
+        "title": "Vex 8",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/vex-8.html",
+        "thumb": "vex8.png"
+    },
+    {
+        "id": "vex9",
+        "title": "Vex 9",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/vex-9-main/index.html",
+        "thumb": "vex9.png"
+    },
+    {
+        "id": "vex10",
+        "title": "Vex 10",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/vex10/vex-5.github.io/gamevex2/vex-10/index.html",
+        "thumb": "vex10.png"
     }
     
 ]
