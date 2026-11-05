@@ -690,7 +690,7 @@
         }
     }
 
-    function downloadGameWrapper() {
+function downloadGameWrapper() {
         const iframe = document.getElementById('gameIframe');
         if (!iframe || !iframe.src) return alert("No active game to download.");
 
@@ -699,7 +699,8 @@
         const gameTitle = document.getElementById('modalTitle').textContent || "Game";
         const sanitizedTitle = gameTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
 
-        const htmlContent = `<!DOCTYPE html>
+        const htmlContent = `<!-- An Algebra Practise File Made By Hazza Give Credit If Using -->
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -709,13 +710,56 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
         iframe { width: 100%; height: 100%; border: none; }
+        
+        /* Floating credit badge */
+        #promoBadge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            z-index: 9999;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transition: opacity 1s ease, transform 0.2s ease;
+            opacity: 1;
+        }
+        #promoBadge:hover {
+            transform: scale(1.05);
+            border-color: #a855f7;
+        }
+        .fade-out {
+            opacity: 0 !important;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
     <iframe id="gameFrame" allowfullscreen></iframe>
+
+    <div id="promoBadge" onclick="window.open('https://algebrapractice.pages.dev', '_blank')">
+        🎮 Played on Algebra Practice
+    </div>
+
     <script>
         const encodedUrl = "${encodedUrl}";
         document.getElementById('gameFrame').src = atob(encodedUrl);
+
+        // Fade out the promo badge after 4 seconds
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const badge = document.getElementById('promoBadge');
+                if (badge) {
+                    badge.classList.add('fade-out');
+                }
+            }, 4000);
+        });
     <\/script>
 </body>
 </html>`;
