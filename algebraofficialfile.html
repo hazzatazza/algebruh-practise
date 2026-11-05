@@ -711,7 +711,7 @@ function downloadGameWrapper() {
         html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
         iframe { width: 100%; height: 100%; border: none; }
         
-        /* Floating credit badge */
+        /* Floating logo badge */
         #promoBadge {
             position: fixed;
             bottom: 20px;
@@ -719,11 +719,8 @@ function downloadGameWrapper() {
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-            padding: 10px 16px;
+            padding: 8px 12px;
             border-radius: 12px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
             z-index: 9999;
             cursor: pointer;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
@@ -733,6 +730,11 @@ function downloadGameWrapper() {
         #promoBadge:hover {
             transform: scale(1.05);
             border-color: #a855f7;
+        }
+        #promoBadge img {
+            height: 28px;
+            width: auto;
+            display: block;
         }
         .fade-out {
             opacity: 0 !important;
@@ -744,21 +746,21 @@ function downloadGameWrapper() {
     <iframe id="gameFrame" allowfullscreen></iframe>
 
     <div id="promoBadge" onclick="window.open('https://algebrapractice.pages.dev', '_blank')">
-        🎮 Played on Algebra Practice
+        <img src="https://i.ibb.co/krpP9zq/algebralogo.png" alt="Algebra Practice Logo">
     </div>
 
     <script>
         const encodedUrl = "${encodedUrl}";
         document.getElementById('gameFrame').src = atob(encodedUrl);
 
-        // Fade out the promo badge after 4 seconds
+        // Fade out the promo badge after 2 seconds
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const badge = document.getElementById('promoBadge');
                 if (badge) {
                     badge.classList.add('fade-out');
                 }
-            }, 4000);
+            }, 2000);
         });
     <\/script>
 </body>
