@@ -438,6 +438,8 @@
                 <h3 id="modalTitle" class="text-xl text-white">Game Title</h3>
             </div>
             <div class="flex items-center gap-8">
+                <button onclick="reloadGameIframe()" class="nav-icon" title="Force Refresh Cache"><i class="fas fa-sync-alt text-xl text-white"></i></button>
+                <button onclick="downloadGameWrapper()" class="nav-icon" title="Download Game HTML File"><i class="fas fa-download text-xl text-white"></i></button>
                 <button onclick="openAboutBlank()" class="nav-icon" title="Open in About:Blank"><i class="fas fa-mask text-xl text-white"></i></button>
                 <button onclick="toggleFullscreen()" class="nav-icon"><i class="fas fa-expand text-xl text-white"></i></button>
                 <button onclick="closeGame()" class="text-red-500 text-2xl"><i class="fas fa-times"></i></button>
@@ -688,6 +690,47 @@
         }
     }
 
+    function downloadGameWrapper() {
+        const iframe = document.getElementById('gameIframe');
+        if (!iframe || !iframe.src) return alert("No active game to download.");
+
+        const gameUrl = iframe.src;
+        const encodedUrl = btoa(gameUrl);
+        const gameTitle = document.getElementById('modalTitle').textContent || "Game";
+        const sanitizedTitle = gameTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+
+        const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${gameTitle}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+        iframe { width: 100%; height: 100%; border: none; }
+    </style>
+</head>
+<body>
+    <iframe id="gameFrame" allowfullscreen></iframe>
+    <script>
+        const encodedUrl = "${encodedUrl}";
+        document.getElementById('gameFrame').src = atob(encodedUrl);
+    <\/script>
+</body>
+</html>`;
+
+        const blob = new Blob([htmlContent], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${sanitizedTitle}.html`;
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+    }
+
     function generateModuleString(index) {
         const major = Math.floor(index / 10) + 1;
         const minor = index % 10;
@@ -867,6 +910,14 @@
             }
             suggGrid.appendChild(scard);
         });
+    }
+
+    function reloadGameIframe() {
+        const iframe = document.getElementById('gameIframe');
+        if (!iframe) return;
+        let currentUrl = iframe.src.split('?')[0];
+        const cacheBuster = '_t=' + new Date().getTime();
+        iframe.src = currentUrl + '?' + cacheBuster;
     }
 
     function togglePanicMode() {
