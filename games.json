@@ -1927,6 +1927,24 @@
         "title": "Vex 10",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/vex10/vex-5.github.io/gamevex2/vex-10/index.html",
         "thumb": "vex10.png"
+    },
+    {
+        "id": "vexx3m",
+        "title": "Vex X3M",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/vex-x3m.html",
+        "thumb": "vexx3m.png"
+    },
+    {
+        "id": "vexx3m2",
+        "title": "Vex X3M 2",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/vex-x3m-2.html",
+        "thumb": "vexx3m2.png"
+    },
+    {
+        "id": "vexx3m3",
+        "title": "Vex X3M 3",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/vexx3m3/game-gswitch/vex-x3m-3/index.html",
+        "thumb": "vexx3m3.png"
     }
     
 ]
