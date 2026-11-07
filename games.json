@@ -57,14 +57,21 @@
         "type": "app"
     },
     {
+        "id": "cloudmoon",
+        "title": "CloudMoon Cloud Gaming",
+        "url": "https://cdn.jsdelivr.net/gh/CloudMoonApp/web@main/main-2604131056.svg",
+        "thumb": "cloudmoon.png",
+        "type": "app"
+    },
+    {
         "id": "gdweb",
         "title": "Geometry Dash",
         "url": "https://raw.githack.com/web-ports/geometry-dash/e80340c90b18be70cd6e84bc594cd1edfb389c02/index.html",
         "thumb": "gdweb.png"
     },
     {
-        "id": "ec",
-        "title": "Eaglercraft",
+        "id": "mc26",
+        "title": "Minecraft",
         "url": "https://raw.githack.com/GX-Launcher/GX-Launcher.github.io/main/game/26.3-wasm/index.html",
         "thumb": "eaglercraft.png"
     },
@@ -1945,6 +1952,12 @@
         "title": "Vex X3M 3",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/vexx3m3/game-gswitch/vex-x3m-3/index.html",
         "thumb": "vexx3m3.png"
+    },
+    {
+        "id": "appleworm",
+        "title": "Apple Worm",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/appleworm.html",
+        "thumb": "appleworm.png"
     }
     
 ]
