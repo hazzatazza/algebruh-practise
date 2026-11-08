@@ -88,6 +88,12 @@
         "thumb": "papaspizzeria.png"
     },
     {
+        "id": "blobbyio",
+        "title": "Blobby.io",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/blobbyio.html",
+        "thumb": "blobbyio.png"
+    },
+    {
         "id": "brawlsim3d",
         "title": "Brawl Simulator 3D",
         "url": "https://raw.githack.com/hazzatazza/brawl-simulator-3d/main/brawl.html",
