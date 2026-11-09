@@ -1964,6 +1964,12 @@
         "title": "Apple Worm",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/appleworm.html",
         "thumb": "appleworm.png"
+    },
+    {
+        "id": "parkingfury",
+        "title": "Parking Fury",
+        "url": "https://raw.githack.com/ahrdevelopers/parking-fury-1/main/index.html",
+        "thumb": "parkingfury.png"
     }
     
 ]
