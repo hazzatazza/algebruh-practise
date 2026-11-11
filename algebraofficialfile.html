@@ -793,7 +793,7 @@ function downloadGameWrapper() {
             const commits = await shaResponse.json();
             const latestSha = commits[0].sha;
 
-            const gamesResponse = await fetch(`https://cdn.jsdelivr.net/gh/${repoOwner}/${repoName}@${latestSha}/games.json`);
+            const gamesResponse = await fetch(`https://cdn.jsdelivr.net/gh/${repoOwner}/${repoName}@${latestSha}/list.png`);
             games = await gamesResponse.json();
             
             const linksResponse = await fetch(`https://cdn.jsdelivr.net/gh/${repoOwner}/${repoName}@${latestSha}/links.json`);
