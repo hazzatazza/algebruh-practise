@@ -22,10 +22,10 @@
         "type": "app"
     },
     {
-        "id": "bounce",
-        "title": "Bounce Music",
-        "url": "https://raw.githack.com/hazzatazza/the-stash/main/html%20for%20other%20stuff/bouncemusic.html",
-        "thumb": "bouncemusic.png",
+        "id": "ytify",
+        "title": "Music Steaming",
+        "url": "https://ytify.pp.ua/",
+        "thumb": "ytify.png",
         "type": "app"
     },
     {
@@ -1976,6 +1976,12 @@
         "title": "Sheep Farmer",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/sheepfarmer.html",
         "thumb": "sheepfarmer.png"
+    },
+    {
+        "id": "footyredraft",
+        "title": "Footy Redraft",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/footy-redraft-unblocked/footyredraft.com/index.html",
+        "thumb": "footyredraft.png"
     }
     
 ]
