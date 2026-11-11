@@ -22,10 +22,10 @@
         "type": "app"
     },
     {
-        "id": "ytify",
+        "id": "music",
         "title": "Music Steaming",
-        "url": "https://ytify.pp.ua/",
-        "thumb": "ytify.png",
+        "url": "https://tunefree.in/",
+        "thumb": "music.png",
         "type": "app"
     },
     {
