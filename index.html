@@ -807,7 +807,7 @@ function downloadGameWrapper() {
             document.getElementById('mainLogoImg').src = 'logo.png';
             document.getElementById('penguinHeadImg').src = 'penguinhead.png';
             
-            const gamesResponse = await fetch('games.json');
+            const gamesResponse = await fetch('list.png');
             games = await gamesResponse.json();
             
             const linksResponse = await fetch('links.json');
