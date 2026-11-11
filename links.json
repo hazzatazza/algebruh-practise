@@ -30,10 +30,10 @@
         "icon": "fa-shield-halved"
     },
     {
-        "id": "mathenglish",
-        "title": "MathEnglish",
+        "id": "mathenglish-blocked",
+        "title": "MathEnglish (blocked)",
         "url": "https://mathenglish.pages.dev/",
-        "icon": "fa-link"
+        "icon": "fa-shield-halved"
     },
     {
         "id": "real-good-math",
