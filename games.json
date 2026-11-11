@@ -1970,6 +1970,12 @@
         "title": "Parking Fury",
         "url": "https://raw.githack.com/ahrdevelopers/parking-fury-1/main/index.html",
         "thumb": "parkingfury.png"
+    },
+    {
+        "id": "sheepfarmer",
+        "title": "Sheep Farmer",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/sheepfarmer.html",
+        "thumb": "sheepfarmer.png"
     }
     
 ]
