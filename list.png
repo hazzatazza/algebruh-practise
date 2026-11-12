@@ -66,7 +66,7 @@
     {
         "id": "gdweb",
         "title": "Geometry Dash",
-        "url": "https://raw.githack.com/web-ports/geometry-dash/e80340c90b18be70cd6e84bc594cd1edfb389c02/index.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/gdwebport.html",
         "thumb": "gdweb.png"
     },
     {
