@@ -23,7 +23,7 @@
     },
     {
         "id": "music",
-        "title": "Music Steaming",
+        "title": "Music Streaming",
         "url": "https://tunefree.in/",
         "thumb": "music.png",
         "type": "app"
