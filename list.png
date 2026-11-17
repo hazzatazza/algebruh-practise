@@ -2012,6 +2012,12 @@
         "title": "Kermil.io",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/kermilio.html",
         "thumb": "kermilio.png"
+    },
+    {
+        "id": "hollowknight",
+        "title": "Hollow Knight",
+        "url": "https://raw.githack.com/Stratus-Games/Hollow-Knight-Webport/main/index.html",
+        "thumb": "hollowknight.png"
     }
     
 ]
