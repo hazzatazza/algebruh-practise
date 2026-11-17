@@ -186,7 +186,7 @@
     {
         "id": "amz",
         "title": "Amaze",
-        "url": "https://raw.githack.com/hazzatazza/youtube-playables/main/amaze/index.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/amaze.html",
         "thumb": "amaze.png"
     },
     {
@@ -576,7 +576,7 @@
     {
         "id": "snk-is",
         "title": "Snake.is",
-        "url": "https://raw.githack.com/hazzatazza/snake.is/main/index.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/snakeis.html",
         "thumb": "snakeis.png"
     },
     {
@@ -1554,7 +1554,7 @@
     {
         "id": "harvestsim",
         "title": "Harvest Simulator",
-        "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/harvestsim23/frivez.com/games/harvest-simulator/index.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/harvestsimulator.html",
         "thumb": "harvestsim.png"
     },
     {
@@ -1982,6 +1982,30 @@
         "title": "Footy Redraft",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/multifile/footy-redraft-unblocked/footyredraft.com/index.html",
         "thumb": "footyredraft.png"
+    },
+    {
+        "id": "bouncybit",
+        "title": "Bouncy Bit",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/bouncybit.html",
+        "thumb": "bouncybit.png"
+    },
+    {
+        "id": "riderio",
+        "title": "Rider.io",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/riderio.html",
+        "thumb": "riderio.png"
+    },
+    {
+        "id": "squarebird",
+        "title": "Square Bird",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/squarebird.html",
+        "thumb": "squarebird.png"
+    },
+    {
+        "id": "pingpong",
+        "title": "Ping Pong",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/pingpong.html",
+        "thumb": "pingpong.png"
     }
     
 ]
