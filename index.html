@@ -41,21 +41,88 @@
         .main-logo { width: 320px; height: auto; filter: drop-shadow(0 0 15px var(--primary)); cursor: pointer; transition: transform 0.3s ease; }
         .main-logo:hover { transform: scale(1.05); }
 
+        /* Glossy bubble text logo - matches the real logo (purple -> slate blue -> green) */
         .custom-logo-text {
+            position: relative;
             font-family: 'Fredoka', 'Chewy', cursive;
             font-weight: 700;
-            font-size: 3.5rem;
+            font-size: 3rem;
+            line-height: 1.1;
             letter-spacing: -1px;
-            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 50%, #22c55e 100%);
+            padding: 0 6px 6px;
+            background: linear-gradient(90deg,
+                #5b1fb8 0%,
+                #7a2fd0 22%,
+                #8a45d8 38%,
+                #7f78c4 50%,
+                #6f94ad 60%,
+                #66b787 76%,
+                #7fd650 90%,
+                #8fe05a 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 18px var(--primary)) drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 3px 0 rgba(30, 10, 70, 0.55)) drop-shadow(0 8px 10px rgba(0,0,0,0.45)) drop-shadow(0 0 14px rgba(140, 90, 230, 0.35));
             cursor: pointer;
             transition: transform 0.3s ease;
             user-select: none;
             text-align: center;
+            white-space: nowrap;
         }
-        .custom-logo-text:hover { transform: scale(1.04); }
+        /* shiny "puffy" highlight + soft bottom shade layered on top of the same text */
+        .custom-logo-text::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0; right: 0; top: 0;
+            padding: inherit;
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.65) 0%,
+                rgba(255,255,255,0.18) 32%,
+                rgba(255,255,255,0) 52%,
+                rgba(0,0,0,0) 70%,
+                rgba(0,0,0,0.28) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 0;
+            pointer-events: none;
+        }
+
+        /* Bubbles sitting on the letters (static) */
+        #logoTextWrap { position: relative; display: inline-block; transition: transform 0.3s ease; }
+        #logoTextWrap:hover { transform: scale(1.04); }
+        #logoBubbles { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+        .logo-bubble {
+            position: absolute;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 30% 28%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.6) 22%, rgba(255,255,255,0) 45%),
+                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.35) 100%);
+            border: 1px solid rgba(255,255,255,0.55);
+            box-shadow: inset 0 -1px 2px rgba(255,255,255,0.35);
+        }
+
+        /* ==================== HOME SECTIONS (side scrolling rows) ==================== */
+        .home-section { margin-bottom: 2rem; }
+        .home-section-head { display: flex; align-items: center; justify-content: space-between; margin: 0 4px 10px; }
+        .home-section-title { font-size: 1.5rem; color: var(--text); text-shadow: 0 2px 6px rgba(0,0,0,0.6); }
+        .row-arrows { display: flex; gap: 8px; }
+        .row-arrow {
+            width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+            background: rgba(255,255,255,0.1); border: 1px solid var(--card-border); color: var(--text);
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+        }
+        .row-arrow:hover { background: var(--primary); transform: scale(1.1); }
+        .scroll-row {
+            display: flex; gap: 1.25rem; overflow-x: auto; scroll-snap-type: x proximity;
+            padding: 6px 4px 14px; scroll-behavior: smooth;
+        }
+        .scroll-row::-webkit-scrollbar { height: 6px; }
+        .scroll-row .game-card-wrapper { width: 160px; flex-shrink: 0; scroll-snap-align: start; }
+        .all-games-heading { font-size: 1.5rem; margin: 0 4px 12px; color: var(--text); text-shadow: 0 2px 6px rgba(0,0,0,0.6); }
+        body[data-theme="win11"] .scroll-row .game-card-wrapper { width: 100px; }
+        body[data-theme="ios"] .scroll-row .game-card-wrapper { width: 110px; }
+        body[data-theme="ios"] .scroll-row { padding-left: 20px; }
 
         /* Dynamic Responsive Island Header */
         .island-header {
@@ -291,7 +358,10 @@
 
     <div class="main-logo-container" id="logoContainer">
         <img id="mainLogoImg" src="" alt="Logo" class="main-logo" onclick="location.reload()">
-        <h1 id="customLogoText" class="custom-logo-text hidden" onclick="location.reload()">algebra practise</h1>
+        <div id="logoTextWrap">
+            <h1 id="customLogoText" class="custom-logo-text hidden" data-text="algebra practise" onclick="location.reload()">algebra practise</h1>
+            <div id="logoBubbles"></div>
+        </div>
     </div>
 
     <header class="island-header" id="mainHeader">
@@ -323,6 +393,8 @@
     </header>
 
     <main class="max-w-7xl mx-auto">
+        <div id="homeSections"></div>
+        <h2 id="allGamesHeading" class="all-games-heading hidden">🎮 All Games</h2>
         <div id="gameGrid"></div>
     </main>
 
@@ -464,6 +536,31 @@
     </div>
 
 <script>
+    // =====================================================================
+    //  ✏️ HOME SECTIONS
+    //  The real lists live in categories.json (same folder as this file) and are fetched
+    //  locally (keys: "new", "featured", "popular" - each an array of game ids).
+    //  The lists below are only a FALLBACK used if categories.json can't be loaded.
+    // =====================================================================
+    const NEW_GAME_IDS = [
+        'footyredraft', 'sheepfarmer', 'appleworm', 'parkingfury', 'mc26', 'gdweb', 'blobbyio'
+    ];
+
+    const FEATURED_GAME_IDS = [
+        'kartbros', 'blobbyio', 'brawlsim3d', 'vex10', 'harvestsim', 'angrybirds2', 'dadish3d', 'buildnowgg'
+    ];
+
+    const POPULAR_GAME_IDS = [
+        'mc26', 'gdweb', 'tboi', 'brotato', 'pt', 'getyoked', 'slp', 'drive-mad', 'sw', 'r3', 'bl', 'rb', 'sr3d'
+    ];
+
+    // Section titles + which list they use (reorder these to reorder the rows)
+    const HOME_SECTIONS = [
+        { key: 'new',      title: '🆕 New Games',    ids: NEW_GAME_IDS },
+        { key: 'featured', title: '⭐ Featured',      ids: FEATURED_GAME_IDS },
+        { key: 'popular',  title: '🔥 Most Popular', ids: POPULAR_GAME_IDS }
+    ];
+
     let games = []; 
     let backups = []; 
     let currentFilter = 'games';
@@ -629,10 +726,54 @@
     function updateLogoText(text) {
         customLogoTextValue = text || 'algebra practise';
         localStorage.setItem('customLogoTextValue', customLogoTextValue);
-        document.getElementById('customLogoText').textContent = customLogoTextValue;
+        const logoEl = document.getElementById('customLogoText');
+        logoEl.textContent = customLogoTextValue;
+        logoEl.setAttribute('data-text', customLogoTextValue);
+        placeLogoBubbles();
+    }
+
+    // Puts small, still bubbles on top of each letter by measuring where every letter actually is
+    function placeLogoBubbles() {
+        const wrap = document.getElementById('logoTextWrap');
+        const h1 = document.getElementById('customLogoText');
+        const box = document.getElementById('logoBubbles');
+        if (!wrap || !h1 || !box) return;
+        box.innerHTML = '';
+        if (!useCustomLogo) return;
+        const node = h1.firstChild;
+        if (!node || node.nodeType !== 3) return;
+
+        const text = node.textContent;
+        const wr = wrap.getBoundingClientRect();
+        const range = document.createRange();
+        const sizes = [7, 5, 8, 6, 4];
+
+        const addBubble = (x, y, size) => {
+            const b = document.createElement('div');
+            b.className = 'logo-bubble';
+            b.style.width = b.style.height = size + 'px';
+            b.style.left = (x - size / 2) + 'px';
+            b.style.top = (y - size / 2) + 'px';
+            box.appendChild(b);
+        };
+
+        for (let i = 0; i < text.length; i++) {
+            if (text[i] === ' ') continue;
+            range.setStart(node, i);
+            range.setEnd(node, i + 1);
+            const rc = range.getBoundingClientRect();
+            if (!rc.width) continue;
+            const x = rc.left - wr.left;
+            const y = rc.top - wr.top;
+            // main highlight bubble, upper-left of the letter body
+            addBubble(x + rc.width * (0.28 + (i % 3) * 0.06), y + rc.height * (0.5 + (i % 2) * 0.06), sizes[i % sizes.length]);
+            // tiny secondary bubble on every other letter, lower-right
+            if (i % 2 === 0) addBubble(x + rc.width * 0.68, y + rc.height * 0.7, 3);
+        }
     }
 
     function applyLogoSettings() {
+        setTimeout(placeLogoBubbles, 0);
         const toggleBtn = document.getElementById('logoTypeToggle');
         const imgElement = document.getElementById('mainLogoImg');
         const textElement = document.getElementById('customLogoText');
@@ -645,6 +786,7 @@
             textElement.classList.remove('hidden');
             inputElement.classList.remove('hidden');
             textElement.textContent = customLogoTextValue;
+            textElement.setAttribute('data-text', customLogoTextValue);
             inputElement.value = customLogoTextValue;
         } else {
             toggleBtn.textContent = 'OFF';
@@ -812,6 +954,18 @@ function downloadGameWrapper() {
             
             const linksResponse = await fetch('links.json');
             backups = await linksResponse.json();
+
+            // Home section ids (New / Featured / Most Popular) come from categories.json
+            try {
+                const specificsResponse = await fetch('categories.json');
+                if (!specificsResponse.ok) throw new Error('categories.json fetch failed: ' + specificsResponse.status);
+                const specifics = await specificsResponse.json();
+                HOME_SECTIONS.forEach(section => {
+                    if (Array.isArray(specifics[section.key])) section.ids = specifics[section.key];
+                });
+            } catch (specErr) {
+                console.warn("Could not load categories.json, using built-in fallback lists:", specErr);
+            }
             
             updatePinnedDock();
             renderGames('games');
@@ -821,11 +975,60 @@ function downloadGameWrapper() {
     }
 
     /* Universal Rendering Engine for Games & Links/Backups Across All 4 Themes */
+    // Position of a game in the main "games" list (keeps Module numbers the same in every row)
+    function getGameModuleIndex(id) {
+        return games.filter(g => g.type !== 'app').findIndex(g => g.id === id);
+    }
+
+    // Draws the side scrolling rows (New / Featured / Most Popular) + toggles the All Games heading
+    function renderHomeSections(show) {
+        const home = document.getElementById('homeSections');
+        const heading = document.getElementById('allGamesHeading');
+        home.innerHTML = '';
+        heading.classList.toggle('hidden', !show);
+        if (!show) return;
+
+        HOME_SECTIONS.forEach(section => {
+            const items = section.ids.map(id => {
+                const g = games.find(x => x.id === id);
+                if (!g) console.warn(`[${section.key}] no game found with id "${id}"`);
+                return g;
+            }).filter(Boolean);
+            if (items.length === 0) return;
+
+            const sec = document.createElement('section');
+            sec.className = 'home-section';
+            sec.innerHTML = `
+                <div class="home-section-head">
+                    <h2 class="home-section-title">${section.title}</h2>
+                    <div class="row-arrows">
+                        <div class="row-arrow" data-dir="-1"><i class="fas fa-chevron-left"></i></div>
+                        <div class="row-arrow" data-dir="1"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                </div>
+                <div class="scroll-row" id="row-${section.key}"></div>
+            `;
+            home.appendChild(sec);
+
+            const row = sec.querySelector('.scroll-row');
+            sec.querySelectorAll('.row-arrow').forEach(btn => {
+                btn.onclick = () => row.scrollBy({ left: btn.dataset.dir * row.clientWidth * 0.8 });
+            });
+
+            renderGridMain('games', '', { items, container: row });
+        });
+    }
+
     function renderGames(filter = 'games', search = '') {
         currentFilter = filter;
-        const grid = document.getElementById('gameGrid');
+        renderHomeSections(filter === 'games' && !search);
+        renderGridMain(filter, search);
+    }
+
+    function renderGridMain(filter = 'games', search = '', opts = {}) {
+        const grid = opts.container || document.getElementById('gameGrid');
         grid.innerHTML = '';
-        let items = filter === 'backups' ? backups : games;
+        let items = opts.items || (filter === 'backups' ? backups : games);
         
         let validItemIndex = 0; 
         items.forEach((item, index) => {
@@ -833,7 +1036,7 @@ function downloadGameWrapper() {
             if (filter === 'games' && item.type === 'app') return;
             
             let displayTitle = item.title;
-            let moduleLabel = generateModuleString(validItemIndex);
+            let moduleLabel = generateModuleString(opts.items ? getGameModuleIndex(item.id) : validItemIndex);
             
             if (currentTheme === 'educational' && filter !== 'backups') {
                 displayTitle = moduleLabel;
@@ -1177,7 +1380,8 @@ function downloadGameWrapper() {
     };
 
     document.getElementById('searchInput').oninput = (e) => renderGames(currentFilter, e.target.value);
-    window.onresize = initPts;
+    window.onresize = () => { initPts(); placeLogoBubbles(); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeLogoBubbles);
 </script>
 </body>
 </html>
