@@ -2006,6 +2006,12 @@
         "title": "Ping Pong",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/pingpong.html",
         "thumb": "pingpong.png"
+    },
+    {
+        "id": "kermil",
+        "title": "Kermil.io",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/kermilio.html",
+        "thumb": "kermilio.png"
     }
     
 ]
