@@ -119,7 +119,16 @@
         }
         .scroll-row::-webkit-scrollbar { height: 6px; }
         .scroll-row .game-card-wrapper { width: 160px; flex-shrink: 0; scroll-snap-align: start; }
-        .all-games-heading { font-size: 1.5rem; margin: 0 4px 12px; color: var(--text); text-shadow: 0 2px 6px rgba(0,0,0,0.6); }
+        .all-games-heading { font-size: 1.5rem; margin: 0; color: var(--text); text-shadow: 0 2px 6px rgba(0,0,0,0.6); }
+        .all-games-head { display: flex; align-items: center; justify-content: space-between; margin: 0 4px 12px; gap: 12px; }
+        .sort-btn {
+            height: 32px; padding: 0 14px; border-radius: 99px; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.1); border: 1px solid var(--card-border); color: var(--text);
+            font-family: var(--font-main); font-size: 0.95rem; transition: all 0.2s;
+        }
+        .sort-btn:hover { background: var(--primary); transform: scale(1.05); }
+        .sort-btn i { font-size: 0.85rem; }
         body[data-theme="win11"] .scroll-row .game-card-wrapper { width: 100px; }
         body[data-theme="ios"] .scroll-row .game-card-wrapper { width: 110px; }
         body[data-theme="ios"] .scroll-row { padding-left: 20px; }
@@ -336,6 +345,201 @@
             position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-width: 100%; margin: 0; border-radius: 0; background: rgba(32, 43, 54, 0.75); backdrop-filter: blur(25px); border: none; border-top: 1px solid rgba(255,255,255,0.15); justify-content: center; padding: 6px 16px; z-index: 100; box-shadow: 0 -4px 20px rgba(0,0,0,0.5); gap: 12px;
         }
         body[data-theme="win11"] .win11-taskbar-extra { display: flex !important; align-items: center; gap: 12px; margin-left: auto; font-size: 0.75rem; color: #ffffff; opacity: 0.9; }
+
+        /* ==================== POLISH PASS (same look, smoother finish) ==================== */
+        html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--primary) transparent; }
+        ::selection { background: color-mix(in srgb, var(--primary) 55%, transparent); color: #fff; }
+        :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 6px; }
+        input:focus-visible, select:focus-visible { outline: none; }
+
+        /* slimmer, softer scrollbars */
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb {
+            background: color-mix(in srgb, var(--primary) 70%, transparent);
+            border-radius: 10px; border: 2px solid transparent; background-clip: padding-box;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); background-clip: padding-box; border: 2px solid transparent; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.94) translateY(8px); } to { opacity: 1; transform: none; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        main { animation: fadeIn 0.5s ease both; }
+
+        /* island header: layered glass */
+        body:not([data-theme="ios"]):not([data-theme="win11"]) .island-header {
+            background: linear-gradient(180deg, rgba(255,255,255,0.13), rgba(255,255,255,0.05));
+            backdrop-filter: blur(18px) saturate(160%);
+            -webkit-backdrop-filter: blur(18px) saturate(160%);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.18), 0 0 0 1px rgba(255,255,255,0.04);
+            animation: fadeUp 0.5s ease both;
+        }
+        .nav-icon { padding: 4px; border-radius: 10px; }
+        .nav-icon:hover { background: rgba(255,255,255,0.08); }
+        #searchInput { transition: width 0.25s ease, box-shadow 0.25s ease, background 0.25s ease; }
+        #searchInput:focus { width: 11rem; background: rgba(255,255,255,0.16); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 35%, transparent); }
+
+        /* section titles get a small accent bar */
+        .home-section-title, .all-games-heading { display: flex; align-items: center; gap: 10px; letter-spacing: 0.3px; }
+        .home-section-title::before, .all-games-heading::before {
+            content: ""; width: 5px; height: 1.2em; border-radius: 99px; flex-shrink: 0;
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+            box-shadow: 0 0 10px color-mix(in srgb, var(--primary) 60%, transparent);
+        }
+        body[data-theme="ios"] .home-section-title::before, body[data-theme="ios"] .all-games-heading::before,
+        body[data-theme="win11"] .home-section-title::before, body[data-theme="win11"] .all-games-heading::before { display: none; }
+        .home-section { margin-bottom: 2.25rem; }
+
+        /* round buttons + sort pill: crisper */
+        .row-arrow, .sort-btn { box-shadow: 0 2px 8px rgba(0,0,0,0.25); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        .row-arrow:active, .sort-btn:active { transform: scale(0.94); }
+
+        /* side-scrolling rows: soft fade at the edges, room for hover glow */
+        .scroll-row {
+            padding: 14px 8px 22px; margin-top: -8px;
+            -webkit-mask-image: linear-gradient(to right, transparent 0, #000 18px, #000 calc(100% - 36px), transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 18px, #000 calc(100% - 36px), transparent 100%);
+        }
+        .scroll-row::-webkit-scrollbar { height: 0; }
+
+        /* game cards */
+        body:not([data-theme="ios"]):not([data-theme="win11"]) .game-card {
+            box-shadow: 0 6px 18px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+            will-change: transform;
+        }
+        body:not([data-theme="ios"]):not([data-theme="win11"]) .game-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 16px 34px -6px color-mix(in srgb, var(--primary) 55%, transparent), 0 0 0 1px var(--primary), 0 0 22px 1px color-mix(in srgb, var(--primary) 50%, transparent) !important;
+        }
+        .game-card:active { transform: scale(0.98) !important; }
+        .game-card img { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease; }
+        .game-card:hover img { transform: scale(1.08); }
+        .card-title {
+            font-size: 0.9rem; letter-spacing: 0.2px; text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+            background: linear-gradient(transparent, rgba(0,0,0,0.88) 60%);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .game-card-wrapper { animation: fadeUp 0.4s ease backwards; }
+        .game-card-wrapper:nth-child(2) { animation-delay: 0.03s; }
+        .game-card-wrapper:nth-child(3) { animation-delay: 0.06s; }
+        .game-card-wrapper:nth-child(4) { animation-delay: 0.09s; }
+        .game-card-wrapper:nth-child(5) { animation-delay: 0.12s; }
+        .game-card-wrapper:nth-child(6) { animation-delay: 0.15s; }
+        .game-card-wrapper:nth-child(n+7) { animation-delay: 0.18s; }
+
+        /* pin button: glassy */
+        .pin-btn { background: rgba(15,23,42,0.65); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+
+        /* pinned dock */
+        .os-pinned-item { border-color: rgba(255,255,255,0.22); box-shadow: 0 2px 6px rgba(0,0,0,0.35); }
+
+        /* settings panel */
+        #settingsPanel {
+            box-shadow: -24px 0 60px rgba(0,0,0,0.55);
+            background-image: linear-gradient(180deg, #111c33 0%, #0b1222 100%) !important;
+            border-left: 1px solid rgba(148,163,184,0.18) !important;
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        #settingsPanel .uppercase { letter-spacing: 0.14em; color: #94a3b8 !important; font-size: 0.68rem; }
+        #settingsPanel .border-t { border-color: rgba(148,163,184,0.15) !important; }
+        #settingsPanel input[type="text"], #settingsPanel select { border-radius: 10px; transition: border-color 0.2s, box-shadow 0.2s; }
+        #settingsPanel input:focus, #settingsPanel select:focus {
+            outline: none; border-color: var(--primary) !important;
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 30%, transparent);
+        }
+        #settingsPanel button { transition: background 0.2s, transform 0.15s, filter 0.2s, border-color 0.2s; }
+        #settingsPanel button:active { transform: scale(0.97); }
+        #settingsPanel button.bg-slate-800:hover { border-color: var(--primary); }
+
+        /* info popup + game viewer: smooth entrance */
+        #infoTab:not(.hidden) { animation: fadeIn 0.25s ease both; }
+        #infoTabContent { animation: popIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 40px -10px var(--primary); }
+        #gameModal:not(.hidden) { animation: fadeIn 0.25s ease both; }
+        #gameModal .game-container > div:first-child { box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06); }
+        #gameModal .game-container > div:first-child { border-radius: 1rem; }
+        #gameModal > div.h-20 { border-top: 1px solid rgba(255,255,255,0.08); background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03)); }
+        #gameModal .sidebar .game-card { box-shadow: 0 4px 12px rgba(0,0,0,0.35); }
+
+        /* More Like This: titles always visible, mobile sheet */
+        #gameModal .card-title, #suggestSheet .card-title { bottom: 0; }
+        .sugg-card { aspect-ratio: 1/1; }
+        #suggestSheet {
+            background: rgba(15,23,42,0.94); border-top: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1.25rem 1.25rem 0 0; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 -12px 40px rgba(0,0,0,0.5); font-family: var(--font-main); color: #fff;
+        }
+        #suggestSheet:not(.hidden) { animation: fadeUp 0.3s ease both; }
+        #suggestedSheetRow .sugg-card { width: 115px; flex-shrink: 0; }
+        #suggestedSheetRow::-webkit-scrollbar { height: 0; }
+
+        /* island stays pinned to the top while scrolling (iOS / Win11 themes keep their own bottom bar) */
+        body:not([data-theme="ios"]):not([data-theme="win11"]) .island-header { position: sticky; top: 10px; }
+
+        /* ==================== ALGEBRA WRAPPED ==================== */
+        #wrappedTab:not(.hidden) { animation: fadeIn 0.25s ease both; }
+        #wrappedContent {
+            width: min(940px, 100%); max-height: 92vh; overflow-y: auto; padding: 28px; border-radius: 1.5rem;
+            color: #fff; font-family: 'Inter', sans-serif;
+            background: radial-gradient(110% 70% at 0% 0%, color-mix(in srgb, var(--primary) 38%, #0b1020) 0%, #0b1020 60%), #0b1020;
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 50px -12px var(--primary);
+            animation: popIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        .wrap-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+        .wrap-title { font-family: var(--font-main); font-size: 2.2rem; line-height: 1.1;
+            background: linear-gradient(90deg, #fff, var(--primary) 60%, var(--accent)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .wrap-for { font-family: var(--font-main); font-size: 1.15rem; color: #e2e8f0; margin-top: 2px; word-break: break-all; }
+        .wrap-for span { color: var(--primary); }
+        .wrap-sub { font-size: 0.8rem; color: #94a3b8; margin-top: 4px; }
+        .wrap-close { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); transition: all 0.2s; }
+        .wrap-close:hover { background: var(--primary); transform: scale(1.08); }
+        .wrap-hero { display: flex; gap: 18px; align-items: center; padding: 18px; border-radius: 1.25rem; margin-bottom: 14px;
+            background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 28%, transparent), rgba(255,255,255,0.04));
+            border: 1px solid color-mix(in srgb, var(--primary) 45%, transparent); }
+        .wrap-hero-img { width: 112px; height: 112px; border-radius: 1rem; object-fit: cover; flex-shrink: 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .wrap-hero-badge { width: 112px; height: 112px; border-radius: 1rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; color: var(--primary); background: rgba(255,255,255,0.08); text-align: center; padding: 8px; }
+        .wrap-kicker { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: #cbd5e1; }
+        .wrap-hero-name { font-family: var(--font-main); font-size: 2rem; line-height: 1.1; margin: 4px 0; word-break: break-word; }
+        .wrap-chip { display: inline-block; font-size: 0.75rem; padding: 4px 12px; border-radius: 99px; margin-top: 8px;
+            background: color-mix(in srgb, var(--primary) 30%, transparent); border: 1px solid color-mix(in srgb, var(--primary) 55%, transparent); }
+        .wrap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+        .wrap-card { padding: 14px; border-radius: 1rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.09);
+            transition: transform 0.2s, border-color 0.2s, background 0.2s; }
+        .wrap-card:hover { transform: translateY(-3px); border-color: var(--primary); background: rgba(255,255,255,0.09); }
+        .wrap-ico { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; margin-bottom: 10px;
+            background: color-mix(in srgb, var(--primary) 35%, transparent); }
+        .wrap-label { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: #94a3b8; }
+        .wrap-value { font-family: var(--font-main); font-size: 1.6rem; line-height: 1.15; margin: 2px 0; word-break: break-word; }
+        .wrap-note { font-size: 0.75rem; color: #94a3b8; }
+        .wrap-section { margin-top: 18px; padding: 16px; border-radius: 1.25rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); }
+        .wrap-section h3 { font-family: var(--font-main); font-size: 1.2rem; margin-bottom: 12px; }
+        .wrap-row { display: grid; grid-template-columns: 22px minmax(70px, 150px) 1fr auto; align-items: center; gap: 10px; margin-bottom: 9px; font-size: 0.85rem; }
+        .wrap-bar { height: 10px; border-radius: 99px; background: rgba(255,255,255,0.08); overflow: hidden; }
+        .wrap-bar > div { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--primary), var(--accent)); }
+        .wrap-hours { display: flex; align-items: flex-end; gap: 3px; height: 70px; }
+        .wrap-hours > div { flex: 1; min-height: 3px; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--primary), color-mix(in srgb, var(--primary) 30%, transparent)); }
+        .wrap-hours-labels { display: flex; justify-content: space-between; font-size: 0.65rem; color: #94a3b8; margin-top: 4px; }
+        .wrap-reset { font-size: 0.75rem; color: #f87171; cursor: pointer; padding: 6px 14px; border-radius: 99px; border: 1px solid rgba(248,113,113,0.35); background: rgba(248,113,113,0.08); transition: all 0.2s; }
+        .wrap-reset:hover { background: rgba(248,113,113,0.25); }
+        .wrap-empty { text-align: center; padding: 40px 10px; color: #cbd5e1; }
+        @media (max-width: 640px) {
+            #wrappedContent { padding: 18px; }
+            .wrap-hero { flex-direction: column; text-align: center; }
+            .wrap-title { font-size: 1.7rem; }
+            .wrap-row { grid-template-columns: 20px 1fr auto; }
+            .wrap-row .wrap-bar { grid-column: 1 / -1; order: 5; }
+        }
+
+        @media (max-width: 640px) {
+            .scroll-row .game-card-wrapper { width: 130px; }
+            .home-section-title, .all-games-heading { font-size: 1.25rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+        }
     </style>
 </head>
 <body class="p-4" data-theme="default">
@@ -371,6 +575,7 @@
         <i class="fas fa-th-large nav-icon" onclick="renderGames('apps')" title="Apps"></i>
         <i class="fas fa-dice nav-icon" onclick="openRandomGame()" title="Random Game"></i>
         <i class="fas fa-link nav-icon" onclick="renderGames('backups')" title="Backups"></i>
+        <i class="fas fa-chart-simple nav-icon" onclick="toggleWrapped()" title="Algebra Wrapped"></i>
         <i class="fas fa-circle-info nav-icon" onclick="toggleInfo()" title="Info"></i>
         
         <div id="pinnedDockWrapper" class="flex items-center gap-2 border-l border-white/20 pl-3 hidden">
@@ -394,7 +599,12 @@
 
     <main class="max-w-7xl mx-auto">
         <div id="homeSections"></div>
-        <h2 id="allGamesHeading" class="all-games-heading hidden">🎮 All Games</h2>
+        <div id="allGamesHeading" class="all-games-head hidden">
+            <h2 class="all-games-heading">🎮 All Games</h2>
+            <button id="sortBtn" class="sort-btn" onclick="cycleSortMode()" title="Change sort order">
+                <i class="fas fa-arrow-down-a-z"></i><span id="sortLabel">Default</span>
+            </button>
+        </div>
         <div id="gameGrid"></div>
     </main>
 
@@ -411,6 +621,10 @@
                 <button onclick="toggleInfo()" class="bg-white/10 px-6 py-2 rounded-full hover:bg-white/20 transition-all text-white">Close</button>
             </div>
         </div>
+    </div>
+
+    <div id="wrappedTab" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[200] hidden flex items-center justify-center p-4" onclick="toggleWrapped()">
+        <div id="wrappedContent" onclick="event.stopPropagation()"></div>
     </div>
 
     <div id="settingsPanel" class="fixed top-0 right-0 h-full w-80 border-l border-slate-700 p-8 transform translate-x-full shadow-2xl overflow-y-auto">
@@ -497,6 +711,13 @@
 
             <div class="space-y-3 pt-4 border-t border-slate-700 flex flex-col">
                 <span class="block text-xs uppercase font-semibold">Tab Cloaking</span>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="applyCloakPreset('classroom')" class="bg-slate-800 hover:bg-slate-700 text-xs py-2 rounded-lg border border-slate-700">Classroom</button>
+                    <button onclick="applyCloakPreset('docs')" class="bg-slate-800 hover:bg-slate-700 text-xs py-2 rounded-lg border border-slate-700">Google Docs</button>
+                    <button onclick="applyCloakPreset('drive')" class="bg-slate-800 hover:bg-slate-700 text-xs py-2 rounded-lg border border-slate-700">Google Drive</button>
+                    <button onclick="applyCloakPreset('khan')" class="bg-slate-800 hover:bg-slate-700 text-xs py-2 rounded-lg border border-slate-700">Khan Academy</button>
+                    <button onclick="applyCloakPreset('desmos')" class="bg-slate-800 hover:bg-slate-700 text-xs py-2 rounded-lg border border-slate-700 col-span-2">Desmos</button>
+                </div>
                 <input type="text" id="cloakTitle" placeholder="Tab Title" class="w-full p-2 rounded-lg text-sm">
                 <input type="text" id="cloakFavicon" placeholder="Favicon URL" class="w-full p-2 rounded-lg text-sm">
                 <button onclick="applyCloak()" id="applyBtn" class="w-full text-black py-3 px-4 rounded-xl text-sm font-bold shadow-lg hover:brightness-110 transition-all" style="background-color: var(--primary) !important;">Apply Cloak</button>
@@ -509,13 +730,24 @@
         </div>
     </div>
 
+    <div id="suggestSheet" class="hidden fixed left-0 right-0 bottom-20 z-[120] px-4 pt-3 pb-4">
+        <div class="flex items-center justify-between mb-2">
+            <span class="text-lg" style="color: var(--primary);">More Like This</span>
+            <div class="row-arrow" onclick="shuffleSuggestions()" title="Show different games"><i class="fas fa-shuffle text-xs"></i></div>
+        </div>
+        <div id="suggestedSheetRow" class="flex gap-3 overflow-x-auto pb-1"></div>
+    </div>
+
     <div id="gameModal" class="fixed inset-0 z-[110] hidden bg-black/95 flex flex-col">
         <div class="game-container">
             <div class="bg-black rounded-2xl overflow-hidden border border-white/5">
                 <div id="iframeContainer" class="w-full h-full"></div>
             </div>
             <div class="sidebar hidden lg:flex flex-col gap-4 overflow-y-auto pr-2">
-                <h3 class="text-xl font-bold" style="color: var(--primary);">More Like This</h3>
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold" style="color: var(--primary);">More Like This</h3>
+                    <div class="row-arrow" onclick="shuffleSuggestions()" title="Show different games"><i class="fas fa-shuffle text-xs"></i></div>
+                </div>
                 <div id="suggestedGames" class="grid grid-cols-2 gap-3"></div>
             </div>
         </div>
@@ -526,6 +758,7 @@
                 <h3 id="modalTitle" class="text-xl text-white">Game Title</h3>
             </div>
             <div class="flex items-center gap-8">
+                <button onclick="toggleSuggestSheet()" class="nav-icon lg:hidden" title="More like this"><i class="fas fa-layer-group text-xl text-white"></i></button>
                 <button onclick="reloadGameIframe()" class="nav-icon" title="Force Refresh Cache"><i class="fas fa-sync-alt text-xl text-white"></i></button>
                 <button onclick="downloadGameWrapper()" class="nav-icon" title="Download Game HTML File"><i class="fas fa-download text-xl text-white"></i></button>
                 <button onclick="openAboutBlank()" class="nav-icon" title="Open in About:Blank"><i class="fas fa-mask text-xl text-white"></i></button>
@@ -542,6 +775,7 @@
     //  locally (keys: "new", "featured", "popular" - each an array of game ids).
     //  The lists below are only a FALLBACK used if categories.json can't be loaded.
     // =====================================================================
+    const cdnBase = '';   // this version loads thumbnails from local paths, so no CDN prefix
     const NEW_GAME_IDS = [
         'footyredraft', 'sheepfarmer', 'appleworm', 'parkingfury', 'mc26', 'gdweb', 'blobbyio'
     ];
@@ -556,6 +790,7 @@
 
     // Section titles + which list they use (reorder these to reorder the rows)
     const HOME_SECTIONS = [
+        { key: 'recent',   title: '🕒 Recently Played', ids: [] },
         { key: 'new',      title: '🆕 New Games',    ids: NEW_GAME_IDS },
         { key: 'featured', title: '⭐ Featured',      ids: FEATURED_GAME_IDS },
         { key: 'popular',  title: '🔥 Most Popular', ids: POPULAR_GAME_IDS }
@@ -797,6 +1032,60 @@
         }
     }
 
+    // ---- Cloak presets ----
+    const CLOAK_PRESETS = {
+        classroom: { title: 'Home', icon: 'https://ssl.gstatic.com/classroom/favicon.png' },
+        docs:      { title: 'Untitled document - Google Docs', icon: 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico' },
+        drive:     { title: 'My Drive - Google Drive', icon: 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png' },
+        khan:      { title: 'Khan Academy', icon: 'https://cdn.kastatic.org/images/favicon.ico' },
+        desmos:    { title: 'Desmos | Graphing Calculator', icon: 'https://www.desmos.com/favicon.ico' }
+    };
+
+    function applyCloakPreset(key) {
+        const preset = CLOAK_PRESETS[key];
+        if (!preset) return;
+        document.getElementById('cloakTitle').value = preset.title;
+        document.getElementById('cloakFavicon').value = preset.icon;
+        applyCloak();
+    }
+
+    // ---- Recently played (last 10) ----
+    const MAX_RECENT = 10;
+    function getRecent() {
+        try { return JSON.parse(localStorage.getItem('user_recent_games')) || []; } catch (e) { return []; }
+    }
+    function recordRecent(id) {
+        let list = getRecent().filter(x => x !== id);
+        list.unshift(id);
+        localStorage.setItem('user_recent_games', JSON.stringify(list.slice(0, MAX_RECENT)));
+    }
+    function clearRecent() {
+        localStorage.removeItem('user_recent_games');
+        renderGames(currentFilter, document.getElementById('searchInput').value);
+    }
+
+    // ---- Sort mode for All Games ----
+    let sortMode = localStorage.getItem('user_sort_mode') || 'default';
+    const SORT_MODES = {
+        default: { label: 'Default', icon: 'fa-arrow-down-a-z' },
+        az:      { label: 'A-Z',     icon: 'fa-arrow-down-a-z' },
+        za:      { label: 'Z-A',     icon: 'fa-arrow-up-z-a' }
+    };
+    function updateSortBtn() {
+        const m = SORT_MODES[sortMode] || SORT_MODES.default;
+        const label = document.getElementById('sortLabel');
+        const btn = document.getElementById('sortBtn');
+        if (!label || !btn) return;
+        label.textContent = m.label;
+        btn.querySelector('i').className = 'fas ' + (sortMode === 'default' ? 'fa-shuffle' : m.icon);
+    }
+    function cycleSortMode() {
+        const order = ['default', 'az', 'za'];
+        sortMode = order[(order.indexOf(sortMode) + 1) % order.length];
+        localStorage.setItem('user_sort_mode', sortMode);
+        renderGames(currentFilter, document.getElementById('searchInput').value);
+    }
+
     function applyCloak() {
         const title = document.getElementById('cloakTitle').value;
         const icon = document.getElementById('cloakFavicon').value;
@@ -989,6 +1278,7 @@ function downloadGameWrapper() {
         if (!show) return;
 
         HOME_SECTIONS.forEach(section => {
+            if (section.key === 'recent') section.ids = getRecent();
             const items = section.ids.map(id => {
                 const g = games.find(x => x.id === id);
                 if (!g) console.warn(`[${section.key}] no game found with id "${id}"`);
@@ -1002,6 +1292,7 @@ function downloadGameWrapper() {
                 <div class="home-section-head">
                     <h2 class="home-section-title">${section.title}</h2>
                     <div class="row-arrows">
+                        ${section.key === 'recent' ? '<div class="row-arrow" onclick="clearRecent()" title="Clear recently played"><i class="fas fa-trash-can text-xs"></i></div>' : ''}
                         <div class="row-arrow" data-dir="-1"><i class="fas fa-chevron-left"></i></div>
                         <div class="row-arrow" data-dir="1"><i class="fas fa-chevron-right"></i></div>
                     </div>
@@ -1022,7 +1313,15 @@ function downloadGameWrapper() {
     function renderGames(filter = 'games', search = '') {
         currentFilter = filter;
         renderHomeSections(filter === 'games' && !search);
-        renderGridMain(filter, search);
+        updateSortBtn();
+        let opts = {};
+        if (filter === 'games' && sortMode !== 'default') {
+            const sorted = games.filter(g => g.type !== 'app')
+                .sort((a, b) => a.title.localeCompare(b.title, undefined, { sensitivity: 'base' }));
+            if (sortMode === 'za') sorted.reverse();
+            opts.items = sorted;
+        }
+        renderGridMain(filter, search, opts);
     }
 
     function renderGridMain(filter = 'games', search = '', opts = {}) {
@@ -1137,6 +1436,8 @@ function downloadGameWrapper() {
     function openGame(id, forcedTitle) {
         const game = games.find(g => g.id === id);
         if(!game) return;
+        recordRecent(id);
+        startSession(game);
         
         const isEdu = currentTheme === 'educational';
         const titleText = isEdu ? forcedTitle : game.title;
@@ -1157,25 +1458,317 @@ function downloadGameWrapper() {
         document.getElementById('iframeContainer').innerHTML = `<iframe id="gameIframe" src="${game.url}" class="w-full h-full border-none" allowfullscreen></iframe>`;
         document.getElementById('gameModal').classList.remove('hidden');
         
-        const suggested = games.filter(g => g.id !== id).sort(() => 0.5 - Math.random()).slice(0, 6);
-        const suggGrid = document.getElementById('suggestedGames');
-        suggGrid.innerHTML = '';
-        
-        suggested.forEach((g, idx) => {
-            const fakeModuleLabel = generateModuleString(idx + 15);
-            const scard = document.createElement('div');
-            if (isEdu) {
-                scard.className = 'game-card';
-                scard.onclick = () => openGame(g.id, fakeModuleLabel);
-                scard.innerHTML = `<div class="edu-module-badge" style="font-size: 0.95rem;">${fakeModuleLabel}</div>`;
-            } else {
-                scard.className = 'game-card';
-                scard.onclick = () => openGame(g.id, g.title);
-                scard.innerHTML = `<img src="${g.thumb}"><div class="card-title">${g.title}</div>`;
+        currentGameId = id;
+        document.getElementById('suggestSheet').classList.add('hidden');
+        renderSuggestions(game);
+    }
+
+    // ---- Algebra Wrapped (play stats saved in localStorage) ----
+    const WRAP_KEY = 'algebra_wrapped_v1';
+    function blankWrapped() {
+        return { games: {}, days: {}, hours: new Array(24).fill(0), sessions: 0, longest: { ms: 0, id: null, title: '' }, first: null };
+    }
+    function loadWrapped() {
+        try {
+            const d = JSON.parse(localStorage.getItem(WRAP_KEY));
+            if (d && d.games && d.days && Array.isArray(d.hours)) return d;
+        } catch (e) {}
+        return blankWrapped();
+    }
+    function saveWrapped(w) { try { localStorage.setItem(WRAP_KEY, JSON.stringify(w)); } catch (e) {} }
+    function dayKey(x) {
+        const d = new Date(x), p = n => String(n).padStart(2, '0');
+        return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+    }
+
+    let session = null;   // { id, lastTick, ms }
+    function startSession(game) {
+        endSession();
+        const w = loadWrapped(), now = Date.now();
+        const g = w.games[game.id] || (w.games[game.id] = { title: game.title, thumb: game.thumb, plays: 0, ms: 0, last: now });
+        g.title = game.title; g.thumb = game.thumb; g.plays++; g.last = now;
+        w.sessions++;
+        if (!w.first) w.first = now;
+        saveWrapped(w);
+        session = { id: game.id, lastTick: now, ms: 0 };
+    }
+    // Adds the time since the last tick (only while the tab is visible and a game is open)
+    function tickSession(force) {
+        if (!session) return;
+        const now = Date.now();
+        let delta = now - session.lastTick;
+        session.lastTick = now;
+        if ((document.hidden && !force) || delta <= 0) return;
+        delta = Math.min(delta, 15000);   // ignore long gaps (sleep, throttled timers)
+        const w = loadWrapped();          // re-read so other open windows don't overwrite each other
+        const g = w.games[session.id];
+        if (!g) return;
+        g.ms += delta; session.ms += delta;
+        const k = dayKey(now);
+        w.days[k] = (w.days[k] || 0) + delta;
+        w.hours[new Date(now).getHours()] += delta;
+        if (session.ms > w.longest.ms) w.longest = { ms: session.ms, id: session.id, title: g.title };
+        saveWrapped(w);
+    }
+    function endSession() { tickSession(); session = null; }
+    setInterval(() => tickSession(), 5000);
+    window.addEventListener('beforeunload', () => tickSession());
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) tickSession(true);
+        else if (session) session.lastTick = Date.now();
+    });
+
+    function fmtDur(ms) {
+        const s = Math.round(ms / 1000);
+        if (s < 60) return s + 's';
+        const m = Math.floor(s / 60);
+        if (m < 60) return m + 'm';
+        const h = Math.floor(m / 60), rm = m % 60;
+        return h + 'h' + (rm ? ' ' + rm + 'm' : '');
+    }
+    function fmtHour(h) { return (h % 12 || 12) + (h < 12 ? ' AM' : ' PM'); }
+    function fmtDay(k) {
+        const [y, m, d] = k.split('-').map(Number);
+        return new Date(y, m - 1, d).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    }
+    function escWrap(str) {
+        return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+    // In the educational theme games show as "Module x.y", so Wrapped does too
+    function wrapName(id, title) {
+        if (currentTheme === 'educational') return generateModuleString(Math.max(0, getGameModuleIndex(id)));
+        return title;
+    }
+    function calcStreaks(days) {
+        const keys = Object.keys(days).filter(k => days[k] > 0).sort();
+        let best = 0, run = 0, prev = null;
+        keys.forEach(k => {
+            const [y, m, d] = k.split('-').map(Number);
+            const cur = new Date(y, m - 1, d);
+            run = (prev && Math.round((cur - prev) / 864e5) === 1) ? run + 1 : 1;
+            best = Math.max(best, run);
+            prev = cur;
+        });
+        let streak = 0;
+        const d = new Date(); d.setHours(0, 0, 0, 0);
+        if (!(days[dayKey(d)] > 0)) d.setDate(d.getDate() - 1);   // today not played yet? start from yesterday
+        while (days[dayKey(d)] > 0) { streak++; d.setDate(d.getDate() - 1); }
+        return { current: streak, best };
+    }
+    function playerType(peak) {
+        if (peak >= 5 && peak <= 10) return '🌅 Early Bird';
+        if (peak >= 11 && peak <= 15) return '☀️ Midday Grinder';
+        if (peak >= 16 && peak <= 20) return '🌆 After-School Gamer';
+        return '🦉 Night Owl';
+    }
+    function statCard(icon, label, value, note) {
+        return `<div class="wrap-card"><div class="wrap-ico"><i class="fas ${icon}"></i></div>
+            <div class="wrap-label">${label}</div><div class="wrap-value">${value}</div><div class="wrap-note">${note || '&nbsp;'}</div></div>`;
+    }
+
+    // Turns a URL into a display name: "Algebra Practise File" for local files, hostname for websites (null if it says nothing useful)
+    function describeSource(u) {
+        try {
+            let url = new URL(u);
+            if (url.protocol === 'blob:') url = new URL(url.pathname);
+            if (url.protocol === 'file:') return 'Algebra Practise File';   // any local file, whatever it's named
+            if ((url.protocol === 'http:' || url.protocol === 'https:') && url.hostname) return url.hostname;
+        } catch (e) {}
+        return null;
+    }
+    // Name shown on Wrapped. Inside about:blank the page is really running under whatever opened it,
+    // so look through the chain: this page -> base URL (inherited from the opener) -> opener -> parent -> referrer.
+    function wrappedSource() {
+        const tries = [
+            () => location.href,
+            () => document.baseURI,
+            () => window.opener && window.opener.location.href,
+            () => window.parent !== window && window.parent.location.href,
+            () => document.referrer
+        ];
+        for (const t of tries) {
+            try {
+                const name = describeSource(t());
+                if (name) return name;
+            } catch (e) {}   // cross-origin parents/openers throw, just skip them
+        }
+        return 'Algebra Practise File';
+    }
+
+    function renderWrapped() {
+        const box = document.getElementById('wrappedContent');
+        const w = loadWrapped();
+        const entries = Object.entries(w.games).map(([id, g]) => ({ id, ...g }));
+        const header = `<div class="wrap-head"><div><div class="wrap-title">Your Algebra Wrapped 📊</div>
+            <div class="wrap-for">for <span>${escWrap(wrappedSource())}</span></div>
+            <div class="wrap-sub">Your play stats, saved on this device only</div></div>
+            <div class="wrap-close" onclick="toggleWrapped()" title="Close"><i class="fas fa-times"></i></div></div>`;
+
+        if (!entries.length) {
+            box.innerHTML = header + `<div class="wrap-empty"><div style="font-size:3rem">🎮</div>
+                <p class="mt-2">Nothing here yet. Open a game and your stats will start showing up.</p></div>`;
+            return;
+        }
+
+        const totalMs = entries.reduce((a, g) => a + g.ms, 0);
+        const byTime = [...entries].sort((a, b) => b.ms - a.ms);
+        const byPlays = [...entries].sort((a, b) => b.plays - a.plays || b.ms - a.ms);
+        const top = byTime[0], opened = byPlays[0];
+        const todayMs = w.days[dayKey(Date.now())] || 0;
+        const avgMs = w.sessions ? totalMs / w.sessions : 0;
+        const peak = w.hours.indexOf(Math.max(...w.hours));
+        const hasHours = Math.max(...w.hours) > 0;
+        const streaks = calcStreaks(w.days);
+        const dayEntries = Object.entries(w.days).sort((a, b) => b[1] - a[1]);
+        const busiest = dayEntries[0];
+        const daysActive = dayEntries.filter(d => d[1] > 0).length;
+        const sinceDays = w.first ? Math.max(1, Math.round((Date.now() - w.first) / 864e5)) : 0;
+
+        const isEdu = currentTheme === 'educational';
+        const heroThumb = top.thumb ? (top.thumb.startsWith('http') ? top.thumb : cdnBase + top.thumb) : '';
+        const heroVisual = (isEdu || !heroThumb)
+            ? `<div class="wrap-hero-badge">${escWrap(wrapName(top.id, top.title))}</div>`
+            : `<img class="wrap-hero-img" src="${escWrap(heroThumb)}" alt="">`;
+
+        const hero = `<div class="wrap-hero">${heroVisual}<div>
+            <div class="wrap-kicker">Your most played</div>
+            <div class="wrap-hero-name">${escWrap(wrapName(top.id, top.title))}</div>
+            <div class="wrap-note" style="font-size:0.9rem;color:#e2e8f0">${fmtDur(top.ms)} played · opened ${top.plays} time${top.plays === 1 ? '' : 's'}</div>
+            ${hasHours ? `<span class="wrap-chip">${playerType(peak)}</span>` : ''}</div></div>`;
+
+        const cards = [
+            statCard('fa-clock', 'Total playtime', fmtDur(totalMs), `across ${daysActive} day${daysActive === 1 ? '' : 's'}`),
+            statCard('fa-sun', 'Today', fmtDur(todayMs), todayMs ? 'nice' : 'nothing yet'),
+            statCard('fa-rocket', 'Games launched', w.sessions, 'total sessions'),
+            statCard('fa-compass', 'Games tried', entries.length, games.length ? `out of ${games.length} available` : ''),
+            statCard('fa-repeat', 'Most opened', escWrap(wrapName(opened.id, opened.title)), `${opened.plays} launch${opened.plays === 1 ? '' : 'es'}`),
+            statCard('fa-hourglass-half', 'Longest session', fmtDur(w.longest.ms), w.longest.id ? escWrap(wrapName(w.longest.id, w.longest.title)) : ''),
+            statCard('fa-stopwatch', 'Average session', fmtDur(avgMs), 'per game opened'),
+            statCard('fa-moon', 'Peak hour', hasHours ? fmtHour(peak) : '-', 'when you play most'),
+            statCard('fa-fire', 'Current streak', streaks.current + ' day' + (streaks.current === 1 ? '' : 's'), 'days in a row'),
+            statCard('fa-trophy', 'Best streak', streaks.best + ' day' + (streaks.best === 1 ? '' : 's'), 'your record'),
+            statCard('fa-calendar-day', 'Busiest day', busiest ? fmtDay(busiest[0]) : '-', busiest ? fmtDur(busiest[1]) + ' played' : ''),
+            statCard('fa-flag', 'Playing since', w.first ? new Date(w.first).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '-', `${sinceDays} day${sinceDays === 1 ? '' : 's'} ago`)
+        ].join('');
+
+        const max = byTime[0].ms || 1;
+        const topRows = byTime.slice(0, 25).map((g, i) => `<div class="wrap-row">
+            <span style="color:var(--primary);font-weight:700">${i + 1}</span>
+            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escWrap(wrapName(g.id, g.title))}</span>
+            <div class="wrap-bar"><div style="width:${Math.max(3, g.ms / max * 100)}%"></div></div>
+            <span class="wrap-note">${fmtDur(g.ms)}</span></div>`).join('');
+
+        const hmax = Math.max(...w.hours) || 1;
+        const hourBars = w.hours.map((v, h) => `<div title="${fmtHour(h)}: ${fmtDur(v)}" style="height:${Math.max(4, v / hmax * 100)}%"></div>`).join('');
+
+        box.innerHTML = header + hero + `<div class="wrap-grid">${cards}</div>
+            <div class="wrap-section"><h3>🏅 ${byTime.length >= 25 ? 'Top 25 games' : 'Your top games'}</h3>${topRows}</div>
+            <div class="wrap-section"><h3>🕒 When you play</h3><div class="wrap-hours">${hourBars}</div>
+                <div class="wrap-hours-labels"><span>12 AM</span><span>6 AM</span><span>12 PM</span><span>6 PM</span><span>11 PM</span></div></div>
+            <div class="flex justify-end mt-5"><span class="wrap-reset" onclick="resetWrapped()"><i class="fas fa-trash-can mr-1"></i> Reset stats</span></div>`;
+    }
+    function toggleWrapped() {
+        const tab = document.getElementById('wrappedTab');
+        tab.classList.toggle('hidden');
+        if (!tab.classList.contains('hidden')) renderWrapped();
+    }
+    function resetWrapped() {
+        if (!confirm('Reset all your Algebra Wrapped stats? This can\'t be undone.')) return;
+        localStorage.removeItem(WRAP_KEY);
+        renderWrapped();
+    }
+
+    // ---- More Like This ----
+    let currentGameId = null;
+    const TITLE_STOPWORDS = new Set(['the','and','for','game','games','online','unblocked','free','pro','new','mod','ultimate','simulator','remake','edition','classic']);
+    function titleTokens(t) {
+        return (t || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/)
+            .filter(w => w.length > 2 && !/^\d+$/.test(w) && !TITLE_STOPWORDS.has(w));
+    }
+    // Longest run of letters two words share (e.g. "minecraft" / "craft" -> 5)
+    function sharedChunk(a, b) {
+        let best = 0;
+        const prev = new Array(b.length + 1).fill(0);
+        for (let i = 1; i <= a.length; i++) {
+            let diag = 0;
+            for (let j = 1; j <= b.length; j++) {
+                const tmp = prev[j];
+                prev[j] = a[i - 1] === b[j - 1] ? diag + 1 : 0;
+                if (prev[j] > best) best = prev[j];
+                diag = tmp;
             }
-            suggGrid.appendChild(scard);
+        }
+        return best;
+    }
+    // ".io" style titles (Slither.io, Hole io): the "io" ending counts as a 2-letter match
+    function endsWithIo(title) { return /(^|[\s._-])io$/i.test((title || '').trim()); }
+    // Ranking order: 1) whole words in common  2) chunks of words in common (longest down to 3 letters)
+    //                3) same home row (new/featured/popular)  4) not played recently  5) random
+    function getRelatedGames(game, limit = 8) {
+        const baseTokens = titleTokens(game.title);
+        const base = new Set(baseTokens);
+        const baseIo = endsWithIo(game.title);
+        const sections = HOME_SECTIONS.filter(sec => sec.key !== 'recent' && sec.ids.includes(game.id));
+        const recent = getRecent();
+        return games
+            .filter(g => g.id !== game.id && (g.type === 'app') === (game.type === 'app'))
+            .map(g => {
+                let score = Math.random();
+                const tokens = titleTokens(g.title);
+                // 1) whole word matches
+                let wordHits = 0;
+                tokens.forEach(w => { if (base.has(w)) wordHits++; });
+                score += wordHits * 10000;
+                // 2) partial matches: longest shared chunk between any two different words, 3+ letters
+                let chunk = 0;
+                tokens.forEach(w => baseTokens.forEach(bw => {
+                    if (w !== bw) chunk = Math.max(chunk, sharedChunk(w, bw));
+                }));
+                if (baseIo && endsWithIo(g.title)) chunk = Math.max(chunk, 2);   // exception: .io games match on "io"
+                if (chunk >= 3 || (chunk === 2 && baseIo && endsWithIo(g.title))) score += 100 + chunk;
+                // 3) same row
+                sections.forEach(sec => { if (sec.ids.includes(g.id)) score += 50; });
+                // 4) fresh picks
+                if (!recent.includes(g.id)) score += 5;
+                return { g, score };
+            })
+            .sort((a, b) => b.score - a.score)
+            .slice(0, limit)
+            .map(x => x.g);
+    }
+    function buildSuggCard(g, isEdu) {
+        const label = isEdu ? generateModuleString(Math.max(0, getGameModuleIndex(g.id))) : g.title;
+        const card = document.createElement('div');
+        card.className = 'game-card sugg-card';
+        card.onclick = () => openGame(g.id, label);
+        if (isEdu) {
+            card.innerHTML = '<div class="edu-module-badge" style="font-size: 0.95rem;"></div>';
+            card.firstChild.textContent = label;
+        } else {
+            const thumb = g.thumb.startsWith('http') ? g.thumb : cdnBase + g.thumb;
+            card.innerHTML = '<img loading="lazy"><div class="card-title"></div>';
+            card.querySelector('img').src = thumb;
+            card.querySelector('.card-title').textContent = g.title;
+        }
+        return card;
+    }
+    function renderSuggestions(game) {
+        const isEdu = currentTheme === 'educational';
+        const related = getRelatedGames(game, 8);
+        ['suggestedGames', 'suggestedSheetRow'].forEach(id => {
+            const el = document.getElementById(id);
+            el.innerHTML = '';
+            related.forEach(g => el.appendChild(buildSuggCard(g, isEdu)));
         });
     }
+    function shuffleSuggestions() {
+        const game = games.find(g => g.id === currentGameId);
+        if (game) renderSuggestions(game);
+    }
+    function toggleSuggestSheet() {
+        document.getElementById('suggestSheet').classList.toggle('hidden');
+    }
+
 
     function reloadGameIframe() {
         const iframe = document.getElementById('gameIframe');
@@ -1261,8 +1854,11 @@ function downloadGameWrapper() {
     });
 
     function closeGame() {
+        endSession();
         document.getElementById('gameModal').classList.add('hidden');
         document.getElementById('iframeContainer').innerHTML = '';
+        document.getElementById('suggestSheet').classList.add('hidden');
+        if (currentFilter === 'games') renderGames(currentFilter, document.getElementById('searchInput').value);
     }
 
     function openRandomGame() {
