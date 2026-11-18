@@ -2024,6 +2024,12 @@
         "title": "Krillion.io Clone",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/krillionio.html",
         "thumb": "krillionio.png"
+    },
+    {
+        "id": "slitherio",
+        "title": "Slither.io",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/slitherio.htmlhttps://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/krillionio.html",
+        "thumb": "slitherio.png"
     }
     
 ]
