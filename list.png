@@ -1968,7 +1968,7 @@
     {
         "id": "parkingfury",
         "title": "Parking Fury",
-        "url": "https://raw.githack.com/ahrdevelopers/parking-fury-1/main/index.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/parkingfury1.html",
         "thumb": "parkingfury.png"
     },
     {
@@ -2030,6 +2030,18 @@
         "title": "Slither.io",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/slitherio.html",
         "thumb": "slitherio.png"
+    },
+    {
+        "id": "parkingfury2",
+        "title": "Parking Fury 2",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/parkingfury2.html",
+        "thumb": "parkingfury2.png"
+    },
+    {
+        "id": "parkingfury3",
+        "title": "Parking Fury 3",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/parkingfury3.html",
+        "thumb": "parkingfury3.png"
     }
     
 ]
