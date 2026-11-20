@@ -1074,7 +1074,7 @@
     {
         "id": "dwtd",
         "title": "Dumb Ways To Die",
-        "url": "https://raw.githack.com/hazzatazza/the-stash/main/flash%20games/dwtd.html",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/dwtd.html",
         "thumb": "dwtd.png"
     },
     {
@@ -2042,6 +2042,18 @@
         "title": "Parking Fury 3",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/parkingfury3.html",
         "thumb": "parkingfury3.png"
+    },
+    {
+        "id": "dwtd2",
+        "title": "Dumb Ways To Die 2",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/dwtd2.html",
+        "thumb": "dwtd2.png"
+    },
+    {
+        "id": "dwtd3",
+        "title": "Dumb Ways To Die 3",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/dwtd3.html",
+        "thumb": "dwtd3.png"
     }
     
 ]
