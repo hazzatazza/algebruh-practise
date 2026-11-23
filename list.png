@@ -2066,6 +2066,18 @@
         "title": "Rider Webport",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/rider.html",
         "thumb": "rider.png"
+    },
+    {
+        "id": "sandboxels",
+        "title": "Sandboxels",
+        "url": "https://raw.githack.com/R74nCom/sandboxels/main/index.html",
+        "thumb": "sandboxels.png"
+    },
+    {
+        "id": "diepclone",
+        "title": "Diep.io Clone",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/diepio.html",
+        "thumb": "diepio.png"
     }
     
 ]
