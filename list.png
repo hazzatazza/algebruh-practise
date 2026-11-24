@@ -2074,10 +2074,10 @@
         "thumb": "sandboxels.png"
     },
     {
-        "id": "diepclone",
-        "title": "Diep.io Clone",
-        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/diepio.html",
-        "thumb": "diepio.png"
+        "id": "garlicphone",
+        "title": "Garlic Phone",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/garlicphone.html",
+        "thumb": "garlicphone.png"
     }
     
 ]
