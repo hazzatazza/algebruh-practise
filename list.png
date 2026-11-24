@@ -2078,6 +2078,12 @@
         "title": "Garlic Phone",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/garlicphone.html",
         "thumb": "garlicphone.png"
+    },
+    {
+        "id": "jgsr",
+        "title": "Joe Gilin Super Rumble",
+        "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/joegilinsuperrumble.html",
+        "thumb": "superrumble.png"
     }
     
 ]
