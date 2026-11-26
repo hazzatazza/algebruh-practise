@@ -2056,12 +2056,6 @@
         "thumb": "dwtd3.png"
     },
     {
-        "id": "rocketleague",
-        "title": "Rocket League - Takes A While To Load",
-        "url": "https://rocket-league-dhl.pages.dev/",
-        "thumb": "rocketleague.png"
-    },
-    {
         "id": "rider",
         "title": "Rider Webport",
         "url": "https://raw.githack.com/hazzatazza/the-stash/main/singlefileoffline/rider.html",
